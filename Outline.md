@@ -16,11 +16,12 @@
     * MaxOut (Pooling)
     * ChannelOut
 * Extreme Learning Machines
+* 
 
 ## Pitfalls
 
 * Impractically large models
-* 
+*
 
 ## Decision Trees
 
