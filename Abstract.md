@@ -6,7 +6,10 @@
 
 - Know your problem
 - Know your data
-- Preprocess your data
+- Set up your test harness
+  - Train, test (with cross validation)
+  - Preprocess your data (whitening)
+  - Pick performance measure (usually accuracy)
 - Set up an all-purpose test harness
 - Spot check a variety of algorithms and pursue
 - I'll be using Python's scikit-learn and nolearn
@@ -40,6 +43,7 @@
   - Ensembles
 
 - Conceptual
+  - Machine Learning vs. statistics
   - Supervised and Unsupervised
   - The human element in the ML process
   - Any algorithm could be the right one - but it will probably be one of these
@@ -50,10 +54,31 @@
   - The value of a good API
 
 - Touch on
-  - Dataframes are great but non-essential
-  - What you need to understand before delving deeper (matrix algebra and )
+  - Choice of language and environment
+  - Dataframes are useful but non-essential
+  - What you need to understand before delving deeper (matrix algebra + tools)
   - Highly recommended learning resources (blogs and courses)
+  - External dependencies (often designed for linux, can be applied to os x with difficulty, rarely designed for windows)
   - Using your gpu (often hard to set up but totally worth it)
-  - Cloud computing
+  - Cloud computing (attractive model but it will add up)
   - Batch and online algorithms
   - Exciting algorithms
+
+
+- You should save the following attributes for every model you reduction.  Store to disk as pickle or database.  
+  - Enough information to recreate a similar model
+    - Model class
+    - Model / library version
+    - Model parameters
+    - A hash or repl of all of the above
+    - You do NOT need to store the entire model, which can be quite large!
+    - version of train/test data
+  - Model performance (have columns for all of the following)
+    - Performance measure
+    - Training time
+    - Number of iterations
+    - CV/test accuracy
+  - Meta
+    - Timestamp
+
+Go through some tables from different data sets to demonstrate what models rise to the top.  
