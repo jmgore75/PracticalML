@@ -13,6 +13,7 @@ matplotlib.use('nbagg')
 
 #from sklearn.learning_curve import learning_curve
 from sklearn.externals import joblib
+from sklearn import linear_model, ensemble, neighbors, svm, kernel_ridge, tree
 
 class TrainingTracker:
     def __init__(self, path, X, y):
@@ -35,15 +36,65 @@ class TrainingTracker:
         self.num_classes =
         self.logger = logging.getLogger(path)
 
+    def standard_regs(self):
+        yield linear_model.LinearRegression()
+
+        yield linear_model.LogisticRegression(penalty="l1")
+        yield linear_model.LogisticRegression(penalty="l2")
+
+        yield tree.DecisionTreeRegressor(max_depth=5)
+        yield naive_bayes.GaussianNB()
+        yield lda.LDA()
+        yield qda.QDA()
+
+        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:16)
+        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:64)
+        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:256)
+        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:1024)
+
+        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:16)
+        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:64)
+        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:256)
+        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:1024)
+
+        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:16)
+        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:64)
+        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:256)
+        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:1024)
+
+        yield svm.SVR(kernel='rbf', max_iter=2000)
+        yield svm.SVR(kernel='linear', max_iter=2000)
+        yield svm.SVR(kernel='sigmoid', max_iter=2000)
+        yield svm.SVR(kernel='poly', max_iter=2000)
+        yield kernel_ridge.KernelRidge(kernel='rbf', max_iter=2000)
+        yield kernel_ridge.KernelRidge(kernel='linear', max_iter=2000)
+        yield kernel_ridge.KernelRidge(kernel='sigmoid', max_iter=2000)
+        yield kernel_ridge.KernelRidge(kernel='poly', max_iter=2000)
+
     def standard_clfs(self):
+        yield linear_model.RidgeClassifier(tol=1e-2, solver="lsqr")
+        yield linear_model.Perceptron(n_iter=50)
+        yield linear_model.PassiveAgressiveClassifier(n_iter=50)
+
+        yield tree.DecisionTreeClassifier(max_depth=5)
+        yield naive_bayes.GaussianNB()
+        yield lda.LDA()
+        yield qda.QDA()
+
         yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:16)
         yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:64)
         yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:256)
         yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:1024)
+
         yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:16)
         yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:64)
         yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:256)
         yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:1024)
+
+        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:16)
+        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:64)
+        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:256)
+        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:1024)
 
         yield neighbors.KNeighborsClassifier(n_neighbors=1)
         yield neighbors.KNeighborsClassifier(n_neighbors=3)
@@ -95,7 +146,6 @@ class TrainingTracker:
             n_stable=20,
             n_iter=400,
             verbose=True)
-        yield
 
     def train_suite(self, clfs):
         for clf in clfs:

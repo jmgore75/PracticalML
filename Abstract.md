@@ -5,10 +5,11 @@
 
 
 - Know your problem
-- Know your data
+- Know your data (is it text, is it image)
 - Set up your test harness
-  - Train, test (with cross validation)
+  - Transform your data (e.g. from text)
   - Preprocess your data (whitening)
+  - Train, test (with cross validation)
   - Pick performance measure (usually accuracy)
 - Set up an all-purpose test harness
 - Spot check a variety of algorithms and pursue
@@ -64,6 +65,13 @@
   - Batch and online algorithms
   - Exciting algorithms
 
+- Ways to use Machine Learning
+  - To model and predict (of course)
+  - As a way to narrow down parameters or the search space before applying a more exhaustive algorithm
+  - As a way to explore the importance of features of your data (using forests)
+  - As a generic control vs. non-machine learning models
+
+- Feature selection and feature engineering
 
 - You should save the following attributes for every model you reduction.  Store to disk as pickle or database.  
   - Enough information to recreate a similar model
