@@ -31,6 +31,18 @@ Development tips
 * Version of course, save to public Repository
 * Focus on small data
 
+## The value of Random Forests
+
+Basically random forests have few hyperparameters and require little to no tuning.  They tend to perform very well on heterogeneous data sets and are easy to interpret.  Also, more trees gives you more accuracy - random forests are not prone to overfitting!  Extremely Randomized Trees are arguably the best approach (citation?).  
+
+Author advocates spot checking a dozen or so algorithms and then focusing on the ones that perform well.  So you need a good test harness.  All well and good, but _how_ do you identify the algorithm to settle on.
+
+<http://machinelearningmastery.com/use-random-forest-testing-179-classifiers-121-datasets/>
+
+Also, Decision Jungles are low-memory generalizations of random forests
+
+<http://geekstack.net/resources/public/downloads/tobias_pohlen_decision_jungles.pdf>
+
 ## Caret Package
 R package that handles model creation, discovery, and tuning
 
