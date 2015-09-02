@@ -7,18 +7,21 @@ import os.path
 import os
 import logging
 import matplotlib.pyplot as plt
-import matplotlib
-
-matplotlib.use('nbagg')
+import json
+import mpld3
+import weakref
 
 #from sklearn.learning_curve import learning_curve
 from sklearn.externals import joblib
-from sklearn import linear_model, ensemble, neighbors, svm, kernel_ridge, tree
+from sklearn import grid_search
+from sklearn import cross_validataion
 
 class TrainingTracker:
     def __init__(self, path, X, y):
         self.path = path
-        self.score_columns = ["model", "params", "train_score", "test_score", "train_time", "train_complete", "score_time", "model_bytes", "timestamp"]
+        self.inputPath = os.path.join(self.path, "input")
+        self.outputPath = os.path.join(self.path, "output")
+        self.score_columns = ["repr", "model", "params", "train_score", "test_score", "train_time", "train_complete", "score_time", "model_bytes", "timestamp"]
         self.score_file = os.path.join(self.path, "scores.pkl")
         self.best_file = os.path.join(self.path, "bestmodel.pkl")
         if not os.path.isdir(self.path):
@@ -30,175 +33,141 @@ class TrainingTracker:
             self.scores = pd.DataFrame(columns=self.score_columns)
             self.max_score = 0
 
-        labels = preprocessing.LabelBinarizer()
-        labels.fit(y)
+        self.preprocessing = {
+            "scaled": preprocessing.StandardScaler(),
+            "normalized": preprocessing.Normalizer(),
+            "unit": preprocessing.MinMaxScaler(),
+            "pca": decomposition.PCA(),
+            "whitened": decomposition.PCA #TODO preprocessing for whitened
+        }
 
-        self.X = X
-        self.y = y
+        self.input_cache = {}
+        self.logger = logging.getLogger(self.path)
+
+    def setData(X, y, classifier=True):
+        if not os.path.isdir(self.inputPath):
+            os.path.makedirs(self.inputPath)
+
         self.num_points = len(X)
-        self.feature_cols = X.columns
-        self.labels = labels.classes_
-        self.logger = logging.getLogger(path)
+        self.feature_names = X.
+        self.splits = cross_validation.ShuffleSplit(self.num_points, 3, 0.1)
+        X_path = os.path.join(self.inputPath, "X.pkl")
+        joblib.dump(X, X_path)
+        self.input_data["X"] = X
 
-    def standard_regs(self):
-        yield linear_model.LinearRegression()
+        if y:
+            if classifier:
+                labels = preprocessing.LabelBinarizer()
+                labels.fit(y)
+                self.labels = labels.classes_
+            y_path = os.path.join(self.inputPath, "y.pkl")
+            joblib.dump(y, y_path)
+            self.input_data["y"] = y
 
-        yield linear_model.LogisticRegression(penalty="l1")
-        yield linear_model.LogisticRegression(penalty="l2")
+    def getX(preprocessing):
+        if preprocessing:
+            name = "X_" + preprocessing
+        else:
+            name = "X"
+        path = os.path.join(self.inputPath, name + ".pkl")
 
-        yield tree.DecisionTreeRegressor(max_depth=5)
-        yield naive_bayes.GaussianNB()
-        yield lda.LDA()
-        yield qda.QDA()
+        data = None
+        if name in self.input_cache:
+            cache = self.input_cache[name]
+            data = cache()
 
-        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:16)
-        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:64)
-        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:256)
-        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:1024)
+        if not data:
+            if os.path.isfile(path):
+                data = joblib.load(path)
+            elif preprocessing:
+                preprocessor = self.preprocessing[preprocessing]
+                data = preprocessor.fit_transform(self.getX())
+                if not os.path.isdir(self.inputPath):
+                    os.path.makedirs(self.inputPath)
+                joblib.dump(data, path)
+            else:
+                raise NameError(name + " is not available")
 
-        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:16)
-        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:64)
-        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:256)
-        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:1024)
-
-        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:16)
-        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:64)
-        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:256)
-        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:1024)
-
-        yield svm.SVR(kernel='rbf', max_iter=2000)
-        yield svm.SVR(kernel='linear', max_iter=2000)
-        yield svm.SVR(kernel='sigmoid', max_iter=2000)
-        yield svm.SVR(kernel='poly', max_iter=2000)
-        yield kernel_ridge.KernelRidge(kernel='rbf', max_iter=2000)
-        yield kernel_ridge.KernelRidge(kernel='linear', max_iter=2000)
-        yield kernel_ridge.KernelRidge(kernel='sigmoid', max_iter=2000)
-        yield kernel_ridge.KernelRidge(kernel='poly', max_iter=2000)
-
-    def standard_clfs(self):
-        yield linear_model.RidgeClassifier(tol=1e-2, solver="lsqr")
-        yield linear_model.Perceptron(n_iter=50)
-        yield linear_model.PassiveAgressiveClassifier(n_iter=50)
-
-        yield tree.DecisionTreeClassifier(max_depth=5)
-        yield naive_bayes.GaussianNB()
-        yield lda.LDA()
-        yield qda.QDA()
-
-        yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:16)
-        yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:64)
-        yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:256)
-        yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:1024)
-
-        yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:16)
-        yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:64)
-        yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:256)
-        yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:1024)
-
-        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:16)
-        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:64)
-        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:256)
-        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:1024)
-
-        yield neighbors.KNeighborsClassifier(n_neighbors=1)
-        yield neighbors.KNeighborsClassifier(n_neighbors=3)
-        yield neighbors.KNeighborsClassifier(n_neighbors=5)
-        yield neighbors.KNeighborsClassifier(n_neighbors=7)
-
-        yield svm.SVC(kernel='rbf', max_iter=2000)
-        yield svm.SVC(kernel='linear', max_iter=2000)
-        yield svm.SVC(kernel='sigmoid', C=20, max_iter=2000)
-        yield svm.SVC(kernel='poly', degree=2, max_iter=2000)
-
-        yield Classifier(
-            layers=[
-                Layer("Rectifier", name="fc0", units=100),
-                Layer("Rectifier", name="fc1", units=100),
-                Layer("Softmax")
-            ],
-            learning_rate=0.01,
-            learning_rule='momentum',
-            learning_momentum=0.9,
-            batch_size=250,
-            valid_size=0.1,
-            n_stable=20,
-            n_iter=400,
-            verbose=True)
-        yield Classifier(
-            layers=[
-                Layer("Rectifier", name="fc0", units=100),
-                Layer("Softmax")
-            ],
-            learning_rate=0.01,
-            learning_rule='momentum',
-            learning_momentum=0.9,
-            batch_size=250,
-            valid_size=0.1,
-            n_stable=20,
-            n_iter=400,
-            verbose=True)
-        yield Classifier(
-            layers=[
-                Layer("Sigmoid", name="fc0", units=100),
-                Layer("Softmax")
-            ],
-            learning_rate=0.01,
-            learning_rule='momentum',
-            learning_momentum=0.9,
-            batch_size=250,
-            valid_size=0.1,
-            n_stable=20,
-            n_iter=400,
-            verbose=True)
-
-    def train_suite(self, clfs):
-        for clf in clfs:
-            train(clf)
+        self.input_cache[name] = weakref.ref(data)
+        return data
 
     def log_run(self, model, run):
-        run["model"] = model.__class__.__name__
-        run["params"] = model.get_params(true)
-        run["model_bytes"] = sys.getsizeof(model)
-        run["timestamp"] = datetime.now().isoformat()
-
         test_score = run["test_score"]
         train_time = run["train_time"]
-        if (test_score >= self.max_score) {
+        self.logger.info(run["repr"])
+        if test_score >= self.max_score:
             self.logger.warning("Better model %.3f >= %.3f : %.1f s", test_score, self.max_score, train_time)
             self.max_score = test_score
             joblib.dump(model, self.best_file)
-        } else {
+        else:
             self.logger.warning("Lesser model %.3f <  %.3f : %.1f s", test_score, self.max_score, train_time)
-        }
-        self.logger.info(model)
         self.scores = self.scores.append(run, ignore_index=True)
         joblib.dump(self.scores, self.score_file)
 
     def plot_run(self, run):
         from IPython import display
-        plt.figure()
-        for model, grp in self.scores.groupby(['model']):
+        groups = self.scores.groupby(['model'])
+        for model, grp in groups:
             plt.plot(grp['train_time'], grp['test_score'], 'o', label=model)
-        if (run):
+        if run:
             plt.plot(run["train_time"], run["test_score"], '*', color="y", s=50, label="Latest")
             plt.title('Last: %.3f; Best: %.3f' % (grp['test_score'], self.max_score))
         plt.xlabel("Train time")
         plt.ylabel("Test score")
         plt.legend(loc="best")
-        plt.show()
+        plt.figure()
 
-    def train (self, model):
+        for model, grp in groups:
+            plt.plot(grp['train_score'], grp['test_score'], 'o', label=model)
+        if run:
+            plt.plot(run["train_score"], run["test_score"], '*', color="y", s=50, label="Latest")
+            plt.title('Last: %.3f; Best: %.3f' % (grp['test_score'], self.max_score))
+        plt.
+        plt.xlabel("Train time")
+        plt.ylabel("Test score")
+        plt.legend(loc="best")
+
+        mpdl3.show()
+
+    def train_grid(self, model, param_grid):
+        for params in grid_search.ParameterGrid(param_grid):
+            model.set_params(params)
+            self.train(model)
+
+    def train_sample(self, model, param_distributions, n_iter):
+        for params in grid_search.ParameterSampler(param_distributions, n_iter):
+            model.set_params(params)
+            self.train(model)
+
+    def train(self, model):
         run = {}
-        t0 = time.time()
-        model.fit(self.X_train, self.y_train)
-        t1 = time.time()
-        run["train_score"] = model.score(self.X_train, self.y_train)
-        run["test_score"] = model.score(self.X_test, self.y_test)
-        t2 = time.time()
+        run["model"] = model.__module__ + "." + model.__class__.__name__
+        run["repr"] = string(model)
+        run["params"] = repr(model.get_params(true))
+        run["timestamp"] = datetime.now().isoformat()
 
+        X = self.X
+        y = self.y
+        run["input"] = "raw"
+
+        X_train = X[]
+        y_train = y[]
+        X_cv = X[]
+        y_cv = y[]
+
+        t0 = time.time()
+        model.fit(X, y)
+        t1 = time.time()
+        run["total_score"] = model.score(X, y)
+        run["train_score"] = model.score(X_train, y_train)
+        run["cv_score"] = model.score(X_cv, y_cv)
+        t2 = time.time()
         run["train_time"] = t1 - t0
         run["score_time"] = t2 - t1
 
-        run["train_complete"] =
+        run["repr"] = string(model)
+        run["params"] = repr(model.get_params(true))
+        run["model_bytes"] = sys.getsizeof(model)
+
         self.log_run(model, run)
         return run
