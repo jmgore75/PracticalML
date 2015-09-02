@@ -29,11 +29,15 @@ class TrainingTracker:
         else:
             self.scores = pd.DataFrame(columns=self.score_columns)
             self.max_score = 0
+
+        labels = preprocessing.LabelBinarizer()
+        labels.fit(y)
+
         self.X = X
         self.y = y
         self.num_points = len(X)
-        self.num_features = #TODO fix this
-        self.num_classes =
+        self.feature_cols = X.columns
+        self.labels = labels.classes_
         self.logger = logging.getLogger(path)
 
     def standard_regs(self):
@@ -151,10 +155,10 @@ class TrainingTracker:
         for clf in clfs:
             train(clf)
 
-    def log_run(self, clf, run):
-        run["model"] = clf.__name__
-        run["params"] = clf.get_params(true)
-        run["model_bytes"] = sys.getsizeof(clf)
+    def log_run(self, model, run):
+        run["model"] = model.__class__.__name__
+        run["params"] = model.get_params(true)
+        run["model_bytes"] = sys.getsizeof(model)
         run["timestamp"] = datetime.now().isoformat()
 
         test_score = run["test_score"]
@@ -162,11 +166,11 @@ class TrainingTracker:
         if (test_score >= self.max_score) {
             self.logger.warning("Better model %.3f >= %.3f : %.1f s", test_score, self.max_score, train_time)
             self.max_score = test_score
-            joblib.dump(clf, self.best_file)
+            joblib.dump(model, self.best_file)
         } else {
             self.logger.warning("Lesser model %.3f <  %.3f : %.1f s", test_score, self.max_score, train_time)
         }
-        self.logger.info(clf)
+        self.logger.info(model)
         self.scores = self.scores.append(run, ignore_index=True)
         joblib.dump(self.scores, self.score_file)
 
@@ -183,18 +187,18 @@ class TrainingTracker:
         plt.legend(loc="best")
         plt.show()
 
-    def train (self, clf):
+    def train (self, model):
         run = {}
         t0 = time.time()
-        clf.fit(self.X_train, self.y_train)
+        model.fit(self.X_train, self.y_train)
         t1 = time.time()
-        run["train_score"] = clf.score(self.X_train, self.y_train)
-        run["test_score"] = tclf.score(self.X_test, self.y_test)
+        run["train_score"] = model.score(self.X_train, self.y_train)
+        run["test_score"] = model.score(self.X_test, self.y_test)
         t2 = time.time()
 
         run["train_time"] = t1 - t0
         run["score_time"] = t2 - t1
 
         run["train_complete"] =
-        self.log_run(clf, run)
+        self.log_run(model, run)
         return run
