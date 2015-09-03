@@ -1,36 +1,62 @@
-from sklearn import linear_model, ensemble, neighbors, svm, kernel_ridge, tree, naive_bayes, lda, qda
+from sklearn import linear_model, ensemble, neighbors, svm, kernel_ridge
+from sklearn import tree, grid_search
 from sknn.mlp import Regressor, Layer
+from sklearn.pipeline import Pipeline
+
+from preprocessors import whiten, lda, scale, no_params
+
 
 def basic_models(n_iter=50):
-    yield linear_model.LinearRegression()
-    yield linear_model.Ridge(alpha=0.1)
-    yield linear_model.Lasso(alpha = 0.1)
+    clf = ('linear', linear_model.LinearRegression())
+    yield Pipeline([whiten, clf]), no_params
+    yield Pipeline([lda, clf]), no_params
 
-def tree_models(n_estimators=[16,64,256,1024]):
-    yield tree.DecisionTreeRegressor()
-    for n in n_estimators:
-        yield ensemble.RandomForestRegressor(n_jobs=-1, n_estimators:n)
-        yield ensemble.ExtraTreesRegressor(n_jobs=-1, n_estimators:n)
-        yield ensemble.AdaBoostRegressor(n_jobs=-1, n_estimators:n)
+    clf = ('ridge', linear_model.Ridge(alpha=0.1, tol=1e-2, solver="lsqr"))
+    yield Pipeline([whiten, clf]), no_params
+    yield Pipeline([lda, clf]), no_params
 
-def knn_models(n_neighbors=[1, 3, 5, 7]):
-    for n in n_neighbors:
-        yield neighbors.KNeighborsRegressor(n_neighbors=n)
+    clf = ('lasso', linear_model.Lasso(alpha=0.1))
+    yield Pipeline([whiten, clf]), no_params
+    yield Pipeline([lda, clf]), no_params
 
-def svc_models(max_iter=2000):
-    yield svm.SVR(kernel='rbf', max_iter=max_iter)
-    yield svm.LinearSVR(max_iter=max_iter)
-    yield svm.SVR(kernel='poly', degree=2, max_iter=max_iter)
-    yield svm.SVR(kernel='sigmoid', C=20, max_iter=max_iter)
+
+def tree_models():
+    yield tree.DecisionTreeRegressor(), no_params
+    param_sets = grid_search.ParameterGrid(
+        {"n_estimators": [16, 64, 256, 1024]})
+    yield ensemble.RandomForestRegressor(n_jobs=-1), param_sets
+    yield tree.DecisionTreeRegressor(n_jobs=-1), param_sets
+    yield ensemble.AdaBoostRegressor(n_jobs=-1), param_sets
+
+
+def knn_models():
+    param_sets = grid_search.ParameterGrid({"knn__n_neighbors": [1, 3, 5, 7]})
+    knn = ('knn', neighbors.KNeighborsRegressor())
+    yield Pipeline([scale, knn]), param_sets
+    yield Pipeline([whiten, knn]), param_sets
+
+
+def svc_models():
+    param_sets = [
+        {"svr__kernel": "rbf", "svr__C": 1},
+        {"svr__kernel": "sigmoid", "svr__C": 20},
+        {"svr__kernel": "poly", "svr__degree": 2, "svr__C": 1}]
+    yield Pipeline(
+        [whiten, ('linear_svr', svm.LinearSVR(max_iter=2000))]), no_params
+    yield Pipeline([whiten, ('svr', svm.SVR(max_iter=2000))]), param_sets
+
 
 def kernel_models(max_iter=2000):
-    yield kernel_ridge.KernelRidge(kernel='rbf', max_iter=max_iter)
-    yield kernel_ridge.KernelRidge(kernel='linear', max_iter=max_iter)
-    yield kernel_ridge.KernelRidge(kernel='sigmoid', max_iter=max_iter)
-    yield kernel_ridge.KernelRidge(kernel='poly', max_iter=max_iter)
+    param_sets = grid_search.ParameterGrid(
+        {"kernel__kernel": ['rbf', 'linear', 'sigmoid', 'poly']})
+    yield Pipeline([
+        whiten,
+        ('kernel', kernel_ridge.KernelRidge(max_iter=2000, degree=2))
+        ]), param_sets
+
 
 def nn_models(n_iter=400):
-    yield Regressor(
+    yield Pipeline([whiten, ('relu2', Regressor(
         layers=[
             Layer("Rectifier", name="fc0", units=100),
             Layer("Rectifier", name="fc1", units=100),
@@ -43,8 +69,8 @@ def nn_models(n_iter=400):
         valid_size=0.1,
         n_stable=20,
         n_iter=n_iter,
-        verbose=True)
-    yield Regressor(
+        verbose=True))]), no_params
+    yield Pipeline([whiten, ('relu1', Regressor(
         layers=[
             Layer("Rectifier", name="fc0", units=100),
             Layer("Softmax")
@@ -56,8 +82,8 @@ def nn_models(n_iter=400):
         valid_size=0.1,
         n_stable=20,
         n_iter=n_iter,
-        verbose=True)
-    yield Regressor(
+        verbose=True))]), no_params
+    yield Pipeline([whiten, ('sig1', Regressor(
         layers=[
             Layer("Sigmoid", name="fc0", units=100),
             Layer("Softmax")
@@ -69,7 +95,8 @@ def nn_models(n_iter=400):
         valid_size=0.1,
         n_stable=20,
         n_iter=n_iter,
-        verbose=True)
+        verbose=True))]), no_params
+
 
 def starting_models():
     for model in basic_models():

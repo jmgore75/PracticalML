@@ -1,42 +1,67 @@
-from sklearn import linear_model, ensemble, neighbors, svm, kernel_ridge, tree, naive_bayes, lda, qda
+from sklearn import linear_model, ensemble, neighbors, svm, tree
+from sklearn import naive_bayes, lda, qda, grid_search
 from sknn.mlp import Classifier, Layer
+from sklearn.pipeline import Pipeline
 
-def basic_models(n_iter=50):
-    yield linear_model.LogisticRegression(penalty="l1"), "whitened"
-    yield linear_model.LogisticRegression(penalty="l2"), "whitened"
-    yield linear_model.RidgeClassifier(tol=1e-2, solver="lsqr"), "whitened"
-    yield linear_model.Perceptron(n_iter=n_iter), "whitened"
-    yield linear_model.PassiveAgressiveClassifier(n_iter=n_iter), "whitened"
-    yield linear_model.LogisticRegression(penalty="l1"), "lda"
-    yield linear_model.LogisticRegression(penalty="l2"), "lda"
-    yield linear_model.RidgeClassifier(tol=1e-2, solver="lsqr"), "lda"
-    yield linear_model.Perceptron(n_iter=n_iter), "lda"
-    yield linear_model.PassiveAgressiveClassifier(n_iter=n_iter), "lda"
-    yield lda.LDA(solver='eigen', shrinkage='auto')
-    yield qda.QDA(), "scaled"
-    yield qda.QDA(), "whitened"
-    yield naive_bayes.GaussianNB()
+from preprocessors import scale, whiten, no_params, lda as plda
 
-def tree_models(n_estimators=[16,64,256,1024]):
-    yield tree.DecisionTreeClassifier()
-    for n in n_estimators:
-        yield ensemble.RandomForestClassifier(n_jobs=-1, n_estimators:n)
-        yield ensemble.ExtraTreesClassifier(n_jobs=-1, n_estimators:n)
-        yield ensemble.AdaBoostClassifier(n_jobs=-1, n_estimators:n)
 
-def knn_models(n_neighbors=[1, 3, 5, 7]):
-    for n in n_neighbors:
-        yield neighbors.KNeighborsClassifier(n_neighbors=n), "scaled"
-        yield neighbors.KNeighborsClassifier(n_neighbors=n), "whitened"
+def basic_models():
+    clf = ('logistic', linear_model.LogisticRegression())
+    param_sets = grid_search.ParameterGrid({"logistic__penalty": ["l1", "l2"]})
+    yield Pipeline([whiten, clf]), param_sets
+    yield Pipeline([plda, clf]), param_sets
 
-def svc_models(max_iter=2000):
-    yield svm.SVC(kernel='rbf', max_iter=max_iter), "whitened"
-    yield svm.LinearSVC(max_iter=max_iter), "whitened"
-    yield svm.SVC(kernel='sigmoid', C=20, max_iter=max_iter), "whitened"
-    yield svm.SVC(kernel='poly', degree=2, max_iter=max_iter), "whitened"
+    clf = ('ridge', linear_model.RidgeClassifier(tol=1e-2, solver="lsqr"))
+    yield Pipeline([whiten, clf]), no_params
+    yield Pipeline([plda, clf]), no_params
 
-def nn_models(n_iter=400):
-    yield Classifier(
+    clf = ('perceptron', linear_model.Perceptron(n_iter=50))
+    yield Pipeline([whiten, clf]), no_params
+    yield Pipeline([plda, clf]), no_params
+
+    clf = (
+        'passive_aggressive',
+        linear_model.PassiveAgressiveClassifier(n_iter=50))
+    yield Pipeline([whiten, clf]), no_params
+    yield Pipeline([plda, clf]), no_params
+
+    yield lda.LDA(solver='eigen', shrinkage='auto'), no_params
+
+    clf = ('qda', qda.QDA())
+    yield Pipeline([scale, clf]), no_params
+    yield Pipeline([whiten, clf]), no_params
+
+    yield naive_bayes.GaussianNB(), no_params
+
+
+def tree_models():
+    yield tree.DecisionTreeClassifier(), no_params
+    param_sets = grid_search.ParameterGrid({
+        "n_estimators": [16, 64, 256, 1024]})
+    yield ensemble.RandomForestClassifier(n_jobs=-1), param_sets
+    yield tree.DecisionTreeClassifier(n_jobs=-1), param_sets
+    yield ensemble.AdaBoostClassifier(n_jobs=-1), param_sets
+
+
+def knn_models():
+    param_sets = grid_search.ParameterGrid({"knn__n_neighbors": [1, 3, 5, 7]})
+    knn = ('knn', neighbors.KNeighborsClassifier())
+    yield Pipeline([scale, knn]), param_sets
+    yield Pipeline([whiten, knn]), param_sets
+
+
+def svc_models():
+    param_sets = [
+        {"svc__kernel": "rbf", "svc__C": 1},
+        {"svc__kernel": "sigmoid", "svc__C": 20},
+        {"svc__kernel": "poly", "svc__degree": 2, "svc__C": 1}]
+    yield Pipeline([whiten, ('svc', svm.LinearSVC(max_iter=2000))]), no_params
+    yield Pipeline([whiten, ('svc', svm.SVC(max_iter=2000))]), param_sets
+
+
+def nn_models():
+    yield Pipeline([whiten, ('relu2', Classifier(
         layers=[
             Layer("Rectifier", name="fc0", units=100),
             Layer("Rectifier", name="fc1", units=100),
@@ -48,9 +73,9 @@ def nn_models(n_iter=400):
         batch_size=250,
         valid_size=0.1,
         n_stable=20,
-        n_iter=n_iter,
-        verbose=True), "whitened"
-    yield Classifier(
+        n_iter=400,
+        verbose=True))]), no_params
+    yield Pipeline([whiten, ('relu1', Classifier(
         layers=[
             Layer("Rectifier", name="fc0", units=100),
             Layer("Softmax")
@@ -61,9 +86,9 @@ def nn_models(n_iter=400):
         batch_size=250,
         valid_size=0.1,
         n_stable=20,
-        n_iter=n_iter,
-        verbose=True), "whitened"
-    yield Classifier(
+        n_iter=400,
+        verbose=True))]), no_params
+    yield Pipeline([whiten, ('sig1', Classifier(
         layers=[
             Layer("Sigmoid", name="fc0", units=100),
             Layer("Softmax")
@@ -74,8 +99,9 @@ def nn_models(n_iter=400):
         batch_size=250,
         valid_size=0.1,
         n_stable=20,
-        n_iter=n_iter,
-        verbose=True), "whitened"
+        n_iter=400,
+        verbose=True))]), no_params
+
 
 def starting_models():
     for model, form in basic_models():
