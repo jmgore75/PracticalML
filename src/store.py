@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import json
 import mpld3
 import weakref
+import hashlib
 
 #from sklearn.learning_curve import learning_curve
 from sklearn.externals import joblib
@@ -53,21 +54,41 @@ class TrainingTracker:
         self.num_points = len(X)
         self.feature_names = X.
         self.splits = cross_validation.ShuffleSplit(self.num_points, 3, 0.1)
-        X_path = os.path.join(self.inputPath, "X.pkl")
-        joblib.dump(X, X_path)
-        self.input_data["X"] = X
+        hashAndStoreData("X", X)
 
         if y:
             if classifier:
                 labels = preprocessing.LabelBinarizer()
                 labels.fit(y)
                 self.labels = labels.classes_
-            y_path = os.path.join(self.inputPath, "y.pkl")
-            joblib.dump(y, y_path)
-            self.input_data["y"] = y
+            hashAndStoreData("y", y)
 
     def getData(name):
-        data = None
+        data = loadData(name)
+
+        i = name.rfind("_", -1)
+        if i < 0:
+            raise NameError(name + " is not available")
+        parent_name = name[:i]
+        step_name = name[i+1:]
+        if not step_name:
+            raise NameError("Bad name " + name)
+        if not step_name in self.preprocessing:
+            raise NameError("Bad step" + step_name)
+        prep = self.preprocessing[step]
+        X_hash, X = getData(parent_name)
+        y_hash, y = getData("y")
+        self.logger.debug("Generating " + name)
+        proc_data = prep.fit_transform(X, y)
+
+        if proc_data:
+            data = hashAndStoreData(name, proc_data)
+            self.logger.debug("Generated " + name)
+            return data
+
+        raise NameError("Data not generated for " + name)
+
+    def loadData(name):
         if name in self.input_cache:
             cache = self.input_cache[name]
             data = cache()
@@ -79,31 +100,21 @@ class TrainingTracker:
             data = joblib.load(path)
 
         if data:
-            self.input_cache[name] = weakref.ref(data)
+            cacheData(data)
             return data
 
-        i = name.rfind("_", -1)
-        if i < 0:
-            raise NameError(name + " is not available")
-        parent_name = name[:i]
-        step_name = name[i+1:]
-        if not step_name:
-            raise NameError("Bad name " + name)
-        if not step_name in self.preprocessing:
-            raise NameError("Bad step" + step_name)
-        X = getData(parent_name)
-        y = getData("y")
-        prep = self.preprocessing[step]
-        data = prep.fit_transform(X, y)
+    def cacheData(data):
+        self.input_cache[name] = weakref.ref(data)
 
-        if data:
-            self.input_cache[name] = weakref.ref(data)
-            if not os.path.isdir(self.inputPath):
-                os.path.makedirs(self.inputPath)
-            joblib.dump(data, path)
-            return data
-
-        raise NameError("Data not generated for " + name)
+    def hashAndStoreData(name, proc_data):
+        data_hash = hashlib.md5(data).hexdigest()
+        data = (data_hash, proc_data)
+        if not os.path.isdir(self.inputPath):
+            os.path.makedirs(self.inputPath)
+        path = os.path.join(self.inputPath, name + ".pkl")
+        joblib.dump(data, path)
+        cacheData(data)
+        return data
 
     def log_run(self, model, run):
         test_score = run["test_score"]
@@ -153,55 +164,51 @@ class TrainingTracker:
             model.set_params(params)
             self.train(model)
 
-    def train(self, model, prep):
-        run = {}
-        run["model"] = model.__module__ + "." + model.__class__.__name__
-        run["prep"] = prep
-        run["repr"] = string(model)
-        run["params"] = repr(model.get_params(true))
-        run["timestamp"] = datetime.now().isoformat()
-
+    def train(self, model, splits, prep):
         X_name = "X"
         if prep:
             X_name += "_" + prep
+        y_name = "y"
 
-        X = self.getData(X_name)
-        y = self.getData("y")
+        X_hash, X = self.getData(X_name)
+        y_hash, y = self.getData(y_name)
 
-        n_split = len(self.splits)
-        total_score = 0.0
-        train_score = 0.0
-        cv_score = 0.0
-        train_time = 0.0
-        score_time = 0.0
-        model_bytes = 0
-
-        for i_train, i_cv in self.splits:
+        for i_train, i_cv in splits:
             X_train = X[i_train]
             y_train = y[i_train]
             X_cv = X[i_cv]
             y_cv = y[i_cv]
 
+            run = {}
+            run["timestamp"] = datetime.now().isoformat()
+            model_class = model.__module__ + "." + model.__class__.__name__
+            run["model_class"] = model_class
+            run["X"] = X_name
+            run["y"] = y_name
+
             t0 = time.time()
             model.fit(X_train, y_train)
             t1 = time.time()
-            total_score += model.score(X, y)
-            train_score += model.score(X_train, y_train)
-            cv_score += model.score(X_cv, y_cv)
+            total_score = model.score(X, y)
             t2 = time.time()
-            train_time += t1 - t0
-            score_time += t2 - t1
-            model_bytes += sys.getsizeof(model)
 
-        run["repr"] = string(model)
-        run["params"] = repr(model.get_params(true))
-        run["model_bytes"] = sys.getsizeof(model)
-        run["total_score"] = total_score / n_split
-        run["train_score"] = train_score / n_split
-        run["cv_score"] = cv_score / n_split
-        run["train_time"] = train_time / n_split
-        run["score_time"] = score_time / n_split
-        run["model_bytes"] = model_bytes / n_split
+            model_params = repr(model.get_params(true))
+            run["repr"] = string(model)
+            run["params"] = model_params
+            m = hashlib.md5()
+            m.update(model_class)
+            m.update(model_params)
+            m.update(X_hash)
+            m.update(y_hash)
 
-        self.log_run(model, run)
-        return run
+            run["hash"] = m.hexdigest()
+            run["model_bytes"] = sys.getsizeof(model)
+            run["total_score"] = total_score
+            run["train_score"] = model.score(X_train, y_train)
+            run["cv_score"] = model.score(X_cv, y_cv)
+            run["train_time"] = t1 - t0
+            run["score_time"] = t2 - t1
+            run["model_bytes"] = sys.getsizeof(model)
+
+            self.log_run(model, run)
+            yield run
