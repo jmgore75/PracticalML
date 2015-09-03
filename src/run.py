@@ -5,6 +5,20 @@ from mpld3 import plugins
 mpld3.enable_notebook()
 
 ####
+labelFormat = '''<table style="max-width:100px">
+<tr><th>Score</th><td>{score:.3f}</td></tr>
+<tr><th>Train time</th><td>{training:.1f} s</td></tr>
+<tr><th>Score time</th><td>{scoring:.1f} s</td></tr>
+<tr><th>Size</th><td>{bytes} bytes</td></tr>
+<tr><td colspan=2>{model}</td></tr>
+</table>
+'''
+
+
+def labelRow(row):
+    return labelFormat.format(
+        model=row["model"], bytes=row["model_bytes"], score=row["cv_score"],
+        training=row["train_time"], scoring=row["score_time"])
 
 
 def plot_runs(fig, ax, tracker, run):
@@ -13,7 +27,7 @@ def plot_runs(fig, ax, tracker, run):
         points = ax.plot(
             grp['train_time'], grp['test_score'],
             'o', label=model)
-        labels = grp["model"]
+        labels = [labelRow(row) for row in grp.iterrows()]
         tooltip = plugins.PointLabelTooltip(points, labels)
         plugins.connect(fig, tooltip)
 
