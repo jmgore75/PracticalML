@@ -24,10 +24,6 @@ class RunTracker:
             "samples", "train_samples", "cv_samples",
             "train_time", "score_time",
             "model_bytes", "timestamp"]
-        self.run_columns = [
-            "repr", "model", "params", "train_score",
-            "test_score", "train_time", "train_complete",
-            "score_time", "model_bytes", "timestamp"]
         self.runs_file = os.path.join(self.path, "runs.pkl")
         self.best_file = os.path.join(self.path, "bestmodel.pkl")
         if not os.path.isdir(self.path):
