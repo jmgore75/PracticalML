@@ -34,11 +34,13 @@ class TrainingTracker:
             self.max_score = 0
 
         self.preprocessing = {
+            "best": ensemble.ExtraTreesClassifier(n_estimators=250, random_state=0),
             "scaled": preprocessing.StandardScaler(),
             "normalized": preprocessing.Normalizer(),
             "unit": preprocessing.MinMaxScaler(),
-            "pca": decomposition.PCA(),
-            "whitened": decomposition.PCA #TODO preprocessing for whitened
+            "pca": decomposition.PCA(n_components="mle"),
+            "lda": lda.LDA(solver='eigen', shrinkage='auto'),
+            "whitened": decomposition.PCA(n_components="mle", whiten=True)
         }
 
         self.input_cache = {}
@@ -64,32 +66,44 @@ class TrainingTracker:
             joblib.dump(y, y_path)
             self.input_data["y"] = y
 
-    def getX(preprocessing):
-        if preprocessing:
-            name = "X_" + preprocessing
-        else:
-            name = "X"
-        path = os.path.join(self.inputPath, name + ".pkl")
-
+    def getData(name):
         data = None
         if name in self.input_cache:
             cache = self.input_cache[name]
             data = cache()
+            if data:
+                return data
 
-        if not data:
-            if os.path.isfile(path):
-                data = joblib.load(path)
-            elif preprocessing:
-                preprocessor = self.preprocessing[preprocessing]
-                data = preprocessor.fit_transform(self.getX())
-                if not os.path.isdir(self.inputPath):
-                    os.path.makedirs(self.inputPath)
-                joblib.dump(data, path)
-            else:
-                raise NameError(name + " is not available")
+        path = os.path.join(self.inputPath, name + ".pkl")
+        if os.path.isfile(path):
+            data = joblib.load(path)
 
-        self.input_cache[name] = weakref.ref(data)
-        return data
+        if data:
+            self.input_cache[name] = weakref.ref(data)
+            return data
+
+        i = name.rfind("_", -1)
+        if i < 0:
+            raise NameError(name + " is not available")
+        parent_name = name[:i]
+        step_name = name[i+1:]
+        if not step_name:
+            raise NameError("Bad name " + name)
+        if not step_name in self.preprocessing:
+            raise NameError("Bad step" + step_name)
+        X = getData(parent_name)
+        y = getData("y")
+        prep = self.preprocessing[step]
+        data = prep.fit_transform(X, y)
+
+        if data:
+            self.input_cache[name] = weakref.ref(data)
+            if not os.path.isdir(self.inputPath):
+                os.path.makedirs(self.inputPath)
+            joblib.dump(data, path)
+            return data
+
+        raise NameError("Data not generated for " + name)
 
     def log_run(self, model, run):
         test_score = run["test_score"]
@@ -139,35 +153,55 @@ class TrainingTracker:
             model.set_params(params)
             self.train(model)
 
-    def train(self, model):
+    def train(self, model, prep):
         run = {}
         run["model"] = model.__module__ + "." + model.__class__.__name__
+        run["prep"] = prep
         run["repr"] = string(model)
         run["params"] = repr(model.get_params(true))
         run["timestamp"] = datetime.now().isoformat()
 
-        X = self.X
-        y = self.y
-        run["input"] = "raw"
+        X_name = "X"
+        if prep:
+            X_name += "_" + prep
 
-        X_train = X[]
-        y_train = y[]
-        X_cv = X[]
-        y_cv = y[]
+        X = self.getData(X_name)
+        y = self.getData("y")
 
-        t0 = time.time()
-        model.fit(X, y)
-        t1 = time.time()
-        run["total_score"] = model.score(X, y)
-        run["train_score"] = model.score(X_train, y_train)
-        run["cv_score"] = model.score(X_cv, y_cv)
-        t2 = time.time()
-        run["train_time"] = t1 - t0
-        run["score_time"] = t2 - t1
+        n_split = len(self.splits)
+        total_score = 0.0
+        train_score = 0.0
+        cv_score = 0.0
+        train_time = 0.0
+        score_time = 0.0
+        model_bytes = 0
+
+        for i_train, i_cv in self.splits:
+            X_train = X[i_train]
+            y_train = y[i_train]
+            X_cv = X[i_cv]
+            y_cv = y[i_cv]
+
+            t0 = time.time()
+            model.fit(X_train, y_train)
+            t1 = time.time()
+            total_score += model.score(X, y)
+            train_score += model.score(X_train, y_train)
+            cv_score += model.score(X_cv, y_cv)
+            t2 = time.time()
+            train_time += t1 - t0
+            score_time += t2 - t1
+            model_bytes += sys.getsizeof(model)
 
         run["repr"] = string(model)
         run["params"] = repr(model.get_params(true))
         run["model_bytes"] = sys.getsizeof(model)
+        run["total_score"] = total_score / n_split
+        run["train_score"] = train_score / n_split
+        run["cv_score"] = cv_score / n_split
+        run["train_time"] = train_time / n_split
+        run["score_time"] = score_time / n_split
+        run["model_bytes"] = model_bytes / n_split
 
         self.log_run(model, run)
         return run
