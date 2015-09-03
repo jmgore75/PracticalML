@@ -6,8 +6,6 @@ import sys
 import os.path
 import os
 import logging
-import matplotlib.pyplot as plt
-import mpld3
 import weakref
 import hashlib
 
@@ -16,24 +14,29 @@ from sklearn import cross_validation, preprocessing
 from preprocessors import preprocessors, no_params
 
 
-class TrainingTracker:
-    def __init__(self, path, X, y):
+class RunTracker:
+    def __init__(self, path):
         self.path = path
         self.inputPath = os.path.join(self.path, "input")
         self.outputPath = os.path.join(self.path, "output")
-        self.score_columns = [
+        self.run_columns = [
+            "run_hash", "model", "cv_score", "train_score",
+            "samples", "train_samples", "cv_samples",
+            "train_time", "score_time",
+            "model_bytes", "timestamp"]
+        self.run_columns = [
             "repr", "model", "params", "train_score",
             "test_score", "train_time", "train_complete",
             "score_time", "model_bytes", "timestamp"]
-        self.score_file = os.path.join(self.path, "scores.pkl")
+        self.runs_file = os.path.join(self.path, "runs.pkl")
         self.best_file = os.path.join(self.path, "bestmodel.pkl")
         if not os.path.isdir(self.path):
             os.makedirs(self.path)
-        if os.path.isfile(self.score_file):
-            self.scores = joblib.load(self.score_file)
-            self.max_score = self.scores["test_score"].max()
+        if os.path.isfile(self.runs_file):
+            self.runs = joblib.load(self.runs_file)
+            self.max_score = self.runs["test_score"].max()
         else:
-            self.scores = pd.DataFrame(columns=self.score_columns)
+            self.runs = pd.DataFrame(columns=self.score_columns)
             self.max_score = 0
 
         self.input_cache = {}
@@ -122,42 +125,8 @@ class TrainingTracker:
             self.logger.warning(
                 "Lesser model %.3f <  %.3f : %.1f s",
                 test_score, self.max_score, train_time)
-        self.scores = self.scores.append(run, ignore_index=True)
-        joblib.dump(self.scores, self.score_file)
-
-    def plot_run(self, run):
-        from IPython import display
-        groups = self.scores.groupby(['model'])
-        for model, grp in groups:
-            plt.plot(
-                grp['train_time'], grp['test_score'],
-                'o', label=model)
-        if run:
-            plt.plot(
-                run["train_time"], run["test_score"],
-                '*', color="y", s=50, label="Latest")
-            plt.title(
-                'Last: %.3f; Best: %.3f' % (grp['test_score'], self.max_score))
-        plt.xlabel("Train time")
-        plt.ylabel("Test score")
-        plt.legend(loc="best")
-        plt.figure()
-
-        for model, grp in groups:
-            plt.plot(
-                grp['train_score'], grp['test_score'],
-                'o', label=model)
-        if run:
-            plt.plot(
-                run["train_score"], run["test_score"],
-                '*', color="y", s=50, label="Latest")
-            plt.title(
-                'Last: %.3f; Best: %.3f' % (grp['test_score'], self.max_score))
-        plt.xlabel("Train time")
-        plt.ylabel("Test score")
-        plt.legend(loc="best")
-
-        mpld3.show()
+        self.runs = self.runs.append(run, ignore_index=True)
+        joblib.dump(self.runs, self.runs_file)
 
     def run_models(self, model_gen, cv):
         for model, param_set in model_gen:
@@ -199,6 +168,7 @@ class TrainingTracker:
 
         run = {}
         run["timestamp"] = datetime.now().isoformat()
+        run["samples"] = len(X)
         run["train_samples"] = len(i_train)
         run["cv_samples"] = len(i_cv)
         model_desc = repr(model)
