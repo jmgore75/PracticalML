@@ -128,6 +128,7 @@ class RunTracker:
         self.runs = self.runs.append(run, ignore_index=True)
         joblib.dump(self.runs, self.runs_file)
 
+    # TODO Should handle interrupt
     def run_models(self, model_gen, cv):
         for model, param_set in model_gen:
             for run in self.run_model(model, param_set, cv):
