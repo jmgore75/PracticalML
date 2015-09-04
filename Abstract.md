@@ -1,8 +1,20 @@
 # A practical guide to applied machine learning
 
-- To say machine learning is a big subject is a big understatement
+Machine learning is a hot topic in technology these days
 
+To say machine learning is a big subject is a big understatement
 
+It can be difficult to know where to even begin
+
+- Picking a
+- The basics of data preparation
+- Finding the right algorithm
+
+- What algorithms
+
+Why you would use
+
+# Topic notes
 
 - Know your problem
 - Know your data (is it text, is it image)
@@ -16,12 +28,53 @@
 - I'll be using Python's scikit-learn and nolearn
 
 
-- In my experience
-  - Neural networks are best for numerical data, especially homogenous data
-  - Convolutional layers are a necessity for data with structure (i.e. images)
-  - Forests work best for
+## Factors in selecting ML environment (if you have a choice)
+
+1. Plenty of memory (8GB)
+2. NVidia GPU installed (for CUDA) or a decent CPU
+3. Prefer Linux
+
+First and foremost, you want memory, for the following reasons:
+- Datasets themselves are often large
+- Many algorithms have significant working memory requirements, particularly when there are many features (SVM, DNN)
+- Pretty much all algorithms with low intrinsic bias improve with more data, so if you can get more you should.  
+
+Running models on the GPU rather than the CPU can massively improve their performance: 30 times speedup is often the case.  This can make a huge difference in your ability to investigate.  
+
+The major machine learning/data science platforms are available on all platforms.  However, a lot of ML libraries are high performance and requires compilation (including dynamic compilation).  Naturally the build process makes a lot of assumptions about particular compilers and libraries being available (even the shell environment).  And they are nearly all open source.  So Linux will generally be your least painful option.  OS X is ok but often requires you to set up a lot of stuff in advance.  The windows situation is similar, and additionally complicated by it's non-unix heritage.  
+
+## Strengths and weaknesses of the major ML platforms:
+
+At the moment, there are four major ML environments: R, Python, MatLab, and Julia.  I have used all four environments at one time or another.  Additionally, there are many C libraries, Java libraries, and services available.  
+
+[R](https://www.r-project.org/) is the premier open source statistical computing and graphics package.  It is also the most popular ML environment and has thousands of packages.  It is widely used in academia and research, and implementations of new algorithms are often delivered in R.  
+
+[Python](https://www.python.org/) is a high-level and flexible general-purpose dynamic programming language.  Nearly all machine learning on python goes through the excellent scikit-learn package, which wraps many ML algorithms in a single standard interface along with all the processing and analysis tools.  Python is production ready and is excellent for data wrangling.  For these reasons it is my personal choice.  
+
+[MatLab](http://www.mathworks.com/products/matlab/) is a numerical computing environment with extensive use in academic and research institutions.  It is also proprietary and expensive.  Its open source clone [Octave](https://www.gnu.org/software/octave/) uses the same language but is not nearly as nice.  
+
+[Julia](http://julialang.org/) is a very new high-performance dynamic programming language. It is specifically designed for numerical and scientific computing but also aims to be an effective general purpose language: "[the speed of C with the dynamism of Ruby](http://julialang.org/blog/2012/02/why-we-created-julia/)", and the performance is actually quite good.  As such it has attracted a lot of interest in the machine learning community and is rapidly developing a package ecosystem.  However it is still quite new and even some core APIs are changing, so I can't recommend it just yet.  
 
 
+## The algorithms that really matter
+
+For supervised learning:
+- Forests are the best general purpose algorithm, especially when your features are of many different types (e.g. your typical table of data).  They are very forgiving and easy to work with.  
+- Neural networks are best for numerical data, especially where your features are fundamentally similar.
+  - Deep convolutional neural networks are the clear winners for structured numerical features (e.g. image pixels).
+  - LSTM neural networks are the clear winners for processing or producing streams of data (e.g. audio and text)
+- Simple linear algorithms like logistic regression are cheap and often worth a shot.  
+- SVM also performs well and is usually worth testing.  
+
+For unsupervised learning:
+- Stacked Autoencoders
+
+For feature selection and engineering:
+- PCA
+- LDA
+- Random Forests have the side benefit of identifying the most useful features
+
+##
 
 <http://www.pyimagesearch.com/2014/09/22/getting-started-deep-learning-python/>
 
