@@ -1,9 +1,9 @@
-Your Machine Learning environment
+Building your Machine Learning environment
 ==================================
 
 ## Factors in selecting ML environment
 
-When choosing the system to perform machine learning (if you have a choice) you should take the following three aspects into account: 
+When choosing the system to perform machine learning (if you have a choice) you should take the following three aspects into account:
 
 1. Plenty of memory (8GB)
 2. NVidia GPU installed (for CUDA) or a decent CPU
@@ -16,7 +16,7 @@ First and foremost, you want memory, for the following reasons:
 
 Running models on the GPU rather than the CPU can massively improve their performance: 30 times speedup is often the case.  This can make a huge difference in your ability to investigate.  
 
-The major machine learning/data science platforms are available on all platforms.  However, a lot of ML libraries are high performance and requires compilation (including dynamic compilation).  Naturally the build process makes a lot of assumptions about particular compilers and libraries being available (even the shell environment).  And they are nearly all open source.  So Linux will generally be your least painful option.  OS X is ok but often requires you to set up a lot of stuff in advance.  The windows situation is similar, and additionally complicated by it's non-unix heritage.  
+The major machine learning/data science platforms are available on all platforms.  However, a lot of ML libraries are high performance and requires compilation (including dynamic compilation).  Naturally the build process makes a lot of assumptions about particular compilers and libraries being available (even the shell environment).  And they are nearly all open source.  So Linux will generally be your least painful option.  OS X is ok but often requires you to set up a lot of stuff in advance.  The Windows situation is similar, and additionally complicated by its non-unix heritage.  
 
 ## Strengths and weaknesses of the major ML platforms:
 
