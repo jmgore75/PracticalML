@@ -102,7 +102,7 @@ then convolutional layers are a must.
 
 ## LSTM Recurrent neural networks
 
-Not data to be processed takes the form of independent records.  You may be consuming and/or producing streams of data, such as audio, video, and text.  In that case, the length of the stream may be of unknown size or even indefinite, and how the data changes over time is of fundamental importance.  Your model must therefore possess memory.  
+Not all data to be processed takes the form of independent samples.  You may be consuming and/or producing streams of samples, such as audio, video, and text.  In that case, the length of the stream may be of unknown size or even indefinite, and how the samples change over time is of fundamental importance.  Your model must therefore possess memory.  
 
 Recurrent neural networks are one of the few documented ways of modeling such data, by allowing state to carry over between steps.  There are many such architectures, but the one most commonly used is the [Long Short-Term Memory](https://en.wikipedia.org/wiki/Long_short_term_memory) architecture.  As RNNs go it is relatively simple but can remember state for an arbitrary length of time.  
 
