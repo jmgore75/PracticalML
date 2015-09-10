@@ -1,4 +1,5 @@
-# A practical guide to applied machine learning
+A practical guide to applied machine learning
+============================
 
 To say machine learning is a big subject is a big understatement - it can be difficult to know where to even begin!  But understanding and applying machine learning may be easier than you think.  
 
