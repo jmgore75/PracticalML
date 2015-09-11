@@ -96,7 +96,15 @@ In many if not most cases, the amount of time you spend wrangling your data will
 
 Cross validation requires you to split your training data you have available to you into two sets, train and cv.  You train with the train set and then evaluate on the cv set.  Because the model you trained knows nothing about the cv set, your cv score is a good indicator about how well your model will perform on future data.  The train score tells you only how well you were able to model the data you trained with.  
 
+There are no hard-and-fast guidelines about how train and test splits should be made, what the relationship of the splits should be, or whether to use the same splits on all models.  Cross-fold validation (splitting your data into 3 or more equal sized sets, and test with each one while training with the others) is a popular approach.  The larger the number of folds, the more accurate your aggregate score will be (the extreme case is leave-one-out, where you do this for each individual data point).  Generally during model exploration I prefer to test 1-3 80/20 random splits, and add more if I decide to investigate further.  This seems to work fine.  
+
 ### Preprocessing
+
+Most algorithms are only capable of processing numeric values.  Therefore any non-numeric features must be converted:
+
+- Binary features are usually converted to 0 and 1.  
+- Categorical features with N values generally should be expanded to N binary features.  This is known as one-hot encoding.  
+- Text features are either discarded, treated as categorical features, or otherwise converted to a numeric representation.  It depends on the circumstances.  
 
 Several algorithms (including all the linear ones) require features in models to have similar distributions.  This usually means they are standardized (equal means and equal variances) or restricted to a range (usually (0, 1) or (-1, 1)).  However, such scaling ensures that all features will have equal relevance.  If your features already are scaled meaningfully compared to each other (important features are bigger), then scaling may actually hurt your ability to generate a good model.  
 
