@@ -53,26 +53,6 @@ Top approaches:
 
 > avNNet_t, from the caret package, creates a committee of 5 MLPs (the number of MLPs is given by parameter repeat) trained with different random weight initializations and bag=false. The tunable parameters are the #hidden neurons (size) in {1, 3, 5} and the weight decay (values {0, 0.1, 10<sup>−4</sup>}). This low number of hidden neurons is to reduce the computational cost of the ensemble.
 
-## Online courses
-
-### Andrew Ng's Machine Learning course on Coursera
-
-<https://www.coursera.org/course/ml>
-
-Probably the definitive massive online open course (and one of the first), and still one of the best for learning machine learning.  It covers several major types of algorithm and gives you a firm grounding in the bias-variance tradeoff.  If you want to implement something from scratch this is a great place to start.  Exercises are all in Matlab.  
-
-- Supervised
-  - Linear algorithms
-  - Neural networks
-  - Support vector machines
-- unsupervised
-  - Dimensional reduction
-- Best practices
-  - Bias-variance theory
-  - Performance analysis
-
-I should note that I find the video lecture format of online courses to be a very slow way to learn.  I find text with copious code examples to be far better.  However, video courses are often the best thought out and complete.  So to speed things up, try increasing the playback speed.  
-
 ### Overview of machine learning approach
 
 <http://machinelearningmastery.com/machine-learning-for-programmers/>
@@ -106,6 +86,32 @@ Development tips
 * Write up what you did
 * Version of course, save to public Repository
 * Focus on small data
+
+## Online courses
+
+### Andrew Ng's Machine Learning course (Coursera)
+
+<https://www.coursera.org/course/ml>
+
+Probably the definitive massive online open course (and one of the first), and still one of the best for learning machine learning.  It covers several major types of algorithm and gives you a firm grounding in the bias-variance tradeoff.  If you want to implement something from scratch this is a great place to start.  Exercises are all in Matlab.  
+
+- Supervised
+  - Linear algorithms
+  - Neural networks
+  - Support vector machines
+- unsupervised
+  - Dimensional reduction
+- Best practices
+  - Bias-variance theory
+  - Performance analysis
+
+I should note that I find the video lecture format of online courses to be a very slow way to learn.  I find text with copious code examples to be far better.  However, video courses are often the best thought out and complete.  So to speed things up, try increasing the playback speed.  
+
+## Machine Learning series (Udacity)
+
+<https://www.udacity.com/course/machine-learning--ud262>
+
+A lighthearted and well-produced series of courses on Machine Learning.  Covers more ground than Ng's course, but not in as much depth.  
 
 ## Machine learning packages
 
