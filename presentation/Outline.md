@@ -17,6 +17,8 @@ In unsupervised learning you are are trying to describe your data.  Fundamentall
 - Identify patterns and gain insight into commonalities
 - Actual data compression
 
+For today we only have time to go through an example of a supervised classification problem.  Rest assured however that most of what we discuss today can be transferred to other machine learning situations.  
+
 Some supervised algorithms can be used in an unsupervised fashion by simply running them forwards and training them backwards.  This is called autoencoding.  
 
 ## The ideal ML algorithm

@@ -1,7 +1,10 @@
 # Presentation options
 
 Try:
-[Reveal.js]()
+[Reveal.js](http://lab.hakim.se/reveal-js/#/)
+[Impress.js](https://github.com/impress/impress.js)
+
+Both are FOSS and can support audio
 
 Backup:
 PowerPoint
