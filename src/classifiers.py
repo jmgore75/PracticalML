@@ -8,7 +8,7 @@ from preprocessors import scale, whiten, no_params, lda as plda, kmeans
 
 def basic_models():
     clf = ('logistic', linear_model.LogisticRegression())
-    param_sets = grid_search.ParameterGrid({"logistic__penalty": ["l1", "l2"]})
+    param_sets = grid_search.ParameterGrid({"logistic__penalty": ["l1", "l2"], "logistic__class_weight":["auto", None]})
     yield Pipeline([whiten, clf]), param_sets
     yield Pipeline([plda, clf]), param_sets
     yield Pipeline([scale, kmeans, clf]), param_sets
@@ -18,9 +18,10 @@ def basic_models():
     yield Pipeline([plda, clf]), no_params
     yield Pipeline([scale, kmeans, clf]), param_sets
 
+    param_sets = grid_search.ParameterGrid({"perceptron__class_weight":["auto", None]})
     clf = ('perceptron', linear_model.Perceptron(n_iter=50))
-    yield Pipeline([whiten, clf]), no_params
-    yield Pipeline([plda, clf]), no_params
+    yield Pipeline([whiten, clf]), param_sets
+    yield Pipeline([plda, clf]), param_sets
     yield Pipeline([scale, kmeans, clf]), param_sets
 
     clf = (
@@ -41,7 +42,7 @@ def basic_models():
 def tree_models():
     yield tree.DecisionTreeClassifier(), no_params
     param_sets = grid_search.ParameterGrid({
-        "n_estimators": [16, 64, 256, 1024]})
+        {"n_estimators": [16, 64, 256, 1024], "class_weight":["subsample", None]})
     yield ensemble.RandomForestClassifier(n_jobs=-1), param_sets
     yield tree.DecisionTreeClassifier(n_jobs=-1), param_sets
     yield ensemble.AdaBoostClassifier(n_jobs=-1), param_sets
