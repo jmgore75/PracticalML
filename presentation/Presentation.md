@@ -17,6 +17,18 @@ The presentation should look nice.  Where possible use animations/transitions to
 - Maps of a variety of classifiers (including nn) versus data points
 
 ```py
+from classifiers import starting_models
+from tracking import RunTracker
+
+tracker = RunTracker("src/forest")
+#tracker.setData(X, y)
+
+splits = lambda num_points : cross_validation.ShuffleSplit(num_points, 2, 0.2));
+
+tracker.run_models(starting_models(), splits)
+```
+
+```py
 %matplotlib inline
 import time
 import pylab as pl

@@ -41,7 +41,7 @@ class RunTracker:
     def setData(self, X, y, classifier=True):
         self.num_points = len(X)
         self.feature_names = X.columns
-        self.splits = cross_validation.ShuffleSplit(self.num_points, 3, 0.1)
+        self.splits = cross_validation.ShuffleSplit(self.num_points, 3, 0.2)
         X_data = self.hashAndStoreData("X", X)
 
         y_data = None
@@ -124,20 +124,28 @@ class RunTracker:
         self.runs = self.runs.append(run, ignore_index=True)
         joblib.dump(self.runs, self.runs_file)
 
-    # TODO Should handle interrupt
-    def run_models(self, model_gen, cv):
+    def make_splits(self, num_points, splits):
+        if not splits:
+            splits = 1
+
+        if isinstance(splits, numbers.Number):
+            splits = cross_validation.ShuffleSplit(num_points, splits, 0.2));
+
+        if hasattr(splits, '__call__'):
+            splits = splits(num_points)
+
+        return list(splits)
+
+    def run_models(self, model_gen, splits):
         for model, param_set in model_gen:
-            for run in self.run_model(model, param_set, cv):
+            for run in self.run_model(model, param_set, splits):
                 yield run
 
-    def run_model(self, model, test_params, cv):
+    def run_model(self, model, test_params, splits):
         X_data = self.getData("X")
         y_data = self.getData("y")
 
-        # if not cv or not len(cv):
-        #    cv =
-
-        splits = cv
+        splits = self.make_splits(len(X_data[1]), splits)
 
         if not test_params or not len(test_params):
             test_params = no_params
@@ -146,13 +154,12 @@ class RunTracker:
             model.set_params(params)
             for i_train, i_cv in splits:
                 try:
-                    run = self.run_one(model, X_data, y_data, i_train, i_cv)
-                    if run:
-                        yield run
-                    else:
-                        raise  # TODO
+                    yield self.run_one(model, X_data, y_data, i_train, i_cv)
+                except KeyboardInterrupt:
+                    self.logger("Run interrupted: \n" + str(model))
+                    raise
                 except:
-                    self.logger("")
+                    self.logger("Run failed: \n" + str(model))
 
     def run_one(self, model, X_data, y_data, i_train, i_cv):
         X_hash, X = X_data
@@ -185,6 +192,9 @@ class RunTracker:
         m.update(X_hash)
         m.update(y_hash)
         run["run_hash"] = m.hexdigest()
+        m.update(i_train)
+        m.update(i_cv)
+        run["run_train_hash"] = m.hexdigest()
         run["model_bytes"] = sys.getsizeof(model)
         self.log_run(model, run)
         return run
