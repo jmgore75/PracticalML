@@ -15,6 +15,8 @@ There are many hyperparameters to choose from with neural networks:
 
 By stacking layer upon layer, very complex transformations of the data can be described.  The core neural network architecture is highly flexible, and can accommodate specialized types of layers such as convolutions, and more complex data flows than simple pipelines.  The state-of-the-art for neural networks is progressing rapidly, with newer and better variations all the time.  
 
+Fundamentally a neural network is a particular type of directected acyclic graph (a layered one).  It is perfectly possible to use a non-layered design and in fact not particularly complex to code.  
+
 ## Training neural networks
 
 Training a neural network usually uses a technique called backpropagation.  This is typically done in batches, but could be done with all samples at once or only one sample.  The samples in the batch are first run through the network to produce predictions, keeping track of the calculated activations on each layer.  These predictions are then subtracted from the expected values to generate an error.  
