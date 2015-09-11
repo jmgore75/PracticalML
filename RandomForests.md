@@ -44,7 +44,12 @@ Extremely Randomized Trees are a variant of random forests.  To create a decisio
 
 The splits are therefore less correlated than they would be in Random Forests, which helps produce smoother boundaries in the aggregate.  In practice, extremely randomized trees often give better results than conventional random forests.  More on this later.  
 
+## Decision Jungles
+
+Decision trees grow exponentially with depth, which can be a problem in constrained environments.  Microsoft has developed a variant of random forests called [decision jungles](http://research.microsoft.com/apps/pubs/?id=205439) which use directed acyclic graphs instead of trees.  The number of nodes in a level is generally constrained, so the DAG will grow only linearly past a certain point.  A DAG thus reduces redundancy commonly found in trees.  They are more complicated to train but generally require less memory to store.  Also, they are also less prone to overfitting and generalize better.  
+
+Fun fact: the invention of decision jungles at Microsoft was probably prompted by the XBox Kinect controller, which famously uses random forests.  
+
 ## Interesting notes
 
 - More predictors in an ensemble means better accuracy, but there are diminishing returns.  As a practical matter you should evaluate a range of ensemble sizes and pick the smallest size that is acceptably accurate and/or the largest size that fits within your constraints.  At runtime, you can produce a less accurate result faster and with less effort by evaluating fewer predictors.  
-- Decision trees grow exponentially with depth, which can be a problem in constrained environments.  Microsoft has developed a variant of random forests called [decision jungles](http://research.microsoft.com/apps/pubs/?id=205439) which use directed acyclic graphs instead of trees.  The number of nodes in a level is generally constrained, so the DAG will grow only linearly past a certain point.  A DAG thus reduces redundancy commonly found in trees.  They are more complicated to train but generally require less memory to store.  Also, they are also less prone to overfitting and generalize better.  (Fun fact: the invention of decision jungles was probably prompted by the XBox Kinect controller, which famously uses random forests)
