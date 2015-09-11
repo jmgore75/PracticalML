@@ -23,8 +23,11 @@ The following are standalone analysis of machine learning, and will be mined for
 
 - [Setting up your ML environment](Environment.md)
 - [The process of applying machine learning](Process.md)
+- [Geometric Interpretation of data](GeometricInterpretation.md)
 - [Algorithms](Algorithms.md)
-  - [Random forests](RandomForests.md) and decision trees
+  - [Linear models and techniques](Linear.md)
   - [Neural networks](NeuralNetworks.md)
   - [Support Vector Machines](SupportVectorMachines.md)
+  - [Random forests](RandomForests.md) and decision trees
+  - [Dimensionality reduction](DimensionalityReduction.md)
 - [Resources](Resources.md) and other useful articles
