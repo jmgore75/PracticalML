@@ -55,11 +55,11 @@ def knn_models():
 
 
 def svc_models():
-    param_sets = [
-        {"svc__kernel": "rbf", "svc__C": 1},
-        {"svc__kernel": "sigmoid", "svc__C": 20},
-        {"svc__kernel": "poly", "svc__degree": 2, "svc__C": 1}]
-    yield Pipeline([whiten, ('svc', svm.LinearSVC(max_iter=2000))]), no_params
+    param_sets = grid_search.ParameterGrid([
+        {"svc__kernel": "linear", "svc__class_weight": ["auto", None]},
+        {"svc__kernel": "rbf", "svc__class_weight": ["auto", None]},
+        {"svc__kernel": "sigmoid", "svc__class_weight": ["auto", None]},
+        {"svc__kernel": "poly", "svc__degree": 2, "svc__class_weight": ["auto", None]}])
     yield Pipeline([whiten, ('svc', svm.SVC(max_iter=2000))]), param_sets
 
 
