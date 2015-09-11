@@ -3,7 +3,7 @@ from sklearn import naive_bayes, lda, qda, grid_search
 from sknn.mlp import Classifier, Layer
 from sklearn.pipeline import Pipeline
 
-from preprocessors import scale, whiten, no_params, lda as plda
+from preprocessors import scale, whiten, no_params, lda as plda, kmeans
 
 
 def basic_models():
@@ -11,14 +11,17 @@ def basic_models():
     param_sets = grid_search.ParameterGrid({"logistic__penalty": ["l1", "l2"]})
     yield Pipeline([whiten, clf]), param_sets
     yield Pipeline([plda, clf]), param_sets
+    yield Pipeline([scale, kmeans, clf]), param_sets
 
     clf = ('ridge', linear_model.RidgeClassifier(tol=1e-2, solver="lsqr"))
     yield Pipeline([whiten, clf]), no_params
     yield Pipeline([plda, clf]), no_params
+    yield Pipeline([scale, kmeans, clf]), param_sets
 
     clf = ('perceptron', linear_model.Perceptron(n_iter=50))
     yield Pipeline([whiten, clf]), no_params
     yield Pipeline([plda, clf]), no_params
+    yield Pipeline([scale, kmeans, clf]), param_sets
 
     clf = (
         'passive_aggressive',

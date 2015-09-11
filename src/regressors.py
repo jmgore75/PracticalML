@@ -3,21 +3,24 @@ from sklearn import tree, grid_search
 from sknn.mlp import Regressor, Layer
 from sklearn.pipeline import Pipeline
 
-from preprocessors import whiten, lda, scale, no_params
+from preprocessors import whiten, lda, scale, no_params, kmeans
 
 
 def basic_models(n_iter=50):
     clf = ('linear', linear_model.LinearRegression())
     yield Pipeline([whiten, clf]), no_params
     yield Pipeline([lda, clf]), no_params
+    yield Pipeline([scale, kmeans, clf]), no_params
 
     clf = ('ridge', linear_model.Ridge(alpha=0.1, tol=1e-2, solver="lsqr"))
     yield Pipeline([whiten, clf]), no_params
     yield Pipeline([lda, clf]), no_params
+    yield Pipeline([scale, kmeans, clf]), no_params
 
     clf = ('lasso', linear_model.Lasso(alpha=0.1))
     yield Pipeline([whiten, clf]), no_params
     yield Pipeline([lda, clf]), no_params
+    yield Pipeline([scale, kmeans, clf]), no_params
 
 
 def tree_models():
