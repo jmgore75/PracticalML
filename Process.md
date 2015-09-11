@@ -47,6 +47,7 @@ Variance increases and bias decreases with model complexity.  The goal is to min
 
 The inclusion of unrelated features when building a model will basically always hurt your model.  Even relevant features can increase error if the noise is too high.  In practice it is therefore easier to prevent underfitting than overfitting, and thus minimizing true error.  
 
+For detailed dive on this topic, see [Scott Fortman-roe's essay](http://scott.fortmann-roe.com/docs/BiasVariance.html).  
 
 ### Main types of learning
 

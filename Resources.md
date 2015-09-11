@@ -1,37 +1,9 @@
-## Overview of machine learning approach
-<http://machinelearningmastery.com/machine-learning-for-programmers/>
+External resources
+====================
 
-This is a pretty good article about how to approach machine learning:
-* Top-down (objective, not algorithm focused)
-* Use a systematic approach to
-* guarantee that the end result is good (often more reliable than accurate)
-* Tool agnostic
+## Articles
 
-Here's the process:
-1. Define problem
-2. Prepare data
-3. Spot check algorithms
-4. Improve results
-5. Present results
-6. Deploy and Use
-
-Recommended tools
-* Weka (graphical, good for one-off)
-* Scikit-learn (develop and deploy)
-* Deep dive (R caret)
-
-Datasets
-* [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/)
-* Kaggle
-* [KDD Cup](http://www.sigkdd.org/kddcup/index.php)
-* Avoid image and text data, too specialized to start
-
-Development tips
-* Write up what you did
-* Version of course, save to public Repository
-* Focus on small data
-
-## Machine learning checklist
+### Machine learning checklist
 
 <http://machinelearningmastery.com/machine-learning-checklist/>
 
@@ -41,19 +13,13 @@ Nice article going over everything you should do
 
 > You want a good solution, that is good enough for the specific needs of the problem that you are working on. Often a good enough solution is fast, cheap and robust. It’s an easier problem to solve.
 
-## The value of Random Forests
+### The value of Random Forests
 
-Basically random forests have few hyperparameters and require little to no tuning.  They tend to perform very well on heterogeneous data sets and are easy to interpret.  Also, more trees gives you more accuracy - random forests are not prone to overfitting!  Extremely Randomized Trees are arguably the best approach (citation?).  
+Review: <http://machinelearningmastery.com/use-random-forest-testing-179-classifiers-121-datasets/>
 
-Author advocates spot checking a dozen or so algorithms and then focusing on the ones that perform well.  So you need a good test harness.  All well and good, but _how_ do you identify the algorithm to settle on.
+Original: <http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf>
 
-<http://machinelearningmastery.com/use-random-forest-testing-179-classifiers-121-datasets/>
-
-Also, Decision Jungles are low-memory generalizations of random forests
-
-<http://geekstack.net/resources/public/downloads/tobias_pohlen_decision_jungles.pdf>
-
-This reference was an exhaustive study of 179 classifiers over 121 data sets, giving 21,659 combinations classifier-data set over all the families they could think of.  They tested a variety of implementations of the algorithms in R, C, Weka, and Matlab.  They did only standard scaling on the data.  Average accuracy ranged from 82% to 49.2%.  
+Contends that random forests are the best overall algorithms.  This reference was an exhaustive study of 179 classifiers over 121 data sets, giving 21,659 combinations classifier-data set over all the families they could think of.  They tested a variety of implementations of the algorithms in R, C, Weka, and Matlab.  They did only standard scaling on the data.  Average accuracy ranged from 82% to 49.2%.
 
 The top ranks were dominated by Random Forests, then SVM, followed by Neural Nets.  
 - 1, 2, 5: Random forests
@@ -87,9 +53,63 @@ Top approaches:
 
 > avNNet_t, from the caret package, creates a committee of 5 MLPs (the number of MLPs is given by parameter repeat) trained with different random weight initializations and bag=false. The tunable parameters are the #hidden neurons (size) in {1, 3, 5} and the weight decay (values {0, 0.1, 10<sup>−4</sup>}). This low number of hidden neurons is to reduce the computational cost of the ensemble.
 
-<http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf>
+## Online courses
 
-## Caret Package
+### Andrew Ng's Machine Learning course on Coursera
+
+<https://www.coursera.org/course/ml>
+
+Probably the definitive massive online open course (and one of the first), and still one of the best for learning machine learning.  It covers several major types of algorithm and gives you a firm grounding in the bias-variance tradeoff.  If you want to implement something from scratch this is a great place to start.  Exercises are all in Matlab.  
+
+- Supervised
+  - Linear algorithms
+  - Neural networks
+  - Support vector machines
+- unsupervised
+  - Dimensional reduction
+- Best practices
+  - Bias-variance theory
+  - Performance analysis
+
+I should note that I find the video lecture format of online courses to be a very slow way to learn.  I find text with copious code examples to be far better.  However, video courses are often the best thought out and complete.  So to speed things up, try increasing the playback speed.  
+
+### Overview of machine learning approach
+
+<http://machinelearningmastery.com/machine-learning-for-programmers/>
+
+This is a pretty good article about how to approach machine learning:
+* Top-down (objective, not algorithm focused)
+* Use a systematic approach to
+* guarantee that the end result is good (often more reliable than accurate)
+* Tool agnostic
+
+Here's the process:
+1. Define problem
+2. Prepare data
+3. Spot check algorithms
+4. Improve results
+5. Present results
+6. Deploy and Use
+
+Recommended tools
+* Weka (graphical, good for one-off)
+* Scikit-learn (develop and deploy)
+* Deep dive (R caret)
+
+Datasets
+* [UCI Machine Learning Repository](http://archive.ics.uci.edu/ml/)
+* Kaggle
+* [KDD Cup](http://www.sigkdd.org/kddcup/index.php)
+* Avoid image and text data, too specialized to start
+
+Development tips
+* Write up what you did
+* Version of course, save to public Repository
+* Focus on small data
+
+## Machine learning packages
+
+### Caret Package (R)
 R package that handles model creation, discovery, and tuning
 
 <http://machinelearningmastery.com/caret-r-package-for-applied-predictive-modeling/>
