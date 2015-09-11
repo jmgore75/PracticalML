@@ -66,9 +66,9 @@ There are four major types of machine learning problems:
 
 The most common form of machine learning problem is to make a prediction for independent samples, but this is not always the case.  There are many others that require special formulation and considerations.  Such as:
 
-- Graphical models: Given samples for a collection of nodes, construct a network between the nodes
-- Sequential or process models: When the input and/or output is a sequence of arbitrary length
-- Structured data: When there is a structural relationship between the features (such as pixels in an image)
+- [Graphical models](Probabilistic.md#graphical-techniques): Given samples for a collection of nodes, construct a network between the nodes
+- [Sequential or process models](NeuralNetworks.md#recurrent-neural-networks): When the input and/or output is a sequence of arbitrary length
+- [Structured data](NeuralNetworks.md#convolutional-layers): When there is a structural relationship between the features (such as pixels in an image)
 
 ## Know your data
 

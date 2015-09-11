@@ -30,4 +30,5 @@ The following are standalone analysis of machine learning, and will be mined for
   - [Support Vector Machines](SupportVectorMachines.md)
   - [Random forests](RandomForests.md) and decision trees
   - [Dimensionality reduction](DimensionalityReduction.md)
+  - [Probabilistic modeling](Probabilistic.md)
 - [Resources](Resources.md) and other useful articles
