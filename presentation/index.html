@@ -19,6 +19,13 @@
 
 	<!-- Code syntax highlighting -->
 	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<style>
+	code {
+		background-color: lightgray;
+		border-radius: 0.25em;
+		margin: 0em 10em;
+	}
+	</style>
 
 	<!-- Printing and PDF exports -->
 	<script>
@@ -40,7 +47,7 @@
 
 		<!-- Any section element inside of this container is displayed as a slide -->
 		<div class="slides">
-<section data-markdown data-separator="----" data-separator-vertical="---">
+<section data-markdown data-separator="----" data-separator-vertical="---" data-separator-notes="===">
 	<script type="text/template">
 ## A practical guide to applied machine learning
 
@@ -52,9 +59,17 @@ _Tessella Autumn Conference 2015-10-05_
 
 ### Presentation instructions
 
-- <!-- .element: class="fragment" -->Press *ESC* to enter the slide overview.
-- <!-- .element: class="fragment" -->Alt-click on any element to zoom in on it. Alt-click anywhere to zoom back out.
-- Swipe to move on mobile devices
+- Press `ESC` to enter the slide overview
+- Press `B` or `.` to pause the presentation
+- Press `S` to display the speaker view with notes
+- `Alt-click` on any element to zoom in on it, `Alt-click` anywhere to zoom back out
+- `Swipe` to move on mobile devices
+
+===
+
+##Notes
+
+Here's the notes
 
 ----
 Code example
@@ -79,7 +94,10 @@ which uses Random Forests constantly: the Kinect controller for XBox
 
 ----
 
-More
+> Here is some Quote
+>
+> More text
+> Here
 
 	</script>
 </section>
@@ -88,27 +106,6 @@ More
 	<script type="text/template">
 	</script>
 </section>
-
-			<section id="themes">
-				<h2>Themes</h2>
-				<p>
-					reveal.js comes with a few themes built in:
-					<br>
-					<!-- Hacks to swap themes after the page has loaded. Not flexible and only intended for the reveal.js demo deck. -->
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/black.css'); return false;">Black (default)</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/white.css'); return false;">White</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/league.css'); return false;">League</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/sky.css'); return false;">Sky</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/beige.css'); return false;">Beige</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/simple.css'); return false;">Simple</a>
-					<br>
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/serif.css'); return false;">Serif</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/blood.css'); return false;">Blood</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/night.css'); return false;">Night</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/moon.css'); return false;">Moon</a> -
-					<a href="#" onclick="document.getElementById('theme').setAttribute('href','css/theme/solarized.css'); return false;">Solarized</a>
-				</p>
-			</section>
 
 			<section>
 				<section data-background="#dddddd">
@@ -144,26 +141,6 @@ More
 				<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
 					<h2>... and GIFs!</h2>
 				</section>
-			</section>
-
-			<section data-transition="slide" data-background="#4d7e65" data-background-transition="zoom">
-				<h2>Background Transitions</h2>
-				<p>
-					Different background transitions are available via the backgroundTransition option. This one's called "zoom".
-				</p>
-				<pre>
-					<code>Reveal.configure({ backgroundTransition: 'zoom' })</code>
-				</pre>
-			</section>
-
-			<section data-transition="slide" data-background="#b5533c" data-background-transition="zoom">
-				<h2>Background Transitions</h2>
-				<p>
-					You can override background transitions per-slide.
-				</p>
-				<pre>
-					<code style="word-wrap: break-word;">&lt;section data-background-transition="zoom"&gt;</code>
-				</pre>
 			</section>
 
 			<section>
@@ -217,17 +194,6 @@ More
 			</section>
 
 			<section>
-				<h2>Speaker View</h2>
-				<p>There's a <a href="https://github.com/hakimel/reveal.js#speaker-notes">speaker view</a>. It includes a timer, preview of the upcoming slide as well as your speaker notes.</p>
-				<p>Press the
-					<em>S</em> key to try it out.</p>
-
-				<aside class="notes">
-					Oh hey, these are some notes. They'll be hidden in your presentation, but you can see them if you open the speaker notes window (hit 's' on your keyboard).
-				</aside>
-			</section>
-
-			<section>
 				<h2>Global State</h2>
 				<p>
 					Set
@@ -266,15 +232,6 @@ More
 					<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
 					<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
 				</ul>
-			</section>
-
-			<section style="text-align: left;">
-				<h1>THE END</h1>
-				<p>
-					- <a href="http://slides.com">Try the online editor</a>
-					<br>
-					- <a href="https://github.com/hakimel/reveal.js">Source code &amp; documentation</a>
-				</p>
 			</section>
 
 		</div>
