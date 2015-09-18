@@ -21,6 +21,23 @@
   <!-- Code syntax highlighting -->
   <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
 
+  <style>
+  .svg-container {
+      display: inline-block;
+      position: relative;
+      width: 100%;
+      padding-bottom: 100%; /* aspect ratio */
+      vertical-align: top;
+      overflow: hidden;
+  }
+  .svg-content-responsive {
+      display: inline-block;
+      position: absolute;
+      top: 10px;
+      left: 0;
+  }
+  </style>
+
   <!-- Printing and PDF exports -->
   <script>
     var link = document.createElement('link');
@@ -36,63 +53,88 @@
 </head>
 
 <body>
+<div class="reveal">
+<div class="slides">
 
-  <div class="reveal">
+<section id="intro">
+  <section id="title">
+    <h2>A practical guide to applied machine learning</h2>
+    <p><em>Jeremy Gore</em></p>
+    <p><em>Tessella Autumn Conference 2015-10-05</em></p>
 
-    <!-- Any section element inside of this container is displayed as a slide -->
-    <div class="slides">
-<section data-markdown data-separator="----" data-separator-vertical="---" data-separator-notes="===">
-  <script type="text/template">
-## A practical guide to applied machine learning
+    <aside class="notes">
+      <p>To say machine learning is a big subject is a big understatement,
+        but it may be easier than you think.</p>
+      <p>Using python and scikit-learn, we'll walk through a machine learning
+        process from start to finish discussing when to apply machine learning,
+        the most successful algorithms, best practices, and even a little
+        philosophy.</p>
+    </aside>
+  </section>
 
-_Jeremy Gore_
-
-_Tessella Autumn Conference 2015-10-05_
-
----
-
-### Presentation instructions
-
-- Press `ESC` to enter the slide overview
-- Press `B` or `.` to pause the presentation
-- Press `S` to display the speaker view with notes
-- `Alt-click` on any element to zoom in on it, `Alt-click` anywhere to zoom back out
-- `Swipe` to move on mobile devices
-
-===
-
-##Notes
-
-Here's the notes
-
-----
-### Random Forests
-
-Random forests are a mainstay of machine learning
-
----
-<!-- .element: data-background="#ffff00" data-transition="zoom" -->
-
-## Fun Fact
-
-Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs)
-instead of binary trees.  This allows for much smaller models which generalize
-slightly better.  They were developed by Microsoft.
-
-The Kinect controller for XBox uses Random Forests to analyze what it's seeing.
-You do the math.
-
-----
-
-> Here is some Quote
-
-> More text
-> Here
-
-  </script>
+  <section id="instructions">
+    <h3>Presentation instructions</h3>
+    <ul>
+      <li>Press <kbd>ESC</kbd> to enter the slide overview</li>
+      <li>Press <kbd>F</kbd> to display the speaker view with notes</li>
+      <li>Press <kbd>B</kbd> or <kbd>.</kbd> to pause the presentation</li>
+      <li>Press <kbd>S</kbd> to display the speaker view with notes</li>
+      <li><kbd>Alt+click</kbd> on any element to zoom in on it, <kbd>Alt+click</kbd> anywhere to zoom back out</li>
+      <li><kbd>Swipe</kbd> to move on mobile devices</li>
+    </ul>
+  </section>
 </section>
 
 <section>
+  <section>
+    <h2>Random Forests</h2>
+
+    <aside class="notes">
+      <p></p>
+      <p></p>
+    </aside>
+  </section>
+
+  <section data-state="rf-animation">
+    <div class="svg-container">
+      <svg class="svg-content-responsive" preserveAspectRatio="xMinYMin meet" viewBox="0 0 600 400">
+      </svg>
+    </div>
+    <div class="">
+
+    </div>
+    <aside class="notes">
+      <p></p>
+      <p></p>
+    </aside>
+  </section>
+
+  <section>
+    <div class="col-md-3">
+
+    </div>
+    <div class="col-md-9">
+
+    </div>
+    <aside class="notes">
+      <p></p>
+      <p></p>
+    </aside>
+  </section>
+
+  <section data-background="#ffff00" data-background-transition="zoom">
+    <h2>Fun Fact:</h2>
+    <p>Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs)
+    instead of binary trees.  This allows for much smaller models which generalize
+    slightly better.  They were developed by Microsoft.</p>
+    <p>The Kinect controller for XBox uses Random Forests to analyze what it's seeing.
+    You do the math.</p>
+    <aside class="notes">
+    </aside>
+  </section>
+</section>
+
+<section data-state="rf-animation">
   <h2>With columns</h2>
   <div class="col-md-3">
     <img src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="An image">
@@ -109,172 +151,70 @@ def test2(a, b, c):
   </div>
 </section>
 
-<section>
-    <p class="fragment grow">grow</p>
-    <p class="fragment shrink">shrink</p>
-    <p class="fragment zoom-in">zoom-in</p>
-    <p class="fragment fade-out">fade-out</p>
-    <p class="fragment current-visible">visible only once</p>
-    <p class="fragment highlight-current-blue">blue only once</p>
-    <p class="fragment highlight-red">highlight-red</p>
-    <p class="fragment highlight-green">highlight-green</p>
-    <p class="fragment highlight-blue">highlight-blue</p>
+<section data-state="customevent">
+  <h2>State Events</h2>
+  <p>
+    Additionally custom events can be triggered on a per slide basis by binding to the
+    <code>data-state</code> name.
+  </p>
+<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
+Reveal.addEventListener( 'customevent', function() {
+  console.log( '"customevent" has fired' );
+} );
+</code></pre>
 </section>
 
-      <section>
-        <section data-background="#dddddd">
-          <h2>Slide Backgrounds</h2>
-          <p>
-            Set
-            <code>data-background="#dddddd"</code> on a slide to change the background color. All CSS color formats are supported.
-          </p>
-          <a href="#" class="navigate-down">
-            <img width="178" height="238" data-src="https://s3.amazonaws.com/hakim-static/reveal-js/arrow.png" alt="Down arrow">
-          </a>
-        </section>
-        <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png">
-          <h2>Image Backgrounds</h2>
-          <pre>
-            <code>&lt;section data-background="image.png"&gt;</code>
-          </pre>
-        </section>
-        <section data-background="https://s3.amazonaws.com/hakim-static/reveal-js/image-placeholder.png" data-background-repeat="repeat" data-background-size="100px">
-          <h2>Tiled Backgrounds</h2>
-          <pre>
-            <code style="word-wrap: break-word;">&lt;section data-background="image.png" data-background-repeat="repeat" data-background-size="100px"&gt;</code>
-          </pre>
-        </section>
-        <section data-background-video="https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.mp4,https://s3.amazonaws.com/static.slid.es/site/homepage/v1/homepage-video-editor.webm" data-background-color="#000000">
-          <div style="background-color: rgba(0, 0, 0, 0.9); color: #fff; padding: 20px;">
-            <h2>Video Backgrounds</h2>
-            <pre>
-              <code style="word-wrap: break-word;">&lt;section data-background-video="video.mp4,video.webm"&gt;</code>
-            </pre>
-          </div>
-        </section>
-        <section data-background="http://i.giphy.com/90F8aUepslB84.gif">
-          <h2>... and GIFs!</h2>
-        </section>
-      </section>
+</div>
+</div>
 
-      <section>
-        <h2>Tabular Tables</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Item</th>
-              <th>Value</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Apples</td>
-              <td>$1</td>
-              <td>7</td>
-              <tr>
-                <tr>
-                  <td>Lemonade</td>
-                  <td>$2</td>
-                  <td>18</td>
-                  <tr>
-                    <tr>
-                      <td>Bread</td>
-                      <td>$3</td>
-                      <td>2</td>
-                      <tr>
-          </tbody>
-        </table>
-      </section>
+<!-- Setup -->
 
-      <section>
-        <h2>Clever Quotes</h2>
-        <p>
-          These guys come in two forms, inline:
-          <q cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-            &ldquo;The nice thing about standards is that there are so many to choose from&rdquo;</q> and block:
-        </p>
-        <blockquote cite="http://searchservervirtualization.techtarget.com/definition/Our-Favorite-Technology-Quotations">
-          <p>&ldquo;For years there has been a theory that millions of monkeys typing at random on millions of typewriters would reproduce the entire works of Shakespeare. The Internet has proven this theory to be untrue.&rdquo;</p>
-          <p>More text</p>
-        </blockquote>
-      </section>
+<script src="../reveal.js/lib/js/head.min.js"></script>
+<script src="../reveal.js/js/reveal.js"></script>
 
-      <section>
-        <h2>Global State</h2>
-        <p>
-          Set
-          <code>data-state="something"</code> on a slide and
-          <code>"something"</code>
-          will be added as a class to the document element when the slide is open. This lets you apply broader style changes, like switching the page background.
-        </p>
-      </section>
+<script>
+  // Full list of configuration options available at:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    controls: true,
+    progress: true,
+    history: true,
+    center: true,
 
-      <section data-state="customevent">
-        <h2>State Events</h2>
-        <p>
-          Additionally custom events can be triggered on a per slide basis by binding to the
-          <code>data-state</code> name.
-        </p>
-        <pre>
-          <code class="javascript" data-trim contenteditable style="font-size: 18px;">
-            Reveal.addEventListener( 'customevent', function() { console.log( '"customevent" has fired' ); } );
-          </code>
-        </pre>
-      </section>
+    transition: 'concave', // none/fade/slide/convex/concave/zoom
 
-    </div>
+    // Optional reveal.js plugins
+    dependencies: [
+      { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: '../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: '../reveal.js/plugin/zoom-js/zoom.js', async: true },
+      { src: '../reveal.js/plugin/notes/notes.js', async: true }
+    ]
+  });
 
-  </div>
+</script>
 
-  <script src="../reveal.js/lib/js/head.min.js"></script>
-  <script src="../reveal.js/js/reveal.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script>
+  //Animations
+  (function () {
 
-  <script>
-    // Full list of configuration options available at:
-    // https://github.com/hakimel/reveal.js#configuration
-    Reveal.initialize({
-      controls: true,
-      progress: true,
-      history: true,
-      center: true,
+    Reveal.addEventListener( 'rf-animation', function() {
+      var svg = d3.select(".rf-animation").select("svg");
+      
+    } );
 
-      transition: 'convex', // none/fade/slide/convex/concave/zoom
+    Reveal.addEventListener( 'dj-animation', function() {
+      console.log( '"dj-animation" has fired' );
+    } );
 
-      // Optional reveal.js plugins
-      dependencies: [{
-        src: '../reveal.js/lib/js/classList.js',
-        condition: function() {
-          return !document.body.classList;
-        }
-      }, {
-        src: '../reveal.js/plugin/markdown/marked.js',
-        condition: function() {
-          return !!document.querySelector('[data-markdown]');
-        }
-      }, {
-        src: '../reveal.js/plugin/markdown/markdown.js',
-        condition: function() {
-          return !!document.querySelector('[data-markdown]');
-        }
-      }, {
-        src: '../reveal.js/plugin/highlight/highlight.js',
-        async: true,
-        condition: function() {
-          return !!document.querySelector('pre code');
-        },
-        callback: function() {
-          hljs.initHighlightingOnLoad();
-        }
-      }, {
-        src: '../reveal.js/plugin/zoom-js/zoom.js',
-        async: true
-      }, {
-        src: '../reveal.js/plugin/notes/notes.js',
-        async: true
-      }]
-    });
-  </script>
+
+  })();
+
+
+</script>
 
 </body>
 
