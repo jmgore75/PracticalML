@@ -14,11 +14,11 @@
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-	<link rel="stylesheet" href="css/reveal.css">
-	<link rel="stylesheet" href="css/theme/white.css" id="theme">
+	<link rel="stylesheet" href="../reveal.js/css/reveal.css">
+	<link rel="stylesheet" href="../reveal.js/css/theme/white.css" id="theme">
 
 	<!-- Code syntax highlighting -->
-	<link rel="stylesheet" href="lib/css/zenburn.css">
+	<link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
 	<style>
 	code {
 		background-color: lightgray;
@@ -32,7 +32,7 @@
 		var link = document.createElement('link');
 		link.rel = 'stylesheet';
 		link.type = 'text/css';
-		link.href = window.location.search.match(/print-pdf/gi) ? 'css/print/pdf.css' : 'css/print/paper.css';
+		link.href = window.location.search.match(/print-pdf/gi) ? '../reveal.js/css/print/pdf.css' : '../reveal.js/css/print/paper.css';
 		document.getElementsByTagName('head')[0].appendChild(link);
 	</script>
 
@@ -85,12 +85,21 @@ def test2(a, b, c):
 <!-- .element: class="fragment" -->
 
 ----
+### Random Forests
+
+Random forests are a mainstay of machine learning
+
+---
 <!-- .element: data-background="#ffff00" data-transition="zoom" -->
 
 ## Fun Fact
 
-Decision Jungles were developed by Microsoft, which produces a hardware peripheral
-which uses Random Forests constantly: the Kinect controller for XBox
+Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs)
+instead of binary trees.  This allows for much smaller models which generalize
+slightly better.  They were developed by Microsoft.
+
+The Kinect controller for XBox uses Random Forests to analyze what it's seeing.
+You do the math.  
 
 ----
 
@@ -186,14 +195,6 @@ which uses Random Forests constantly: the Kinect controller for XBox
 			</section>
 
 			<section>
-				<h2>Intergalactic Interconnections</h2>
-				<p>
-					You can link between slides internally,
-					<a href="#/2/3">like this</a>.
-				</p>
-			</section>
-
-			<section>
 				<h2>Global State</h2>
 				<p>
 					Set
@@ -216,30 +217,12 @@ which uses Random Forests constantly: the Kinect controller for XBox
 				</pre>
 			</section>
 
-			<section>
-				<h2>Take a Moment</h2>
-				<p>
-					Press B or . on your keyboard to pause the presentation. This is helpful when you're on stage and want to take distracting slides off the screen.
-				</p>
-			</section>
-
-			<section>
-				<h2>Much more</h2>
-				<ul>
-					<li>Right-to-left support</li>
-					<li><a href="https://github.com/hakimel/reveal.js#api">Extensive JavaScript API</a></li>
-					<li><a href="https://github.com/hakimel/reveal.js#auto-sliding">Auto-progression</a></li>
-					<li><a href="https://github.com/hakimel/reveal.js#parallax-background">Parallax backgrounds</a></li>
-					<li><a href="https://github.com/hakimel/reveal.js#keyboard-bindings">Custom keyboard bindings</a></li>
-				</ul>
-			</section>
-
 		</div>
 
 	</div>
 
-	<script src="lib/js/head.min.js"></script>
-	<script src="js/reveal.js"></script>
+	<script src="../reveal.js/lib/js/head.min.js"></script>
+	<script src="../reveal.js/js/reveal.js"></script>
 
 	<script>
 		// Full list of configuration options available at:
@@ -254,22 +237,22 @@ which uses Random Forests constantly: the Kinect controller for XBox
 
 			// Optional reveal.js plugins
 			dependencies: [{
-				src: 'lib/js/classList.js',
+				src: '../reveal.js/lib/js/classList.js',
 				condition: function() {
 					return !document.body.classList;
 				}
 			}, {
-				src: 'plugin/markdown/marked.js',
+				src: '../reveal.js/plugin/markdown/marked.js',
 				condition: function() {
 					return !!document.querySelector('[data-markdown]');
 				}
 			}, {
-				src: 'plugin/markdown/markdown.js',
+				src: '../reveal.js/plugin/markdown/markdown.js',
 				condition: function() {
 					return !!document.querySelector('[data-markdown]');
 				}
 			}, {
-				src: 'plugin/highlight/highlight.js',
+				src: '../reveal.js/plugin/highlight/highlight.js',
 				async: true,
 				condition: function() {
 					return !!document.querySelector('pre code');
@@ -278,10 +261,10 @@ which uses Random Forests constantly: the Kinect controller for XBox
 					hljs.initHighlightingOnLoad();
 				}
 			}, {
-				src: 'plugin/zoom-js/zoom.js',
+				src: '../reveal.js/plugin/zoom-js/zoom.js',
 				async: true
 			}, {
-				src: 'plugin/notes/notes.js',
+				src: '../reveal.js/plugin/notes/notes.js',
 				async: true
 			}]
 		});
