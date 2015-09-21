@@ -82,7 +82,7 @@
     </aside>
   </section>
 
-  <section id="instructions">
+  <section id="instructions" data-background="#996699" data-background-transition="zoom">
     <h3>Presentation instructions</h3>
     <ul>
       <li>Press <kbd>ESC</kbd> to enter the slide overview</li>
@@ -95,13 +95,107 @@
   </section>
 </section>
 
-<section id="rf">
+<section id="presentation">
+  <section>
+  </section>
+  <section id="focus">
+    <ul>We will be focusing on
+      <li>General </li>
+      <li>Supervised learning</li>
+      <li>Ordinary tabular data</li>
+    </ul>
+    <ul class="fragment">We won't be focusing on
+      <li>Unsupervised or semi-supervised learning</li>
+    </ul>
+    <aside class="notes">
+
+    </aside>
+  </section>
+</section>
+
+
+<section id="environment">
+  <section>
+    <hd>Your machine learning environment</h2>
+  </section>
+</section>
+
+<section id="algorithms">
+  <section id="no-free-lunch">
+    <h2>No Free Lunch Theorem</h2>
+    <p>The <a class="cite" href="https://en.wikipedia.org/wiki/No_free_lunch_theorem">no free lunch theorem</a> implies that no one algorithm will be suitable for all problems and that any algorithm could be the right one.</p>
+    <p><em class="fragment">But...</em><span class="fragment"> in practice only a handful of algorithms are really worth considering</span></p>
+
+    <aside class="notes">
+    </aside>
+  </section>
+
+  <section id="essential-algorithms">
+    <h3>The algorithms that really matter</h3>
+    <ul>
+      <li>Random Forests</li>
+      <li>Neural Networks</li>
+    </ul>
+
+    <h3>The algorithms that are worth trying anyway</h3>
+    <ul>
+      <li>Linear regression</li>
+      <li>Neural Networks</li>
+    </ul>
+    <aside class="notes">
+    </aside>
+  </section>
+</section>
+
+<section id="random-forests" data-background="#ff0000">
   <section>
     <h2>Random Forests</h2>
 
     <aside class="notes">
       <p></p>
       <p></p>
+    </aside>
+  </section>
+
+  <section id="decision-trees">
+    <h2>Decision Trees</h2>
+
+    <aside class="notes">
+      <p></p>
+      <p></p>
+    </aside>
+  </section>
+
+  <section id="bagging">
+    <h2>Bagging</h2>
+
+    <aside class="notes">
+      <p></p>
+      <p></p>
+    </aside>
+  </section>
+
+  <section id="quick-model">
+    <p>If I could only train one model, it would be this one:</p>
+
+<pre><code class="lang-py" data-trim data-noescape style="font-size: 18px;">
+from sklearn.ensemble import ExtraTreesClassifier
+
+# Create and fit the model
+clf = ExtraTreesClassifier(n_estimators:1024, <span class="fragment strike">class_weight:"subsample"</span>)
+clf.fit(train_features, train_labels)
+
+# Verify performance
+print clf.score(cv_features, cv_labels)
+
+## To make predictions
+clf.predict(data)
+</code></pre>
+
+    <aside class="notes">
+      <p>In fact if I was really in a pinch and could train only one model, it would be an ExtraTreesClassifier, because it will almost certainly give me an accurate result on without needing to preprocess the data or fuss with the hyperparameters.  </p>
+      <p>I set the number of estimators to a high number, since that will give us more accuracy without significant risk of overfitting.</p>
+      <p>I would usually set the class_weight mode to "subsample" to ensure that the model treats all classes as equally important, which helps prevent an overrepresented class from skewing the model.  If that isn't appropriate then don't use it.</p>
     </aside>
   </section>
 
@@ -132,14 +226,20 @@
     </aside>
   </section>
 
-  <section id="decision-jungles" data-background="#ffff00" data-background-transition="zoom">
-    <h2>Fun Fact:</h2>
-    <p>Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs)
-    instead of binary trees.  This allows for much smaller models which generalize
-    slightly better.  They were developed by Microsoft.</p>
-    <p>The Kinect controller for XBox uses Random Forests to analyze what it's seeing.
-    You do the math.</p>
+  <section id="bagging-effectiveness" data-background="#ffff00" data-background-transition="zoom">
+    <h2>Do the math:</h2>
+    <p>Bagging is <a class="cite" href="http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf">most effective</a> on unstable algorithms that overfit easily.</p>
+    <p>A decision tree given sufficient depth will perfectly fit any input.</p>
     <aside class="notes">
+    </aside>
+  </section>
+
+  <section id="decision-jungles" data-background="#ffff00" data-background-transition="zoom">
+    <h2>Do the math:</h2>
+    <p>Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs) instead of binary trees.  This allows for much smaller models which generalize slightly better.  </p>
+    <p>They were developed by Microsoft, whose XBox Kinect controller uses Random Forests to analyze what it's seeing.</p>
+    <aside class="notes">
+      <p></p>
     </aside>
   </section>
 </section>
@@ -161,17 +261,21 @@ def test2(a, b, c):
   </div>
 </section>
 
-<section data-state="customevent">
-  <h2>State Events</h2>
-  <p>
-    Additionally custom events can be triggered on a per slide basis by binding to the
-    <code>data-state</code> name.
-  </p>
-<pre><code class="javascript" data-trim contenteditable style="font-size: 18px;">
-Reveal.addEventListener( 'customevent', function() {
-  console.log( '"customevent" has fired' );
-} );
-</code></pre>
+<section id="end">
+  <section>
+  </section>
+  <section id="presentation-tools">
+    <ul></ul>
+    <ul>
+      <li><a href="">Reveal.js</a> javascript presentation framework</li>
+      <li><a href="http://paletton.com/">Palleton</a> color pallete tool</li>
+      <li><a href="">d3.js</a> color pallete tool</li>
+    </ul>
+
+    <aside class="notes">
+
+    </aside>
+  </section>
 </section>
 
 </div>
@@ -198,12 +302,16 @@ Reveal.addEventListener( 'customevent', function() {
       { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
       { src: '../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
       { src: '../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: '../reveal.js/plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: '../reveal.js/plugin/highlight/highlight.js', async: true, condition: function() {
+          return !!document.querySelector( 'pre code' );
+        }, callback: function() {
+          hljs.initHighlightingOnLoad();
+        }
+      },
       { src: '../reveal.js/plugin/zoom-js/zoom.js', async: true },
       { src: '../reveal.js/plugin/notes/notes.js', async: true }
     ]
   });
-
 </script>
 
 <script src="../js/d3.min.js"></script>
