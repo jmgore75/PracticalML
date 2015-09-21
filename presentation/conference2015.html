@@ -16,7 +16,7 @@
 
   <link rel="stylesheet" href="../reveal.js/css/reveal.css">
   <link rel="stylesheet" href="../reveal.js/css/theme/white.css" id="theme">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
 
   <!-- Code syntax highlighting -->
   <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
@@ -85,7 +85,7 @@
   </section>
 </section>
 
-<section>
+<section id="rf">
   <section>
     <h2>Random Forests</h2>
 
@@ -122,7 +122,7 @@
     </aside>
   </section>
 
-  <section data-background="#ffff00" data-background-transition="zoom">
+  <section id="decision-jungles" data-background="#ffff00" data-background-transition="zoom">
     <h2>Fun Fact:</h2>
     <p>Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs)
     instead of binary trees.  This allows for much smaller models which generalize
@@ -196,14 +196,14 @@ Reveal.addEventListener( 'customevent', function() {
 
 </script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+<script src="../js/d3.min.js"></script>
 <script>
   //Animations
   (function () {
 
     Reveal.addEventListener( 'rf-animation', function() {
       var svg = d3.select(".rf-animation").select("svg");
-      
+
     } );
 
     Reveal.addEventListener( 'dj-animation', function() {
