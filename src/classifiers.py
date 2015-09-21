@@ -44,7 +44,7 @@ def tree_models():
     param_sets = grid_search.ParameterGrid({
         {"n_estimators": [16, 64, 256, 1024], "class_weight":["subsample", None]})
     yield ensemble.RandomForestClassifier(n_jobs=-1), param_sets
-    yield tree.DecisionTreeClassifier(n_jobs=-1), param_sets
+    yield ensemble.ExtraTreesClassifier(n_jobs=-1), param_sets
     yield ensemble.AdaBoostClassifier(n_jobs=-1), param_sets
 
 

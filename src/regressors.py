@@ -28,7 +28,7 @@ def tree_models():
     param_sets = grid_search.ParameterGrid(
         {"n_estimators": [16, 64, 256, 1024]})
     yield ensemble.RandomForestRegressor(n_jobs=-1), param_sets
-    yield tree.DecisionTreeRegressor(n_jobs=-1), param_sets
+    yield ensemble.ExtraTreesRegressor(n_jobs=-1), param_sets
     yield ensemble.AdaBoostRegressor(n_jobs=-1), param_sets
 
 

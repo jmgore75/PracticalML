@@ -56,7 +56,7 @@ There are four major types of machine learning problems:
 - Supervised: make predictions
   - Classification: predict from a sample of labels
   - Regression: predict a numeric value
-  - Ranking:
+  - Ranking: predict an order for data 
 - Unsupervised: identify structure
   - Clustering: find groups within your data
   - Density estimation: identify distribution of samples in the feature domain
