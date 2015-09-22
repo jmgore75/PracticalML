@@ -3,125 +3,178 @@ var diagonal = d3.svg.diagonal()
     return [d.y, d.x];
   });
 
-function makeNode(pos, peers, depth, levels, pBreak) {
+//shuffle an array
+function shuffle(o){
+  for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+  return o;
+}
+
+function pickOneOrMoreInOrder(options, pick) {
+  if (pick < options) {
+    throw "Must have more picks than options";
+  }
+  var temp = [];
+  for (i = 0; i < options; i++) {
+    temp.push(i);
+  }
+  while (temp.length < pick) {
+    temp.push(Math.floor(options * Math.random()));
+  }
+  shuffle(temp);
+  var map = [];
+  return temp.map(function (i) {
+    var j = map.indexOf(i);
+    if (j < 0) {
+      j = map.length;
+      map.push(i);
+    }
+    return j;
+  });
+}
+
+function Edge(source, target) {
+  source.targets.push(target);
+  target.sources.push(source);
+  this.source = source;
+  this.target = target;
+}
+
+function Node(pos, peers, depth, levels, pBreak) {
   pBreak = pBreak || 0;
   var node = {};
-  node.depth = depth;
-  node.pos = pos;
-  node.parents = [];
-  node.children = [];
-  node.xpos = (2 * pos + 1) / (2 * peers);
-  node.ypos = (2 * depth + 1) / (2 * levels);
-  node.leaf = ((depth + 1) >= levels || Math.random() < pBreak);
+  this.depth = depth;
+  this.pos = pos;
+  this.sources = [];
+  this.targets = [];
+  this.xpos = (2 * pos + 1) / (2 * peers);
+  this.ypos = (2 * depth + 1) / (2 * levels);
+  this.leaf = ((depth + 1) >= levels || Math.random() < pBreak);
   return node;
 }
 
-function makeEdge(parent, child) {
-  parent.children.push(child);
-  child.parents.push(parent);
+function Graph(levels, classes) {
+  this.n = 0;
+  this.classes = classes;
+  this.levels = levels || 4;
+  this.root = this.makeNode(0, 1, 0);
+  this.lastLevel = [this.root];
+  this.depth = 1;
+  this.steps = [{source:this.root, nodes:this.lastLevel, edges:[]}];
 }
-
-function randomTree(depth, pBreak) {
-  depth = depth || 4;
-  pBreak = pBreak || 0;
-
-  var id = 0;
-  var nodes = [];
-  var root = makeNode(0, 1, 0, depth);
-  nodes.push(root);
-
-  function treeNode(node, peers) {
-    node.id = id++;
-    nodes.push(node);
-    if (!node.leaf) {
-      var child = makeNode(2 * node.pos, peers * 2, node.depth + 1, depth, pBreak);
-      makeEdge(node, child);
-      treeNode(child);
-      child = makeNode(2 * node.pos + 1, peers * 2, node.depth + 1, depth, pBreak);
-      makeEdge(node, child);
-      treeNode(child);
+Graph.prototype = {
+  makeNode : function(pos, peers, pBreak) {
+    var node = new Node(pos, peers, this.depth, this.levels, pBreak);
+    node.id = this.n++;
+    return node;
+  },
+  makeEdge : function (source, target) {
+    var edge = new Edge(source, target);
+    edge.id = this.n++;
+    return edge;
+  },
+  treeLevel : function(pBreak) {
+    if (!this.lastLevel.length) {
+      throw "No prior levels";
     }
-  }
-  treeNode(root, 1);
 
-  return nodes;
-}
-
-function randomDag(depth, width, classes) {
-  depth = depth || 4;
-  width = width || 10;
-  classes = classes || width;
-  if (classes > width) {
-    throw "Number of classes is greater than DAG width";
-  }
-
-  var id = 0;
-  var nodes = [];
-  var root = makeNode(0, 1, 0, depth);
-  root.id = id++;
-  nodes.push(root);
-
-  var prior = [root];
-
-  var node, rem;
-  var i, j;
-  for (var d = 1; d < depth; d++) {
+    pBreak = pBreak || 0;
     var level = [];
-    var tree = false;
-    var n = prior.length * 2;
-    if (d + 1 === depth) {
-      n = classes;
-    } else if (n > width) {
-      n = width;
-    } else {
-      tree = true;
-    }
-    if (tree) {
-      for (i = 0; i < prior.length; i++) {
-        j = 2 * i;
-        node = makeNode(j, n, d, depth);
-        node.id = id++;
-        makeEdge(prior[i], node);
-        nodes.push(node);
-        level.push(node);
-        j++;
-        node = makeNode(j, n, d, depth);
-        node.id = id++;
-        makeEdge(prior[i], node);
-        nodes.push(node);
-        level.push(node);
-      }
-    } else {
-      for (i = 0; i < n; i++) {
-        node = makeNode(i, n, d, depth);
-        level.push(node);
-      }
-      rem = prior.slice(0);
-      for (i = 0; i < n; i++) {
-        node = rem.splice(Math.floor(rem.length * Math.random()));
-        makeEdge(node, level[i]);
-        j = Math.floor((n - 1) * Math.random());
-        if (j === i) {
-          j++;
+    var n = this.lastLevel.length * 2;
+
+    this.depth++;
+    var source, node, step, i, j;
+    for (i = 0; i < this.lastLevel.length; i++) {
+      source = this.lastLevel[i];
+      step = {source:source, nodes:[], edges:[]};
+      //TODO setup classes
+      for (j = 0; j < 2; j++) {
+        node = this.makeNode(2 * i + j, n, pBreak);
+        step.nodes.push(node);
+        step.edges.push(this.makeEdge(source, node));
+        if (node.leaf) {
+          //node clases
+        } else {
+          level.push(node);
         }
-        makeEdge(node, level[j]);
       }
-      level = [];
-      for (i = 0; i < prior.length; i++) {
-        rem = prior[i].children;
-        for (j = 0; j < rem.length; j++) {
-          node = rem[j];
-          if (!node.id) {
-            node.id = id++;
-            level.push(node);
+      this.steps.push(step);
+    }
+    this.lastLevel = level;
+  },
+  dagLevel: function(width) {
+    if (width < 2) {
+      throw "Level is too narrow";
+    }
+    if (!this.lastLevel.length) {
+      throw "No prior levels";
+    }
+    if (width > this.lastLevel.length * 2) {
+      throw "Level is too wide";
+    }
+
+
+    this.depth++;
+    var source, node, step, i, j;
+    var temp = [];
+    for (i = 0; i < width; i++) {
+      temp.push(i);
+    }
+    while (temp.length < this.lastLevel.length * 2) {
+      temp.push(Math.floor(width * Math.random()));
+    }
+    shuffle(temp);
+    var level = [];
+    for (i = 0; i < temp.length; i++) {
+      j = level.indexOf(temp[i]);
+      if (j < 0) {
+        j = level.length;
+        level.push(temp[i]);
+      }
+      temp[i] = j;
+    }
+
+    level = [];
+    var nextPrior = [];
+    var k;
+    for (i = 0; i < this.lastLevel.length; i++) {
+      source = this.lastLevel[i];
+      step = {source:source, nodes:[], edges:[]};
+      for (j = 0; j < 2; j++) {
+        k = temp[2*i + j];
+        while (k >= level.length) {
+          node = this.makeNode(k, n);
+          step.nodes.push(node);
+          level.push(node);
+          if (!node.leaf) {
+            nextPrior.push(node);
           }
         }
+        node = level[k];
+        step.edges.push(this.makeEdge(source, node));
+      }
+      this.steps.push(step);
+    }
+    this.lastLevel = nextPrior;
+  },
+  randomTree : function (pBreak) {
+    while (this.depth < this.levels) {
+      this.treeLevel(pBreak);
+    }
+  },
+  randomDag : function (width) {
+    width = width || 10;
+    classes = classes || width;
+    while (this.depth < this.levels) {
+      if (this.depth + 1 === this.levels) {
+        this.dagLevel(this.classes);
+      } else if (this.lastLevel.length * 2 > width) {
+        this.dagLevel(width);
+      } else {
+        this.treeLevel();
       }
     }
-    prior = level;
   }
-  return nodes;
-}
+};
 
 function nodeDisplay(d) {
   return d.leaf ? "red" : "blue";
@@ -133,25 +186,22 @@ function getId(d) {
 
 var duration = 250;
 
-function displayDag(svg, nodes) {
-  var root = nodes[0];
+function displayGraph(svg, graph, duration) {
+  var job = {
+    interrupt: false,
+  };
 
-  //show root node
-  svg.selectAll("g.node")
-    .data(nodes[0], getId)
-    .select("circle")
-      .attr("r", 4.5)
-      .style("fill", nodeDisplay);
+  //Add targets of a node
+  function update(step) {
+    var existingNode = svg.selectAll("g.node");
 
-  //Add children of a node
-  function update(source) {
-    var node = svg.selectAll("g.node")
-      .data(source.children, getId);
+    var node = existingNode
+      .data(step.nodes, getId);
 
     var nodeEnter = node.enter().append("svg:g")
       .attr("class", "node")
       .attr("transform", function(d) {
-        return "translate(" + source.y + "," + source.x + ")";
+        return "translate(" + step.source.y + "," + step.source.x + ")";
       });
 
     nodeEnter.append("svg:circle")
@@ -165,45 +215,48 @@ function displayDag(svg, nodes) {
       });
 
     nodeUpdate.select("circle")
-      .attr("r", 4.5)
-      .style("fill", nodeDisplay);
-
-    var edges = source.children.map(function(child) {
-      return {
-        id: node.id + "-" + child.id,
-        source: source,
-        target: child
-      };
-    });
+      .attr("r", 4.5);
 
     // Update the links…
-    var link = vis.selectAll("path.link")
-      .data(edges, getId);
+    var link = svg.selectAll("path.link")
+      .data(step.edges, getId);
 
     // Enter any new links at the parent's previous position.
-    link.enter().insert("svg:path", "g")
+    link.enter().insert("path", "g")
       .attr("class", "link")
       .attr("d", function(d) {
         return diagonal({
-          source: d.source,
+          source: node.data().d.source,
           target: d.source
         });
-      })
-      .transition()
-      .duration(duration)
-      .attr("d", diagonal);
+      });
 
     // Transition links to their new position.
     link.transition()
       .duration(duration)
       .attr("d", diagonal);
 
+    return nodeUpdate;
   }
 
+  var transition;
   //Update each on a timer
-  nodes.forEach(function (node, i) {
+  graph.steps.forEach(function (step) {
+    if (job.interrupt) {
+      selection
+        .interrupt() // cancel the current transition
+        .transition();
+    }
+    var source = d3.select(step.source);
+    source.transition.
+    function
+    transition = transition ? transition.each("end", function () {
+      update(node);
+    }) : update(node)
     setInterval(function() {
       update(node);
-    }, duration); 
+    }, duration);
   });
+
+  return job;
 }

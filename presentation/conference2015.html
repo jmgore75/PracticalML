@@ -308,12 +308,19 @@ clf.predict(data)
 </script>
 
 <script src="../js/d3.min.js"></script>
+<script src="../js/dt.js"></script>
 <script>
   //Animations
   (function () {
+    var dtGraph = new Graph(5, 3);
+    dtGraph.randomTree(0.1);
+
+    var djGraph = new Graph(5, 3); 
+    djGraph.randomDag()
 
     Reveal.addEventListener( 'rf-animation', function() {
-      var svg = d3.select(".rf-animation").select("svg");
+      var svg = d3.select(".rf-animation svg");
+
 
     } );
 
