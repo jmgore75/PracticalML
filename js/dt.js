@@ -104,6 +104,8 @@ Graph.prototype = {
     edge.id = this.n++;
     return edge;
   },
+  splitDuration : 100,
+  layerDuration : 500,
   treeLevel : function(pBreak) {
     if (!this.lastLevel.length) {
       throw "No prior levels";
@@ -119,7 +121,7 @@ Graph.prototype = {
       source = this.lastLevel[i];
       step = {
         source:source,
-        duration:250,
+        duration:this.splitDuration,
         nodes:step.nodes.slice(0),
         edges:step.edges.slice(0)
       };
@@ -181,6 +183,7 @@ Graph.prototype = {
       source = this.lastLevel[i];
       step = {
         source:source,
+        duration: this.splitDuration,
         nodes:step.nodes.slice(0),
         edges:step.edges.slice(0)
       };
@@ -230,28 +233,32 @@ Graph.prototype = {
 var classPallete = d3.scale.category10();
 
 function nodeDisplay(d) {
-  return d.leaf ? classPallete[d.class] : "lightsteelblue";
+  return d.leaf ? classPallete(d.class || 0) : "lightsteelblue";
 }
 
 function getId(d) {
   return d.id;
 }
 
-var duration = 250;
-
-function displayGraph(svg, graph) {
+function displayGraph(svg, graph, controller) {
+  if (!controller) {
+    controller = svg.transition().duration(1000);
+  }
+    
   var job = {
     interrupt: false,
   };
+  var dotr = 5;
+  var sw = 1.5;
+
   var h = svg.attr("height");
   var w = svg.attr("width");
-  var s = Math.min(h / graph.levels, w / graph.maxWidth) / 15;
+  var s = Math.min(h / graph.levels, w / graph.maxWidth) / (3 * dotr);
 
   //Add targets of a node
   function update(step, controller) {
-    controller = controller || svg;
     controller = controller.transition()
-      .duration(step.duration);
+      .duration(step.duration || 0);
 
     var node = svg.selectAll("g.node")
       .data(step.nodes, getId);
@@ -263,9 +270,19 @@ function displayGraph(svg, graph) {
         return "translate(" + source.x * w + "," + source.y * h + ")";
       });
 
-    nodeEnter.append("svg:circle")
-      .attr("r", 1e-6)
-      .style("fill", nodeDisplay);
+    nodeEnter.each(function (d) {
+      var e = d3.select(this);
+      if (d.leaf) {
+        e.append("svg:rect")
+          .attr("width", 1e-6)
+          .attr("height", 1e-6)
+          .style("fill", nodeDisplay);
+      } else {
+        e.append("svg:circle")
+          .attr("r", 1e-6)
+          .style("fill", nodeDisplay);
+      }
+    });
 
     var nodeUpdate = node.transition()
       .duration(step.duration || 0)
@@ -274,13 +291,25 @@ function displayGraph(svg, graph) {
       });
 
     nodeUpdate.select("circle")
-      .attr("r", 5 * s);
+      .attr("r", dotr * s)
+      .style("opacity", 1);
 
-    node.exit().transition()
-      .duration(step.duration || 0)
-      .select("circle")
-      .style("opacity", 0)
-      .remove();
+    nodeUpdate.select("rect")
+      .attr("width", 2 * dotr * s)
+      .attr("height", 2 * dotr * s)
+      .attr("x", -dotr * s)
+      .attr("y", -dotr * s)
+      .style("opacity", 1);
+
+    var nodeExit = node.exit().transition()
+      .duration(step.duration || 0);
+
+    nodeExit
+      .select("circle, rect")
+      .style("opacity", 0);
+
+    nodeExit.remove();
+
 
     // Update the links…
     var link = svg.selectAll("path.link")
@@ -301,11 +330,13 @@ function displayGraph(svg, graph) {
       s.push(d.target.y * h);
       s.push("z");
       return s.join(" ");
-    }
+    };
 
     // Enter any new links at the parent's previous position.
     link.enter().insert("path", "g")
       .attr("class", "link")
+      .style("stroke-width", sw * s)
+      .style("opacity", 1)
       .attr("d", function(d) {
         var source = step.source || d.source;
         return diagonal({
@@ -314,10 +345,11 @@ function displayGraph(svg, graph) {
         });
       });
 
-      // Transition links to their new position.
-      link.transition()
-        .duration(duration)
-        .attr("d", diagonal);
+    // Transition links to their new position.
+    link.transition()
+      .duration(step.duration || 0)
+      .attr("d", diagonal)
+      .style("opacity", 1);
 
     link.exit().transition()
       .duration(step.duration || 0)
@@ -327,19 +359,12 @@ function displayGraph(svg, graph) {
     return controller;
   }
 
-  var controller = svg.transition().duration(0);
   //Update each on a timer
   graph.steps.forEach(function (step) {
-    if (job.interrupt) {
-      controller
-        .interrupt() // cancel the current transition
-        .transition();
-      controller = update(graph.steps[graph.steps.length + 1]);
-    }
     controller.each(function () {
-      controller = update(step);
+      controller = update(step, controller);
     });
   });
 
-  return job;
+  return controller;
 }

@@ -47,11 +47,11 @@
       left: 0;
   }
 
-  .node circle {
+  .node circle, .node rect {
     cursor: pointer;
     fill: #fff;
-    stroke: steelblue;
-    stroke-width: 1.5px;
+    stroke: #ccc;
+    stroke-width: 1px;
   }
 
   path.link {
@@ -320,22 +320,28 @@ clf.predict(data)
 <script>
   //Animations
   (function () {
-    var dtGraph = new Graph(1, 5, 3);
+    var dtGraph = new Graph(1, 5, 2);
     dtGraph.randomTree(0.1);
 
-    var djGraph = new Graph(1, 5, 3);
+    var djGraph = new Graph(1, 5, 2);
     djGraph.randomDag()
 
-    Reveal.addEventListener( 'dt-animation', function() {
-      var svg = d3.select(".dt-animation svg");
-      var job = displayGraph(svg, dtGraph);
+    function runGraph(svg, graph) {
+      var t = displayGraph(svg, dtGraph);
+      t.transition().duration(5000).each("end", function () {
+        runGraph(svg, graph);
+      });
+    }
 
+    Reveal.addEventListener( 'dt-animation', function() {
+      d3.select("svg").transition();
+      var svg = d3.select(".dt-animation svg");
+      runGraph(svg, dtGraph);
     } );
 
     Reveal.addEventListener( 'dj-animation', function() {
       console.log( '"dj-animation" has fired' );
     } );
-
 
   })();
 
