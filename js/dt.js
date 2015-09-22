@@ -1,8 +1,3 @@
-var diagonal = d3.svg.diagonal()
-  .projection(function(d) {
-    return [d.y, d.x];
-  });
-
 //shuffle an array
 Array.prototype.shuffle = function () {
   if (this.length) {
@@ -95,6 +90,7 @@ function Graph(rootWidth, levels, classes) {
   }
   this.depth++;
   this.lastLevel = level;
+  this.maxWidth = rootWidth;
   this.steps.push({duration:250, nodes:level, edges:[]});
 }
 Graph.prototype = {
@@ -141,6 +137,9 @@ Graph.prototype = {
       this.steps.push(step);
     }
     this.depth++;
+    if (n > this.maxWidth) {
+      this.maxWidth = n;
+    }
     this.lastLevel = level;
   },
   dagLevel: function(width) {
@@ -204,6 +203,9 @@ Graph.prototype = {
       this.steps.push(step);
     }
     this.depth++;
+    if (width > this.maxWidth) {
+      this.maxWidth = width;
+    }
     this.lastLevel = nextPrior;
   },
   randomTree : function (pBreak) {
@@ -241,10 +243,9 @@ function displayGraph(svg, graph) {
   var job = {
     interrupt: false,
   };
-  var s = 1;
-  var h = 400;
-  var w = 300;
-  svg.attr("width", w).attr("height", h);
+  var h = svg.attr("height");
+  var w = svg.attr("width");
+  var s = Math.min(h / graph.levels, w / graph.maxWidth) / 15;
 
   //Add targets of a node
   function update(step, controller) {
@@ -252,14 +253,14 @@ function displayGraph(svg, graph) {
     controller = controller.transition()
       .duration(step.duration);
 
-    var node = svg.selectAll("g.node").existingNode
+    var node = svg.selectAll("g.node")
       .data(step.nodes, getId);
 
     var nodeEnter = node.enter().append("svg:g")
       .attr("class", "node")
       .attr("transform", function(d) {
         var source = step.source || d;
-        return "translate(" + source.y * h + "," + source.x * w + ")";
+        return "translate(" + source.x * w + "," + source.y * h + ")";
       });
 
     nodeEnter.append("svg:circle")
@@ -269,11 +270,11 @@ function displayGraph(svg, graph) {
     var nodeUpdate = node.transition()
       .duration(step.duration || 0)
       .attr("transform", function(d) {
-        return "translate(" + d.y * h + "," + d.x * w+ ")";
+        return "translate(" + d.x * w + "," + d.y * h + ")";
       });
 
     nodeUpdate.select("circle")
-      .attr("r", 4.5 * s);
+      .attr("r", 5 * s);
 
     node.exit().transition()
       .duration(step.duration || 0)
@@ -284,6 +285,23 @@ function displayGraph(svg, graph) {
     // Update the links…
     var link = svg.selectAll("path.link")
       .data(step.edges, getId);
+
+/*
+    var diagonal = d3.svg.diagonal()
+      .projection(function(d) {
+        return [d.x * w, d.y * h];
+      });
+      */
+    var diagonal = function (d) {
+      var s = [];
+      s.push("M");
+      s.push(d.source.x * w);
+      s.push(d.source.y * h);
+      s.push(d.target.x * w);
+      s.push(d.target.y * h);
+      s.push("z");
+      return s.join(" ");
+    }
 
     // Enter any new links at the parent's previous position.
     link.enter().insert("path", "g")
@@ -296,27 +314,27 @@ function displayGraph(svg, graph) {
         });
       });
 
+      // Transition links to their new position.
+      link.transition()
+        .duration(duration)
+        .attr("d", diagonal);
+
     link.exit().transition()
       .duration(step.duration || 0)
       .style("opacity", 0)
       .remove();
 
-    // Transition links to their new position.
-    link.transition()
-      .duration(duration)
-      .attr("d", diagonal);
-
     return controller;
   }
 
-  var controller = update(graph.initial);
+  var controller = svg.transition().duration(0);
   //Update each on a timer
   graph.steps.forEach(function (step) {
     if (job.interrupt) {
       controller
         .interrupt() // cancel the current transition
         .transition();
-
+      controller = update(graph.steps[graph.steps.length + 1]);
     }
     controller.each(function () {
       controller = update(step);

@@ -46,6 +46,20 @@
       top: 10px;
       left: 0;
   }
+
+  .node circle {
+    cursor: pointer;
+    fill: #fff;
+    stroke: steelblue;
+    stroke-width: 1.5px;
+  }
+
+  path.link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 1.5px;
+  }
+
   </style>
 
   <!-- Printing and PDF exports -->
@@ -147,7 +161,7 @@
   </section>
 </section>
 
-<section id="random-forests" data-background="#ff0000">
+<section id="random-forests">
   <section>
     <h2>Random Forests</h2>
 
@@ -161,9 +175,8 @@
     <h2>Decision Trees</h2>
 
     <div class="col-md-6">
-      <div class="svg-container col-md-6">
-        <svg class="svg-content-responsive" preserveAspectRatio="xMinYMin meet" viewBox="0 0 600 400">
-        </svg>
+      <div class="svg-container">
+        <svg width="450" height="600"></svg>
       </div>
     </div>
     <div class="col-md-6">
