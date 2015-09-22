@@ -157,9 +157,18 @@
     </aside>
   </section>
 
-  <section id="decision-trees">
+  <section id="decision-trees" data-state="dt-animation">
     <h2>Decision Trees</h2>
 
+    <div class="col-md-6">
+      <div class="svg-container col-md-6">
+        <svg class="svg-content-responsive" preserveAspectRatio="xMinYMin meet" viewBox="0 0 600 400">
+        </svg>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <p>Here is a decision tree</p>
+    </div>
     <aside class="notes">
       <p></p>
       <p></p>
@@ -196,20 +205,6 @@ clf.predict(data)
       <p>In fact if I was really in a pinch and could train only one model, it would be an ExtraTreesClassifier, because it will almost certainly give me an accurate result on without needing to preprocess the data or fuss with the hyperparameters.  </p>
       <p>I set the number of estimators to a high number, since that will give us more accuracy without significant risk of overfitting.</p>
       <p>I would usually set the class_weight mode to "subsample" to ensure that the model treats all classes as equally important, which helps prevent an overrepresented class from skewing the model.  If that isn't appropriate then don't use it.</p>
-    </aside>
-  </section>
-
-  <section data-state="rf-animation">
-    <div class="svg-container">
-      <svg class="svg-content-responsive" preserveAspectRatio="xMinYMin meet" viewBox="0 0 600 400">
-      </svg>
-    </div>
-    <div class="">
-
-    </div>
-    <aside class="notes">
-      <p></p>
-      <p></p>
     </aside>
   </section>
 
@@ -312,15 +307,15 @@ clf.predict(data)
 <script>
   //Animations
   (function () {
-    var dtGraph = new Graph(5, 3);
+    var dtGraph = new Graph(1, 5, 3);
     dtGraph.randomTree(0.1);
 
-    var djGraph = new Graph(5, 3); 
+    var djGraph = new Graph(1, 5, 3);
     djGraph.randomDag()
 
-    Reveal.addEventListener( 'rf-animation', function() {
-      var svg = d3.select(".rf-animation svg");
-
+    Reveal.addEventListener( 'dt-animation', function() {
+      var svg = d3.select(".dt-animation svg");
+      var job = displayGraph(svg, dtGraph);
 
     } );
 
