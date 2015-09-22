@@ -22,29 +22,6 @@ function idArray(count) {
   return a;
 }
 
-function pickOneOrMoreInOrder(options, pick) {
-  if (pick < options) {
-    throw "Must have more picks than options";
-  }
-  var temp = [];
-  for (i = 0; i < options; i++) {
-    temp.push(i);
-  }
-  while (temp.length < pick) {
-    temp.push(Math.floor(options * Math.random()));
-  }
-  temp.shuffle();
-  var map = [];
-  return temp.map(function (i) {
-    var j = map.indexOf(i);
-    if (j < 0) {
-      j = map.length;
-      map.push(i);
-    }
-    return j;
-  });
-}
-
 function Edge(source, target) {
   this.source = source;
   this.target = target;
@@ -76,187 +53,39 @@ Node.prototype = {
   }
 };
 
-function Graph(rootWidth, levels, classes) {
-  this.n = 0;
-  this.steps = [];
-
-  rootWidth = rootWidth || 1;
-  this.depth = 0;
-  this.levels = levels || 4;
-  this.classes = classes || 2;
-  var level = [];
-  for (var i = 0; i < rootWidth; i++) {
-    level.push(this.makeNode(i, rootWidth, 0));
-  }
-  this.depth++;
-  this.lastLevel = level;
-  this.maxWidth = rootWidth;
-  this.steps.push({duration:250, nodes:level, edges:[]});
+function Step(graph, duration, source) {
+  this.graph = graph;
+  this.duration = duration || 0;
+  this.source = source || undefined;
+  this.nodes = [];
+  this.edges = [];
 }
-Graph.prototype = {
-  makeNode : function(pos, peers, pBreak) {
-    var node = new Node(pos, peers, this.depth, this.levels, pBreak);
-    node.id = this.n++;
-    return node;
+Step.prototype = {
+  initialize : function (prior) {
+    this.nodes = prior && prior.nodes ? prior.nodes.slice(0) : [];
+    this.edges = prior && prior.edges ? prior.edges.slice(0) : [];
   },
-  makeEdge : function (source, target) {
-    var edge = new Edge(source, target);
-    edge.id = this.n++;
-    return edge;
-  },
-  splitDuration : 100,
-  layerDuration : 500,
-  treeLevel : function(pBreak) {
-    if (!this.lastLevel.length) {
-      throw "No prior levels";
-    }
-
-    pBreak = pBreak || 0;
-    var level = [];
-    var n = this.lastLevel.length * 2;
-
-    var source, node, step, i, j;
-    step = this.steps[this.steps.length-1];
-    for (i = 0; i < this.lastLevel.length; i++) {
-      source = this.lastLevel[i];
-      step = {
-        source:source,
-        duration:this.splitDuration,
-        nodes:step.nodes.slice(0),
-        edges:step.edges.slice(0)
-      };
-      var classes = idArray(this.classes);
-      for (j = 0; j < 2; j++) {
-        node = this.makeNode(2 * i + j, n, pBreak);
-        step.nodes.push(node);
-        step.edges.push(this.makeEdge(source, node));
-        if (node.leaf) {
-          node.class = classes.rpop();
-        } else {
-          level.push(node);
-        }
-      }
-      this.steps.push(step);
-    }
-    this.depth++;
-    if (n > this.maxWidth) {
-      this.maxWidth = n;
-    }
-    this.lastLevel = level;
-  },
-  dagLevel: function(width) {
-    if (width < 2) {
-      throw "Level is too narrow";
-    }
-    if (!this.lastLevel.length) {
-      throw "No prior levels";
-    }
-    if (width > this.lastLevel.length * 2) {
-      throw "Level is too wide";
-    }
-
-    var source, node, step, i, j;
-    var temp = [];
-    for (i = 0; i < width; i++) {
-      temp.push(i);
-    }
-    while (temp.length < this.lastLevel.length * 2) {
-      temp.push(Math.floor(width * Math.random()));
-    }
-    temp.shuffle();
-    var level = [];
-    for (i = 0; i < temp.length; i++) {
-      j = level.indexOf(temp[i]);
-      if (j < 0) {
-        j = level.length;
-        level.push(temp[i]);
-      }
-      temp[i] = j;
-    }
-
-    level = [];
-    var nextPrior = [];
-    var k;
-    var classes = idArray(this.classes);
-    step = this.steps[this.steps.length-1];
-    for (i = 0; i < this.lastLevel.length; i++) {
-      source = this.lastLevel[i];
-      step = {
-        source:source,
-        duration: this.splitDuration,
-        nodes:step.nodes.slice(0),
-        edges:step.edges.slice(0)
-      };
-      for (j = 0; j < 2; j++) {
-        k = temp[2*i + j];
-        //TODO handle non-DAG leaf closure?
-        while (k >= level.length) {
-          node = this.makeNode(k, width);
-          step.nodes.push(node);
-          level.push(node);
-          if (node.leaf) {
-            node.class = classes.rpop();
-          } else {
-            nextPrior.push(node);
-          }
-        }
-        node = level[k];
-        step.edges.push(this.makeEdge(source, node));
-      }
-      this.steps.push(step);
-    }
-    this.depth++;
-    if (width > this.maxWidth) {
-      this.maxWidth = width;
-    }
-    this.lastLevel = nextPrior;
-  },
-  randomTree : function (pBreak) {
-    while (this.depth < this.levels && this.lastLevel.length) {
-      this.treeLevel(pBreak);
+  addNodes : function (nodes) {
+    if (nodes && nodes.length) {
+      this.nodes = this.nodes.concat(nodes);
     }
   },
-  randomDag : function (width) {
-    width = width || 10;
-    while (this.depth < this.levels) {
-      if (this.depth + 1 === this.levels) {
-        this.dagLevel(this.classes);
-      } else if (this.lastLevel.length * 2 > width) {
-        this.dagLevel(width);
-      } else {
-        this.treeLevel();
-      }
+  addEdges : function (edges) {
+    if (edges && edges.length) {
+      this.edges = this.edges.concat(edges);
     }
-  }
-};
+  },
+  display : function (svg, controller) {
+    controller = controller || svg;
+    var step = this;
 
-var classPallete = d3.scale.category10();
+    var dotr = 5;
+    var sw = 1;
 
-function nodeDisplay(d) {
-  return d.leaf ? classPallete(d.class || 0) : "lightsteelblue";
-}
+    var h = svg.attr("height");
+    var w = svg.attr("width");
+    var s = Math.min(h / step.graph.levels, w / step.graph.maxWidth) / (3 * dotr);
 
-function getId(d) {
-  return d.id;
-}
-
-function displayGraph(svg, graph, controller) {
-  if (!controller) {
-    controller = svg.transition().duration(1000);
-  }
-    
-  var job = {
-    interrupt: false,
-  };
-  var dotr = 5;
-  var sw = 1.5;
-
-  var h = svg.attr("height");
-  var w = svg.attr("width");
-  var s = Math.min(h / graph.levels, w / graph.maxWidth) / (3 * dotr);
-
-  //Add targets of a node
-  function update(step, controller) {
     controller = controller.transition()
       .duration(step.duration || 0);
 
@@ -315,12 +144,6 @@ function displayGraph(svg, graph, controller) {
     var link = svg.selectAll("path.link")
       .data(step.edges, getId);
 
-/*
-    var diagonal = d3.svg.diagonal()
-      .projection(function(d) {
-        return [d.x * w, d.y * h];
-      });
-      */
     var diagonal = function (d) {
       var s = [];
       s.push("M");
@@ -358,11 +181,252 @@ function displayGraph(svg, graph, controller) {
 
     return controller;
   }
+};
+
+function Graph(rootWidth, levels, classes) {
+  this.n = 0;
+  this.steps = [];
+
+  rootWidth = rootWidth || 1;
+  this.depth = 0;
+  this.levels = levels || 4;
+  this.classes = classes || 2;
+  var level = [];
+  for (var i = 0; i < rootWidth; i++) {
+    level.push(this.makeNode(i, rootWidth, 0));
+  }
+  this.depth++;
+  this.lastLevel = level;
+  this.maxWidth = rootWidth;
+  this.initial = new Step(this, 0);
+  this.initial.addNodes(level);
+  var root = new Step(this, this.layerDuration);
+  root.addNodes(level);
+  this.steps.push(root);
+}
+Graph.prototype = {
+  lastStep : function () {
+    if (this.steps.length) {
+      return this.steps[this.steps.length-1];
+    }
+  },
+  newStep : function (duration, source) {
+    var step = new Step(this, duration, source);
+    var prior = this.lastStep();
+    if (prior) {
+      step.initialize(prior);
+    }
+    return step;
+  },
+  makeNode : function(pos, peers, pBreak) {
+    var node = new Node(pos, peers, this.depth, this.levels, pBreak);
+    node.id = this.n++;
+    return node;
+  },
+  makeEdge : function (source, target) {
+    var edge = new Edge(source, target);
+    edge.id = this.n++;
+    return edge;
+  },
+  finish : function () {
+    this.lastLevel = [];
+    this.complete = this.newStep(0);
+  },
+  splitDuration : 100,
+  layerDuration : 500,
+  treeLevel : function(pBreak) {
+    if (!this.lastLevel.length) {
+      throw "No prior levels";
+    }
+
+    pBreak = pBreak || 0;
+    var level = [];
+    var n = this.lastLevel.length * 2;
+
+    var source, node, step, i, j;
+    for (i = 0; i < this.lastLevel.length; i++) {
+      source = this.lastLevel[i];
+      step = this.newStep(this.splitDuration, source);
+      var classes = idArray(this.classes);
+      for (j = 0; j < 2; j++) {
+        node = this.makeNode(2 * i + j, n, pBreak);
+        step.nodes.push(node);
+        step.edges.push(this.makeEdge(source, node));
+        if (node.leaf) {
+          node.class = classes.rpop();
+        } else {
+          level.push(node);
+        }
+      }
+      this.steps.push(step);
+    }
+    this.depth++;
+    if (n > this.maxWidth) {
+      this.maxWidth = n;
+    }
+    this.lastLevel = level;
+  },
+  dagLevel: function(width) {
+    if (width < 2) {
+      throw "Level is too narrow";
+    }
+    if (!this.lastLevel.length) {
+      throw "No prior levels";
+    }
+    if (width > this.lastLevel.length * 2) {
+      throw "Level is too wide";
+    }
+
+    var source, node, step, i, j;
+    var temp = [];
+    for (i = 0; i < width; i++) {
+      temp.push(i);
+    }
+    while (temp.length < this.lastLevel.length * 2) {
+      temp.push(Math.floor(width * Math.random()));
+    }
+    temp.shuffle();
+    var level = [];
+    for (i = 0; i < temp.length; i++) {
+      j = level.indexOf(temp[i]);
+      if (j < 0) {
+        j = level.length;
+        level.push(temp[i]);
+      }
+      temp[i] = j;
+    }
+
+    level = [];
+    var nextPrior = [];
+    var k;
+    var classes = idArray(this.classes);
+    for (i = 0; i < this.lastLevel.length; i++) {
+      source = this.lastLevel[i];
+      step = this.newStep(this.splitDuration, source);
+      for (j = 0; j < 2; j++) {
+        k = temp[2*i + j];
+        //TODO handle non-DAG leaf closure?
+        while (k >= level.length) {
+          node = this.makeNode(k, width);
+          step.nodes.push(node);
+          level.push(node);
+          if (node.leaf) {
+            node.class = classes.rpop();
+          } else {
+            nextPrior.push(node);
+          }
+        }
+        node = level[k];
+        step.edges.push(this.makeEdge(source, node));
+      }
+      this.steps.push(step);
+    }
+    this.depth++;
+    if (width > this.maxWidth) {
+      this.maxWidth = width;
+    }
+    this.lastLevel = nextPrior;
+  },
+  fullLevel: function (width) {
+    if (width < 1) {
+      throw "Level is too narrow";
+    }
+    if (!this.lastLevel.length) {
+      throw "No prior levels";
+    }
+
+    var level = [];
+    var nextPrior = [];
+    var source, step, node, i, j;
+    step = this.newStep(this.layerDuration);
+    for (i = 0; i < width; i++) {
+      node = this.makeNode(i, width);
+      step.nodes.push(node);
+      level.push(node);
+      if (node.leaf) {
+        node.class = i;
+      } else {
+        nextPrior.push(node);
+      }
+    }
+    this.steps.push(step);
+
+    step = this.newStep(this.layerDuration);
+    for (i = 0; i < width; i++) {
+      node = level[i];
+      for (j = 0; j < this.lastLevel.length; j++) {
+        source = this.lastLevel[j];
+        step.edges.push(this.makeEdge(source, node));
+      }
+    }
+    this.steps.push(step);
+
+    this.depth++;
+    if (width > this.maxWidth) {
+      this.maxWidth = width;
+    }
+    this.lastLevel = nextPrior;
+  }
+};
+
+function Tree(depth, classes, pBreak) {
+  Graph.call(this, 1, depth, classes);
+  while (this.depth < this.levels && this.lastLevel.length) {
+    this.treeLevel(pBreak);
+  }
+  this.finish();
+}
+Tree.prototype = Object.create(Graph.prototype);
+
+function DAG(depth, classes, width) {
+  Graph.call(this, 1, depth, classes);
+  width = width || 10;
+  while (this.depth < this.levels) {
+    if (this.depth + 1 === this.levels) {
+      this.dagLevel(this.classes);
+    } else if (this.lastLevel.length * 2 > width) {
+      this.dagLevel(width);
+    } else {
+      this.treeLevel();
+    }
+  }
+  this.finish();
+}
+DAG.prototype = Object.create(Graph.prototype);
+
+function NN() {
+  var hidden = Array.prototype.slice.call(arguments);
+  var depth = hidden.length;
+  var features = hidden.shift();
+  var classes = hidden.pop();
+  Graph.call(this, features, depth, classes);
+  for (var i = 0; i < hidden.length; i++) {
+    this.fullLevel(hidden[i]);
+  }
+  this.fullLevel(classes);
+  this.finish();
+}
+NN.prototype = Object.create(Graph.prototype);
+
+var classPallete = d3.scale.category10();
+
+function nodeDisplay(d) {
+  return d.leaf ? classPallete(d.class || 0) : "lightsteelblue";
+}
+
+function getId(d) {
+  return d.id;
+}
+
+function displayGraph(svg, graph, controller) {
+  if (!controller) {
+    controller = svg.transition().duration(1000);
+  }
 
   //Update each on a timer
   graph.steps.forEach(function (step) {
     controller.each(function () {
-      controller = update(step, controller);
+      controller = step.display(svg, controller);
     });
   });
 

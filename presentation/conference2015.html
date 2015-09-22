@@ -50,13 +50,13 @@
   .node circle, .node rect {
     cursor: pointer;
     fill: #fff;
-    stroke: #ccc;
+    stroke: black;
     stroke-width: 1px;
   }
 
   path.link {
     fill: none;
-    stroke: #ccc;
+    stroke: black;
     stroke-width: 1.5px;
   }
 
@@ -161,7 +161,7 @@
   </section>
 </section>
 
-<section id="random-forests">
+<section id="random-forest">
   <section>
     <h2>Random Forests</h2>
 
@@ -171,7 +171,7 @@
     </aside>
   </section>
 
-  <section id="decision-trees" data-state="dt-animation">
+  <section id="decision-tree" data-state="dt-animation">
     <h2>Decision Trees</h2>
 
     <div class="col-md-6">
@@ -242,10 +242,17 @@ clf.predict(data)
     </aside>
   </section>
 
-  <section id="decision-jungles" data-background="#ffff00" data-background-transition="zoom">
+  <section id="decision-jungle" data-background="#ffff00" data-background-transition="zoom">
     <h2>Do the math:</h2>
-    <p>Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs) instead of binary trees.  This allows for much smaller models which generalize slightly better.  </p>
-    <p>They were developed by Microsoft, whose XBox Kinect controller uses Random Forests to analyze what it's seeing.</p>
+    <div class="col-md-4">
+      <div class="svg-container">
+        <svg width="300" height="600" style="background:white"></svg>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <p>Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs) instead of binary trees.  This allows for much smaller models which generalize slightly better.  </p>
+      <p>They were developed by Microsoft, whose XBox Kinect controller uses Random Forests to analyze what it's seeing.</p>
+    </div>
     <aside class="notes">
       <p></p>
     </aside>
@@ -318,33 +325,60 @@ clf.predict(data)
 <script src="../js/d3.min.js"></script>
 <script src="../js/dt.js"></script>
 <script>
-  //Animations
-  (function () {
-    var dtGraph = new Graph(1, 5, 2);
-    dtGraph.randomTree(0.1);
+//Animations
+(function () {
+  var graphs = {
+    "decision-tree" : new Tree(5, 3, 0.1),
+    "decision-jungle" : new DAG(7, 3, 8),
+    "neural-network"  : new NN(4, 8, 8, 8, 3),
+    "elm"             : new NN(4, 16, 3)
+  }
 
-    var djGraph = new Graph(1, 5, 2);
-    djGraph.randomDag()
+  function loopGraph(slide, graph) {
+    graph = graph || graphs[slide.id];
+    var svg = d3.select(slide).select("svg");
 
-    function runGraph(svg, graph) {
-      var t = displayGraph(svg, dtGraph);
-      t.transition().duration(5000).each("end", function () {
-        runGraph(svg, graph);
-      });
+    if (svg[0][0] && graph) {
+      function loop() {
+        var t = displayGraph(svg, graph);
+        t.transition().duration(5000).each("end", function () {
+          loop(svg, graph);
+        });
+      }
+
+      loop();
     }
+  }
 
-    Reveal.addEventListener( 'dt-animation', function() {
-      d3.select("svg").transition();
-      var svg = d3.select(".dt-animation svg");
-      runGraph(svg, dtGraph);
-    } );
+  function showGraph(slide, graph) {
+    graph = graph || graphs[slide.id];
+    var svg = d3.select(slide).select("svg");
+    if (svg[0][0] && graph) {
+      var step = graph.lastStep();
+      if (step) {
+        step.display(svg);
+      }
+    }
+  }
 
-    Reveal.addEventListener( 'dj-animation', function() {
-      console.log( '"dj-animation" has fired' );
-    } );
+  Reveal.addEventListener('ready', function (event) {
+    for (var id in graphs) {
+      var slide = document.getElementById(id);
+      if (slide) {
+        showGraph(slide)
+      }
+    }
+    loopGraph(event.currentSlide);
+  });
 
-  })();
+  var svg;
 
+  Reveal.addEventListener( 'slidechanged', function(event) {
+    showGraph(event.previousSlide);
+    loopGraph(event.currentSlide);
+  } );
+
+})();
 
 </script>
 
