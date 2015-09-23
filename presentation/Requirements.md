@@ -10,6 +10,8 @@ Date               | Due
 2nd of October	   | Final version of slides and notes on how you want to be introduced shared with EPIC (uploaded to this community Library)
 6th of October	   | Conference Day
 
+Talk will be held in Lincoln during the 5th session at 13:55.  
+
 ## Important Session Information
 
 - Sessions are 35 minutes long, including questions.
