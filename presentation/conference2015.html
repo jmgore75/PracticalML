@@ -340,10 +340,10 @@ clf.predict(data)
 //Animations
 (function () {
   var graphMap = {
-    "decision-tree" : new Tree(5, 3, 0.1),
-    "decision-jungle" : new DAG(7, 3, 8),
-    "neural-network"  : new NN(4, 8, 8, 8, 3),
-    "elm"             : new NN(4, 16, 3)
+    "decision-tree" : [new Tree(5, 3, 0.1), new Tree(4, 2, 0.1), new Tree(5, 3, 0.2)],
+    "decision-jungle" : [new DAG(7, 3, 8), new DAG(8, 2, 6), new DAG(7, 3, 8)],
+    "neural-network"  : [new NN(4, 8, 8, 8, 3)],
+    "elm"             : [new NN(4, 16, 3)]
   }
 
   function loopGraphs(slide, graphs) {
@@ -351,9 +351,7 @@ clf.predict(data)
     var slide = graphs.shift();
 
     if (!graphs.length) {
-      if (graphMap[slide.id]) {
-        graphs.push(graphMap[slide.id]);
-      }
+      graphs = graphMap[slide.id] || [];
     }
     var svg = d3.select(slide).select("svg");
 
@@ -384,7 +382,12 @@ clf.predict(data)
   }
 
   function showGraph(slide, graph) {
-    graph = graph || graphMap[slide.id];
+    if (!graph) {
+      var graphs = graphMap[slide.id];
+      if (graphs) {
+        graph = graphs[0];
+      }
+    }
     var svg = d3.select(slide).select("svg");
     if (svg[0][0] && graph) {
       var step = graph.complete;
