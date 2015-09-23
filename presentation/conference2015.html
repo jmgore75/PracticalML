@@ -352,9 +352,10 @@ clf.predict(data)
 
     if (svg[0][0] && graph) {
       function loop() {
-        var t = displayGraph(svg, graph);
+        var t = graph.initial.display(svg);
+        t = displayGraph(svg, graph, t);
         t.transition().duration(5000).each("end", function () {
-          loop(svg, graph);
+          loop();
         });
       }
 
@@ -366,7 +367,7 @@ clf.predict(data)
     graph = graph || graphs[slide.id];
     var svg = d3.select(slide).select("svg");
     if (svg[0][0] && graph) {
-      var step = graph.lastStep();
+      var step = graph.complete;
       if (step) {
         step.display(svg);
       }

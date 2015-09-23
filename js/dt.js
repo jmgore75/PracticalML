@@ -120,15 +120,13 @@ Step.prototype = {
       });
 
     nodeUpdate.select("circle")
-      .attr("r", dotr * s)
-      .style("opacity", 1);
+      .attr("r", dotr * s);
 
     nodeUpdate.select("rect")
       .attr("width", 2 * dotr * s)
       .attr("height", 2 * dotr * s)
       .attr("x", -dotr * s)
-      .attr("y", -dotr * s)
-      .style("opacity", 1);
+      .attr("y", -dotr * s);
 
     var nodeExit = node.exit().transition()
       .duration(step.duration || 0);
@@ -137,7 +135,10 @@ Step.prototype = {
       .select("circle, rect")
       .style("opacity", 0);
 
-    nodeExit.remove();
+    nodeExit
+      .each(function () {
+        d3.select(this).remove();
+      });
 
 
     // Update the links…
@@ -171,13 +172,14 @@ Step.prototype = {
     // Transition links to their new position.
     link.transition()
       .duration(step.duration || 0)
-      .attr("d", diagonal)
-      .style("opacity", 1);
+      .attr("d", diagonal);
 
     link.exit().transition()
       .duration(step.duration || 0)
       .style("opacity", 0)
-      .remove();
+      .each(function () {
+        d3.select(this).remove();
+      });
 
     return controller;
   }
@@ -232,7 +234,7 @@ Graph.prototype = {
     this.lastLevel = [];
     this.complete = this.newStep(0);
   },
-  splitDuration : 100,
+  splitDuration : 200,
   layerDuration : 500,
   treeLevel : function(pBreak) {
     if (!this.lastLevel.length) {
@@ -422,6 +424,18 @@ function displayGraph(svg, graph, controller) {
   if (!controller) {
     controller = svg.transition().duration(1000);
   }
+  /*
+  var steps = graph.steps.slice(0);
+
+  function loop() {
+    if (steps.length) {
+      var step = steps.shift();
+      step.display(svg).each("end", function () {
+        loop();
+      })
+    }
+  }
+  loop(); */
 
   //Update each on a timer
   graph.steps.forEach(function (step) {
