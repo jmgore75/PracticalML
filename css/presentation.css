@@ -67,6 +67,7 @@ path.link {
 }
 
 .reveal .boxed > :first-child {
+  display:block; 
   border-bottom: 1px solid black;
 }
 
