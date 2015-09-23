@@ -352,9 +352,18 @@ clf.predict(data)
 
     if (svg[0][0] && graph) {
       function loop() {
-        var t = graph.initial.display(svg);
-        t = displayGraph(svg, graph, t);
-        t.transition().duration(5000).each("end", function () {
+        var t = svg.interrupt().transition().duration(1000).each("start", function () {
+          graph.initial.display(svg);
+        });
+
+        //Update each on a timer
+        graph.steps.forEach(function (step) {
+          t = t.transition().duration(step.duration || 0).each("start", function () {
+            step.display(svg);
+          });
+        });
+
+        t.transition("d").duration(5000).each("end", function () {
           loop();
         });
       }
@@ -369,7 +378,9 @@ clf.predict(data)
     if (svg[0][0] && graph) {
       var step = graph.complete;
       if (step) {
-        step.display(svg);
+        svg.interrupt().transition().each("start", function () {
+          step.display(svg);
+        });
       }
     }
   }

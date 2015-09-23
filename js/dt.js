@@ -75,8 +75,7 @@ Step.prototype = {
       this.edges = this.edges.concat(edges);
     }
   },
-  display : function (svg, controller) {
-    controller = controller || svg;
+  display : function (svg) {
     var step = this;
 
     var dotr = 5;
@@ -85,9 +84,6 @@ Step.prototype = {
     var h = svg.attr("height");
     var w = svg.attr("width");
     var s = Math.min(h / step.graph.levels, w / step.graph.maxWidth) / (3 * dotr);
-
-    controller = controller.transition()
-      .duration(step.duration || 0);
 
     var node = svg.selectAll("g.node")
       .data(step.nodes, getId);
@@ -160,7 +156,6 @@ Step.prototype = {
     link.enter().insert("path", "g")
       .attr("class", "link")
       .style("stroke-width", sw * s)
-      .style("opacity", 1)
       .attr("d", function(d) {
         var source = step.source || d.source;
         return diagonal({
@@ -180,8 +175,6 @@ Step.prototype = {
       .each(function () {
         d3.select(this).remove();
       });
-
-    return controller;
   }
 };
 
@@ -418,31 +411,4 @@ function nodeDisplay(d) {
 
 function getId(d) {
   return d.id;
-}
-
-function displayGraph(svg, graph, controller) {
-  if (!controller) {
-    controller = svg.transition().duration(1000);
-  }
-  /*
-  var steps = graph.steps.slice(0);
-
-  function loop() {
-    if (steps.length) {
-      var step = steps.shift();
-      step.display(svg).each("end", function () {
-        loop();
-      })
-    }
-  }
-  loop(); */
-
-  //Update each on a timer
-  graph.steps.forEach(function (step) {
-    controller.each(function () {
-      controller = step.display(svg, controller);
-    });
-  });
-
-  return controller;
 }
