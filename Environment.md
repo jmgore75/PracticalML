@@ -8,6 +8,7 @@ When choosing the system to perform machine learning (if you have a choice) you 
 1. Plenty of memory (8GB)
 2. NVidia GPU installed (for CUDA) or a decent CPU
 3. Prefer Linux
+4. Local or server?
 
 First and foremost, you want memory, for the following reasons:
 - Datasets themselves are often large
@@ -18,11 +19,13 @@ Running models on the GPU rather than the CPU can massively improve their perfor
 
 The major machine learning/data science platforms are available on all platforms.  However, a lot of ML libraries are high performance and requires compilation (including dynamic compilation).  Naturally the build process makes a lot of assumptions about particular compilers and libraries being available (even the shell environment).  And they are nearly all open source.  So Linux will generally be your least painful option.  OS X is ok but often requires you to set up a lot of stuff in advance.  The Windows situation is similar, and additionally complicated by its non-unix heritage.  
 
+The first three requirements definitely favor a server environment, but there are plenty of benefits to being able to work without a connection, particularly during the exploration phase.  If possible you will probably want to do both, and keep your projects in sync using version control. 
+
 ## Strengths and weaknesses of the major ML platforms:
 
-At the moment, there are four major ML environments: R, Python, MatLab, and Julia.  I have used all four environments at one time or another.  Additionally, there are many C libraries, Java libraries, and services available.  
+At the moment, there are four major ML environments: R, Python, MatLab, and Julia.  R and Python are your primary choices, while MatLab and Julia are secondary.  I have used all four environments at one time or another.  Additionally, there are many C libraries, Java libraries, and services available.  
 
-[R](https://www.r-project.org/) is the premier open source statistical computing and graphics language and environment.  It is also the most popular ML toll and has thousands of packages.  It is widely used in academia and research, and implementations of new algorithms are often delivered in R.  
+[R](https://www.r-project.org/) is the premier open source statistical computing and graphics language and environment.  It is also the most popular ML tool and has thousands of packages.  It is widely used in academia and research, and implementations of new algorithms are often delivered in R.  
 
 [Python](https://www.python.org/) is a high-level and flexible general-purpose dynamic programming language.  Most machine learning on python goes through the  [scikit-learn](http://scikit-learn.org) package, which wraps many ML algorithms in a single standard interface along with plenty of processing and analysis tools.  High performance algorithms can be handled by the [Theano](http://deeplearning.net/software/theano) package and any one of several neural network packages.  Python is production ready and is excellent for data wrangling.  For these reasons it is my personal choice.  
 
