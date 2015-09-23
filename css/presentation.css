@@ -1,0 +1,76 @@
+.reveal .slides section .fragment.strike, .reveal .slides section .fragment.underline {
+  opacity: 1;
+  visibility: visible; }
+
+.reveal .slides section .fragment.strike.visible {
+  text-decoration: line-through; }
+
+.reveal .slides section .fragment.underline.visible {
+  text-decoration: underline; }
+
+.reveal section .noborder {
+  border: none;
+  box-shadow: none; }
+
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%; /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+.node circle, .node rect {
+  cursor: pointer;
+  fill: #fff;
+  stroke: black;
+  stroke-width: 1px;
+}
+
+path.link {
+  fill: none;
+  stroke: black;
+  stroke-width: 1.5px;
+}
+
+.rotated {
+  -ms-writing-mode: tb-rl;
+  -webkit-writing-mode: vertical-rl;
+  -moz-writing-mode: vertical-rl;
+  -ms-writing-mode: vertical-rl;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  display: inline-block;
+}
+
+.reveal .flexrow {
+  display: flex;
+  flex-direction: row;
+  flex-flow: center;
+}
+
+.reveal .boxed {
+  margin: 10px;
+  border-radius: 10px;
+  border: 1px solid black;
+}
+
+.reveal .flexrow .boxed {
+  flex: 1 0 0;
+}
+
+.reveal .boxed > :first-child {
+  border-bottom: 1px solid black;
+}
+
+.reveal .boxed > ol,
+.reveal .boxed > ul {
+  padding-left: 30px;
+}
