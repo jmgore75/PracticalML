@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
 
-  <title>A practical guide to machine learning</title>
+  <title>A Practical Guide to Applied Machine Learning</title>
 
   <meta name="description" content="Using python and scikit-learn, we'll walk through a machine learning process from start to finish discussing when to apply machine learning, the most successful algorithms, best practices, and even a little philosophy.">
   <meta name="author" content="Jeremy Gore">
@@ -40,11 +40,19 @@
 <div class="reveal">
 <div class="slides">
 
-<section id="intro">
-  <section id="title">
-    <h2>A practical guide to applied machine learning</h2>
-    <p><em>Jeremy Gore</em></p>
-    <p><em>Tessella Autumn Conference 2015-10-05</em></p>
+<section>
+  <section id="title" class="container">
+    <div class="col-md-4">
+      <div class="svg-container">
+        <svg width="300" height="600"></svg>
+      </div>
+    </div>
+    <div class="col-md-8 text-right">
+      <img class="noborder" style="width:300px;height:auto; margin-bottom:1em; " src='../img/Tessella_Logo.png'>
+      <h2 class="text-right">A Practical Guide to Applied Machine Learning</h2>
+      <h2 class="text-right"><small>Jeremy Gore<br>Autumn Conference 2015-10-05</small></h2>
+    </div>
+
 
     <aside class="notes">
       <p>To say machine learning is a big subject is a big understatement,
@@ -69,10 +77,10 @@
   </section>
 </section>
 
-<section id="presentation">
-  <section>
+<section>
+  <section id="intro">
   </section>
-  <section id="focus">
+  <section id="presentation">
     <ul>We will be focusing on
       <li>General </li>
       <li>Supervised learning</li>
@@ -88,9 +96,49 @@
 </section>
 
 
-<section id="environment">
-  <section>
-    <hd>Your machine learning environment</h2>
+<section>
+  <section class="container" id="environment">
+    <h2>Environment</h2>
+    <div class="flexrow">
+      <div class="boxed">
+        <h4>Computing Hardware</h4>
+        <ol>
+          <li>Plenty of memory (8GB)</li>
+          <li>NVidia GPU, or decent CPU</li>
+          <li>Preferably Linux</li>
+          <li>Local or Server?</li>
+        </ol>
+      </div>
+      <div class="boxed">
+        <h4>ML Platform</h4>
+        <ul>
+          <li><strong><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
+          <li><strong><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
+          <li><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
+          <li><em><a href="http://julialang.org/">Julia</a></em>: New hotness</li>
+        </ul>
+      </div>
+    </div>
+    <aside class="notes" data-markdown>
+      Like any heavy computing task, in machine learning you must consider hardware and software.
+
+      When choosing the system to perform machine learning (if you have a choice) you should take the following aspects into account:
+
+      1. Plenty of memory, because both datasets and algorithms can require a lot of memory
+      2. NVidia GPU, which can give you massive performance improvements for neural networks, often 30x.  It can make a huge difference in your ability to investigate.  Failing that, you want the best CPU you have.
+      3. Most tools, libraries, and dependencies are available for Linux, OS X, and Windows.  But you will find that actually installing those on systems other than Linux can be quite painful, even on another Unix like OS X.  One time I had a compile fail because I didn't invoke the makefile from bash.  So if you can, save yourself some grief and use Linux.
+      4. The first three requirements definitely favor a server, but there are plenty of benefits to being able to work without a connection.  If you can, do both, and keep things in sync with git, which you were already using RIGHT?
+
+      Which brings us to your machine learning software platform.  Sure there are innumerable tools and services, but if you want to investigate properly you need a platform with a consistent interface which is kept up-to-date with the latest algorithms. At the moment, there are two primary ones and two secondary ones, all of which I have used at one time or another.
+
+      [R](https://www.r-project.org/) is *the* premier open source statistical platform, and the most popular ML tool with the most algorithms.  It is widely used in academia, and so most new algorithms actually show up there first.
+
+      [Python](https://www.python.org/) on the other hand is a general-purpose programming language.  Two packages are especially useful for machine Learning: [scikit-learn](http://scikit-learn.org) wraps many ML algorithms in a common API along with plenty of utilities, and  [Theano](http://deeplearning.net/software/theano) can be used to compile numerical algorithms to native code.  Significantly, python is production ready and excellent for data wrangling.  This is the environment I will be using today.
+
+      [MatLab](http://www.mathworks.com/products/matlab/) is a numerical computing environment with extensive use in academic and research institutions. But it is also proprietary and expensive and doesn't see much use elsewhere.
+
+      [Julia](http://julialang.org/) is a very new high-performance dynamic programming language. It is specifically designed for numerical and scientific computing but also aims to be an effective general purpose language.  The syntax is concise and the performance is actually quite good.  But it is very young and core APIs are still changing, so although its package ecosystem is growing rapidly I can't recommend it just yet.
+    </aside>
   </section>
 </section>
 
@@ -224,15 +272,17 @@ clf.predict(data)
     <h2>Thank you!</h2>
     <br>
 
-    <h4 class="align-left">Further reading</h4>
-    <ul class="align-left">
-      <li><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/jmgore75/PracticalML/master/presentation/conference2015.html">Replay</a> this presentation on <a href="https://github.com/jmgore75/PracticalML/">GitHub</a></li>
-      <li><a href="http://machinelearningmastery.com/">Machine learning mastery</a> blog</li>
-      <li><a href="https://www.udacity.com/course/machine-learning--ud262">Machine Learning</a> Udacity course series</li>
-    </ul>
+    <div class="col-md-12 text-left">
+      <h4>Further reading</h4>
+      <ul>
+        <li><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/jmgore75/PracticalML/master/presentation/conference2015.html">Replay</a> this presentation on <a href="https://github.com/jmgore75/PracticalML/">GitHub</a></li>
+        <li><a href="http://machinelearningmastery.com/">Machine learning mastery</a> blog</li>
+        <li><a href="https://www.udacity.com/course/machine-learning--ud262">Machine Learning</a> Udacity course series</li>
+      </ul>
+    </div>
   </section>
 
-  <section id="code-tools">
+  <section class="text-left" id="code-tools">
     <h4>Development Tools</h4>
     <ul>
       <li><a href="https://www.python.org/">Python</a> language</li>
@@ -244,7 +294,7 @@ clf.predict(data)
     </aside>
   </section>
 
-  <section id="presentation-tools">
+  <section class="text-left" id="presentation-tools">
     <h4>Presentation Tools</h4>
     <ul>
       <li><a href="https://github.com/hakimel/reveal.js">Reveal.js</a> presentation framework</li>
@@ -275,7 +325,7 @@ clf.predict(data)
     history: true,
     center: true,
 
-    transition: 'concave', // none/fade/slide/convex/concave/zoom
+    transition: 'concave',
 
     // Optional reveal.js plugins
     dependencies: [
@@ -300,6 +350,7 @@ clf.predict(data)
 //Animations
 (function () {
   var graphMap = {
+    "title" : [new Tree(5, 3, 0.1), new DAG(7, 3, 8), new NN(4, 8, 8, 8, 3)],
     "decision-tree" : [new Tree(5, 3, 0.1), new Tree(4, 2, 0.1), new Tree(5, 3, 0.2)],
     "decision-jungle" : [new DAG(7, 3, 8), new DAG(8, 2, 6), new DAG(7, 3, 8)],
     "neural-network"  : [new NN(4, 8, 8, 8, 3)],
