@@ -339,31 +339,42 @@ clf.predict(data)
 <script>
 //Animations
 (function () {
-  var graphs = {
+  var graphMap = {
     "decision-tree" : new Tree(5, 3, 0.1),
     "decision-jungle" : new DAG(7, 3, 8),
     "neural-network"  : new NN(4, 8, 8, 8, 3),
     "elm"             : new NN(4, 16, 3)
   }
 
-  function loopGraph(slide, graph) {
-    graph = graph || graphs[slide.id];
+  function loopGraphs(slide, graphs) {
+    var graphs = Array.prototype.slice.call(arguments);
+    var slide = graphs.shift();
+
+    if (!graphs.length) {
+      if (graphMap[slide.id]) {
+        graphs.push(graphMap[slide.id]);
+      }
+    }
     var svg = d3.select(slide).select("svg");
 
-    if (svg[0][0] && graph) {
+    if (svg[0][0] && graphs.length) {
       function loop() {
-        var t = svg.interrupt().transition().duration(1000).each("start", function () {
-          graph.initial.display(svg);
-        });
-
-        //Update each on a timer
-        graph.steps.forEach(function (step) {
-          t = t.transition().duration(step.duration || 0).each("start", function () {
-            step.display(svg);
+        var t = svg.interrupt();
+        graphs.forEach(function (graph) {
+          t = t.transition().duration(800).each("start", function () {
+            graph.initial.display(svg);
           });
-        });
 
-        t.transition("d").duration(5000).each("end", function () {
+          //Update each on a timer
+          graph.steps.forEach(function (step) {
+            t = t.transition().duration(step.duration || 0).each("start", function () {
+              step.display(svg);
+            });
+          });
+          t = t.transition("d").duration(3000);
+        })
+
+        t.each("end", function () {
           loop();
         });
       }
@@ -373,7 +384,7 @@ clf.predict(data)
   }
 
   function showGraph(slide, graph) {
-    graph = graph || graphs[slide.id];
+    graph = graph || graphMap[slide.id];
     var svg = d3.select(slide).select("svg");
     if (svg[0][0] && graph) {
       var step = graph.complete;
@@ -386,20 +397,20 @@ clf.predict(data)
   }
 
   Reveal.addEventListener('ready', function (event) {
-    for (var id in graphs) {
+    for (var id in graphMap) {
       var slide = document.getElementById(id);
       if (slide) {
         showGraph(slide)
       }
     }
-    loopGraph(event.currentSlide);
+    loopGraphs(event.currentSlide);
   });
 
   var svg;
 
   Reveal.addEventListener( 'slidechanged', function(event) {
     showGraph(event.previousSlide);
-    loopGraph(event.currentSlide);
+    loopGraphs(event.currentSlide);
   } );
 
 })();
