@@ -16,7 +16,6 @@
 
   <link rel="stylesheet" href="../reveal.js/css/reveal.css">
   <link rel="stylesheet" href="../css/tessella.css" id="theme">
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
   <link rel="stylesheet" href="../css/presentation.css">
 
   <!-- Code syntax highlighting -->
@@ -74,32 +73,75 @@
       <li><kbd>Swipe</kbd> to move on mobile devices</li>
     </ul>
   </section>
+
+  <section id="topics" class="container">
+    <h2>Topics</h2>
+    <div class="row row-eq-height">
+      <div class="col-md-6">
+        <div class="panel panel-green">
+          <div class="panel-heading">
+            <h4>Will Cover</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">General Techniques</li>
+            <li class="list-group-item">Supervised learning</li>
+            <li class="list-group-item">Tabular data</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-red">
+          <div class="panel-heading">
+            <h4>Won't Cover</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Other learning</li>
+            <li class="list-group-item">Structured models</li>
+            <li class="list-group-item">Sequential models</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes">
+
+    </aside>
+  </section>
+
 </section>
 
 <section>
   <section id="what-is-ml">
-    <h2>What is machine learning?</h2>
+    <h1>What is machine learning?</h1>
   </section>
 
-  <section id="concepts">
+  <section id="concepts" class="container">
     <h2>Core Concepts</h2>
-    <div class="flexrow">
-      <div class="boxed fragment">
-        <h4>Data</h4>
-        <ul>
-          <li>Items</li>
-          <li>Features</li>
-          <li>Labels</li>
-          <li>Classes</li>
-        </ul>
+    <div class="row row-eq-height">
+      <div class="col-md-6">
+        <div class="panel panel-orange">
+          <div class="panel-heading">
+            <h4>Data</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Items</li>
+            <li class="list-group-item">Features</li>
+            <li class="list-group-item">Labels</li>
+            <li class="list-group-item">Classes</li>
+          </ul>
+        </div>
       </div>
-      <div class="boxed fragment">
-        <h4>Models</h4>
-        <ul>
-          <li>Algorithms</li>
-          <li>Parameters</li>
-          <li>Hyper-parameters</li>
-        </ul>
+      <div class="col-md-6">
+        <div class="panel panel-purple">
+          <div class="panel-heading">
+            <h4>Models</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Algorithms</li>
+            <li class="list-group-item">Parameters</li>
+            <li class="list-group-item">Hyper-parameters</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -112,32 +154,44 @@
     </aside>
   </section>
 
-  <section id="ml-flavors">
+  <section id="ml-flavors" class="container">
     <h2>Flavors of Machine Learning</h2>
-    <div class="flexrow">
-      <div class="boxed">
-        <h4>Supervised</h4>
-        <ul>
-          <li>Classification</li>
-          <li>Regression</li>
-          <li>Ranking</li>
-        </ul>
+    <div class="row row-eq-height">
+      <div class="col-md-4">
+        <div class="panel panel-red">
+          <div class="panel-heading">
+            <h4>Supervised</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Classification</li>
+            <li class="list-group-item">Regression</li>
+            <li class="list-group-item">Ranking</li>
+          </ul>
+        </div>
       </div>
-      <div class="boxed">
-        <h4>Unsupervised</h4>
-        <ul>
-          <li>Clustering</li>
-          <li>Density estimation</li>
-          <li>Pattern identification</li>
-          <li>Representation learning</li>
-        </ul>
+      <div class="col-md-4">
+        <div class="panel panel-blue">
+          <div class="panel-heading">
+            <h4>Unsupervised</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Clustering</li>
+            <li class="list-group-item">Density estimation</li>
+            <li class="list-group-item">Pattern identification</li>
+            <li class="list-group-item">Representation learning</li>
+          </ul>
+        </div>
       </div>
-      <div class="boxed">
-        <h4>Hybrid</h4>
-        <ul>
-          <li>Semi-supervised</li>
-          <li>Reinforcement learning</li>
-        </ul>
+      <div class="col-md-4">
+        <div class="panel panel-green">
+          <div class="panel-heading">
+            <h4>Hybrid</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Semi-supervised</li>
+            <li class="list-group-item">Reinforcement learning</li>
+          </ul>
+        </div>
       </div>
     </div>
 
@@ -176,36 +230,15 @@
     </aside>
   </section>
 
-  <section id="topics">
-    <div class="flexrow">
-      <div class="boxed">
-        <h4>Will</h4>
-        <ul>
-          <li>General </li>
-          <li>Supervised learning</li>
-          <li>Tabular data</li>
-        </ul>
-      </div>
-      <div class="boxed">
-        <h4>Won't</h4>
-        <ul>
-          <li>Unsupervised learning</li>
-          <li>Semi-supervised learning</li>
-          <li>Reinforcement learning</li>
-          <li>Structured models</li>
-          <li>Sequential models</li>
-        </ul>
-      </div>
-    </div>
-    <p></p>
-    <aside class="notes">
-    </aside>
-  </section>
 </section>
 
 <section>
   <section id="process">
-    <h2>The process of machine learning</h2>
+    <h1>The process of machine learning</h1>
+  </section>
+
+  <section id="steps">
+    <h2>Steps of a machine learning problem</h2>
     <ol>
       <li class="fragment">Know your problem</li>
       <li class="fragment">Know your data</li>
@@ -226,12 +259,12 @@
 
   <section id="data">
     <h2>Know your data</h2>
-    <ol>
+    <ul>
       <li class="fragment">Where is it?</li>
       <li class="fragment">What form is it in?</li>
       <li class="fragment">What does it look like?</li>
       <li class="fragment">Is it any good?</li>
-    </ol>
+    </ul>
 
     <aside class="notes" data-markdown>
       You must also understand your data and how to use it.
@@ -258,31 +291,45 @@
         - Are any of the features in your data identifiers? You may want to discard these: they can be used to overfit, and should not be interpreted as numbers.
     </aside>
   </section>
+
 </section>
 
 <section>
-  <section class="container" id="environment">
-    <h2>Environment</h2>
-    <div class="flexrow">
-      <div class="boxed">
-        <h4>Computing Hardware</h4>
-        <ol>
-          <li>Plenty of memory (8GB)</li>
-          <li>NVidia GPU, or decent CPU</li>
-          <li>Preferably Linux</li>
-          <li>Local or Server?</li>
-        </ol>
+  <section id="environment">
+    <h1>Environment</h1>
+  </section>
+
+  <section id="hardware-software" class="container">
+    <h2>Hardware and Software</h2>
+    <div class="row row-eq-height">
+      <div class="col-md-6">
+        <div class="panel panel-orange">
+          <div class="panel-heading">
+            <h4>Machine</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Plenty of memory (8GB)</li>
+            <li class="list-group-item">NVidia GPU, or decent CPU</li>
+            <li class="list-group-item">Preferably Linux</li>
+            <li class="list-group-item">Local or Server?</li>
+          </ul>
+        </div>
       </div>
-      <div class="boxed">
-        <h4>ML Platform</h4>
-        <ul>
-          <li><strong><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
-          <li><strong><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
-          <li><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
-          <li><em><a href="http://julialang.org/">Julia</a></em>: New hotness</li>
-        </ul>
+      <div class="col-md-6">
+        <div class="panel panel-purple">
+          <div class="panel-heading">
+            <h4>ML Platform</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item"><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
+            <li class="list-group-item"><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
+            <li class="list-group-item"><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
+            <li class="list-group-item"><em><a href="http://julialang.org/">Julia</a></em>: New hotness</li>
+          </ul>
+        </div>
       </div>
     </div>
+
     <aside class="notes" data-markdown>
       Like any heavy computing task, in machine learning you must consider hardware and software.
 
@@ -304,9 +351,14 @@
       [Julia](http://julialang.org/) is a very new high-performance dynamic programming language. It is specifically designed for numerical and scientific computing but also aims to be an effective general purpose language.  The syntax is concise and the performance is actually quite good.  But it is very young and core APIs are still changing, so although its package ecosystem is growing rapidly I can't recommend it just yet.
     </aside>
   </section>
+
 </section>
 
-<section id="algorithms">
+<section>
+  <section id="algorithms">
+    <h1>Algorithms</h1>
+  </section>
+
   <section id="no-free-lunch">
     <h2>No Free Lunch Theorem</h2>
     <p>The <a class="cite" href="https://en.wikipedia.org/wiki/No_free_lunch_theorem">no free lunch theorem</a> implies that no one algorithm will be suitable for all problems and that any algorithm could be the right one.</p>
@@ -333,14 +385,9 @@
   </section>
 </section>
 
-<section id="random-forest">
-  <section>
-    <h2>Random Forests</h2>
-
-    <aside class="notes">
-      <p></p>
-      <p></p>
-    </aside>
+<section>
+  <section id="instance">
+    <h1>Instance Algorithms</h1>
   </section>
 
   <section id="decision-tree" data-state="dt-animation">
@@ -360,13 +407,9 @@
     </aside>
   </section>
 
-  <section id="bagging">
-    <h2>Bagging</h2>
+  <section id="random-forest">
+    <h2>Random Forests</h2>
 
-    <aside class="notes">
-      <p></p>
-      <p></p>
-    </aside>
   </section>
 
   <section id="quick-model">
@@ -395,19 +438,6 @@ clf.predict(data)
     </aside>
   </section>
 
-  <section>
-    <div class="col-md-3">
-
-    </div>
-    <div class="col-md-9">
-
-    </div>
-    <aside class="notes">
-      <p></p>
-      <p></p>
-    </aside>
-  </section>
-
   <section id="bagging-effectiveness" data-background="#ffff00" data-background-transition="zoom">
     <h2>Do the math:</h2>
     <p>Bagging is <a class="cite" href="http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf">most effective</a> on unstable algorithms that overfit easily.</p>
@@ -417,14 +447,14 @@ clf.predict(data)
   </section>
 
   <section id="decision-jungle" data-background="#ffff00" data-background-transition="zoom">
-    <h2>Do the math:</h2>
     <div class="col-md-4">
       <div class="svg-container">
-        <svg width="300" height="600" style="background:white"></svg>
+        <svg width="290" height="600" style="background:white"></svg>
       </div>
     </div>
     <div class="col-md-8">
-      <p>Decision Jungles are a relative of Random Forests that use Directed Acyclic Graphs (DAGs) instead of binary trees.  This allows for much smaller models which generalize slightly better.  </p>
+      <h2>Do the math:</h2>
+      <p>Decision Jungles use Directed Acyclic Graphs (DAGs) instead of trees.  This allows for smaller models which generalize slightly better.  </p>
       <p>They were developed by Microsoft, whose XBox Kinect controller uses Random Forests to analyze what it's seeing.</p>
     </div>
     <aside class="notes">
@@ -438,15 +468,17 @@ clf.predict(data)
     <h1>Model Behavior</h1>
   </section>
 
-  <section id="bias-variance">
-    <div class="col-md-4">
-      <h2>Bias</h2>
-    </div>
-    <div class="col-md-4">
-      <h2>Variance</h2>
-    </div>
-    <div class="col-md-4">
-      <h2>Generalization</h2>
+  <section id="bias-variance" class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Bias</h2>
+      </div>
+      <div class="col-md-4">
+        <h2>Variance</h2>
+      </div>
+      <div class="col-md-4">
+        <h2>Generalization</h2>
+      </div>
     </div>
 
     <aside class="notes" data-markdown>
@@ -461,45 +493,47 @@ clf.predict(data)
   </section>
 </section>
 
-<section id="end">
-  <section>
+<section>
+  <section id="end" class="container">
     <h2>Thank you!</h2>
     <br>
 
-    <div class="col-md-12 text-left">
-      <h4>Further reading</h4>
-      <ul>
-        <li><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/jmgore75/PracticalML/master/presentation/conference2015.html">Replay</a> this presentation on <a href="https://github.com/jmgore75/PracticalML/">GitHub</a></li>
-        <li><a href="http://machinelearningmastery.com/">Machine learning mastery</a> blog</li>
-        <li><a href="https://www.udacity.com/course/machine-learning--ud262">Machine Learning</a> Udacity course series</li>
-      </ul>
+    <div class="row">
+      <div class="col-md-12 text-left">
+        <h4>Further reading</h4>
+        <ul>
+          <li><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/jmgore75/PracticalML/master/presentation/conference2015.html">Replay</a> this presentation on <a href="https://github.com/jmgore75/PracticalML/">GitHub</a></li>
+          <li><a href="http://machinelearningmastery.com/">Machine learning mastery</a> blog</li>
+          <li><a href="https://www.udacity.com/course/machine-learning--ud262">Machine Learning</a> Udacity course series</li>
+        </ul>
+      </div>
+    <div>
+  </section>
+
+  <section id="tools">
+    <div class="row">
+      <div class="col-md-6 text-left">
+        <h4>Development Tools</h4>
+        <ul>
+          <li><a href="https://www.python.org/">Python</a> language</li>
+          <li><a href="http://scikit-learn.org">scikit-learn</a> ML library</li>
+        </ul>
+      </div>
+      <div class="col-md-6 text-left">
+        <h4>Presentation Tools</h4>
+        <ul>
+          <li><a href="https://github.com/hakimel/reveal.js">Reveal.js</a> presentation framework</li>
+          <li><a href="http://paletton.com/">Palleton</a> color pallete tool</li>
+          <li><a href="http://d3js.org/">d3.js</a> charting library</li>
+        </ul>
+      </div>
     </div>
-  </section>
-
-  <section class="text-left" id="code-tools">
-    <h4>Development Tools</h4>
-    <ul>
-      <li><a href="https://www.python.org/">Python</a> language</li>
-      <li><a href="http://scikit-learn.org">scikit-learn</a> ML library</li>
-    </ul>
 
     <aside class="notes">
 
     </aside>
   </section>
 
-  <section class="text-left" id="presentation-tools">
-    <h4>Presentation Tools</h4>
-    <ul>
-      <li><a href="https://github.com/hakimel/reveal.js">Reveal.js</a> presentation framework</li>
-      <li><a href="http://paletton.com/">Palleton</a> color pallete tool</li>
-      <li><a href="http://d3js.org/">d3.js</a> charting library</li>
-    </ul>
-
-    <aside class="notes">
-
-    </aside>
-  </section>
 </section>
 
 </div>
@@ -552,6 +586,9 @@ clf.predict(data)
   }
 
   function loopGraphs(slide, graphs) {
+    if (!slide) {
+      return;
+    }
     var graphs = Array.prototype.slice.call(arguments);
     var slide = graphs.shift();
 
@@ -587,6 +624,9 @@ clf.predict(data)
   }
 
   function showGraph(slide, graph) {
+    if (!slide) {
+      return;
+    }
     if (!graph) {
       var graphs = graphMap[slide.id];
       if (graphs) {
