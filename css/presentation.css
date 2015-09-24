@@ -51,8 +51,11 @@ path.link {
 }
 
 .reveal .flexrow {
+  display: -webkit-flex;     /* Safari */
   display: flex;
+  -webkit-flex-direction: row; /* Safari */
   flex-direction: row;
+  -webkit-flex-flow: center; /* Safari */
   flex-flow: center;
 }
 
@@ -63,11 +66,12 @@ path.link {
 }
 
 .reveal .flexrow .boxed {
+  -webkit-flex: 1 0 0;          /* Safari */
   flex: 1 0 0;
 }
 
 .reveal .boxed > :first-child {
-  display:block; 
+  display:block;
   border-bottom: 1px solid black;
 }
 
