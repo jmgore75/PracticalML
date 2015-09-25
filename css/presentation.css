@@ -8,33 +8,23 @@
 .reveal .slides section .fragment.underline.visible {
   text-decoration: underline; }
 
-.reveal section .noborder {
-  border: none;
-  box-shadow: none; }
+.noborder {
+  border: none !important;
+  box-shadow: none !important; }
 
-.svg-container {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    padding-bottom: 100%; /* aspect ratio */
-    vertical-align: top;
-    overflow: hidden;
-}
-.svg-content-responsive {
-    display: inline-block;
-    position: absolute;
-    top: 10px;
-    left: 0;
+.nopadding {
+  margin: 0 !important;
+  padding: 0 !important; 
 }
 
-.node circle, .node rect {
+svg .node circle, .node rect {
   cursor: pointer;
   fill: #fff;
   stroke: black;
   stroke-width: 1px;
 }
 
-path.link {
+svg path.link {
   fill: none;
   stroke: black;
   stroke-width: 1.5px;
