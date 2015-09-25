@@ -598,28 +598,32 @@ clf.predict(data)
     var svg = d3.select(slide).select("svg");
 
     if (svg[0][0] && graphs.length) {
-      function loop() {
-        var t = svg.interrupt();
-        graphs.forEach(function (graph) {
-          t = t.transition().duration(800).each("start", function () {
-            graph.initial.display(svg);
-          });
+      var t = svg.interrupt().transition();
+      svg.selectAll("*").remove();
 
+      function loop(t) {
+        graphs.forEach(function (graph) {
           //Update each on a timer
           graph.steps.forEach(function (step) {
             t = t.transition().duration(step.duration || 0).each("start", function () {
-              step.display(svg);
+              displayStep(step, svg);
             });
           });
-          t = t.transition("d").duration(3000);
+          t = t.transition().duration(3000);
+          t = t.transition().duration(clearStep.duration || 0).each("start", function () {
+            displayStep(clearStep, svg);
+          });
+          t = t.transition().duration(500).each("start", function () {
+            svg.selectAll("*").remove();
+          });
         })
 
-        t.each("end", function () {
-          loop();
+        t = t.each("end", function () {
+          loop(t);
         });
       }
 
-      loop();
+      loop(t);
     }
   }
 
@@ -635,11 +639,11 @@ clf.predict(data)
     }
     var svg = d3.select(slide).select("svg");
     if (svg[0][0] && graph) {
-      var step = graph.complete;
+      svg.interrupt().transition();
+      svg.selectAll("*").remove();
+      var step = graph.lastStep();
       if (step) {
-        svg.interrupt().transition().each("start", function () {
-          step.display(svg);
-        });
+        displayStep(step, svg, 0);
       }
     }
   }

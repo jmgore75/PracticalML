@@ -36,7 +36,7 @@ function Node(pos, peers, depth, levels, pBreak) {
   this.edges = [];
   this.x = (2 * pos + 1) / (2 * peers);
   this.y = (2 * depth + 1) / (2 * levels);
-  this.leaf = ((depth + 1) >= levels || Math.random() < pBreak);
+  this.label = ((depth + 1) >= levels || Math.random() < pBreak);
 }
 Node.prototype = {
   sources : function () {
@@ -74,130 +74,16 @@ Step.prototype = {
     if (edges && edges.length) {
       this.edges = this.edges.concat(edges);
     }
-  },
-  display : function (svg) {
-    var step = this;
-
-    var dotr = 5;
-    var sw = 1;
-
-    var h = svg.attr("height");
-    var w = svg.attr("width");
-    var s = Math.min(h / step.graph.levels, w / step.graph.maxWidth) / (3 * dotr);
-
-    var node = svg.selectAll("g.node")
-      .data(step.nodes, getId);
-
-    var nodeEnter = node.enter().append("svg:g")
-      .attr("class", "node")
-      .attr("transform", function(d) {
-        var source = step.source || d;
-        return "translate(" + source.x * w + "," + source.y * h + ")";
-      });
-
-    nodeEnter.each(function (d) {
-      var e = d3.select(this);
-      if (d.leaf) {
-        e.append("svg:rect")
-          .attr("width", 1e-6)
-          .attr("height", 1e-6)
-          .style("fill", nodeDisplay);
-      } else {
-        e.append("svg:circle")
-          .attr("r", 1e-6)
-          .style("fill", nodeDisplay);
-      }
-    });
-
-    var nodeUpdate = node.transition()
-      .duration(step.duration || 0)
-      .attr("transform", function(d) {
-        return "translate(" + d.x * w + "," + d.y * h + ")";
-      });
-
-    nodeUpdate.select("circle")
-      .attr("r", dotr * s);
-
-    nodeUpdate.select("rect")
-      .attr("width", 2 * dotr * s)
-      .attr("height", 2 * dotr * s)
-      .attr("x", -dotr * s)
-      .attr("y", -dotr * s);
-
-    var nodeExit = node.exit().transition()
-      .duration(step.duration || 0);
-
-    nodeExit
-      .select("circle, rect")
-      .style("opacity", 0);
-
-    nodeExit
-      .each(function () {
-        d3.select(this).remove();
-      });
-
-
-    // Update the links…
-    var link = svg.selectAll("path.link")
-      .data(step.edges, getId);
-
-    var diagonal = function (d) {
-      var s = [];
-      s.push("M");
-      s.push(d.source.x * w);
-      s.push(d.source.y * h);
-      s.push(d.target.x * w);
-      s.push(d.target.y * h);
-      s.push("z");
-      return s.join(" ");
-    };
-
-    // Enter any new links at the parent's previous position.
-    link.enter().insert("path", "g")
-      .attr("class", "link")
-      .style("stroke-width", sw * s)
-      .attr("d", function(d) {
-        var source = step.source || d.source;
-        return diagonal({
-          source: d.source,
-          target: source
-        });
-      });
-
-    // Transition links to their new position.
-    link.transition()
-      .duration(step.duration || 0)
-      .attr("d", diagonal);
-
-    link.exit().transition()
-      .duration(step.duration || 0)
-      .style("opacity", 0)
-      .each(function () {
-        d3.select(this).remove();
-      });
   }
 };
 
-function Graph(rootWidth, levels, classes) {
-  this.n = 0;
+function Graph(levels, classes) {
+  this.nextId = 0;
   this.steps = [];
-
-  rootWidth = rootWidth || 1;
   this.depth = 0;
+  this.maxWidth = 0;
   this.levels = levels || 4;
   this.classes = classes || 2;
-  var level = [];
-  for (var i = 0; i < rootWidth; i++) {
-    level.push(this.makeNode(i, rootWidth, 0));
-  }
-  this.depth++;
-  this.lastLevel = level;
-  this.maxWidth = rootWidth;
-  this.initial = new Step(this, 0);
-  this.initial.addNodes(level);
-  var root = new Step(this, this.layerDuration);
-  root.addNodes(level);
-  this.steps.push(root);
 }
 Graph.prototype = {
   lastStep : function () {
@@ -215,12 +101,12 @@ Graph.prototype = {
   },
   makeNode : function(pos, peers, pBreak) {
     var node = new Node(pos, peers, this.depth, this.levels, pBreak);
-    node.id = this.n++;
+    node.id = this.nextId++;
     return node;
   },
   makeEdge : function (source, target) {
     var edge = new Edge(source, target);
-    edge.id = this.n++;
+    edge.id = this.nextId++;
     return edge;
   },
   finish : function () {
@@ -229,6 +115,23 @@ Graph.prototype = {
   },
   splitDuration : 200,
   layerDuration : 500,
+  startLevel : function (width, isFeature) {
+    width = width || 1;
+    var level = [];
+    for (var i = 0; i < width; i++) {
+      var node = this.makeNode(i, width, 0);
+      node.feature = isFeature ? true : false;
+      level.push(node);
+    }
+    var root = this.newStep(this.layerDuration);
+    root.addNodes(level);
+    this.steps.push(root);
+    this.depth++;
+    if (width > this.maxWidth) {
+      this.maxWidth = width;
+    }
+    this.lastLevel = level;
+  },
   treeLevel : function(pBreak) {
     if (!this.lastLevel.length) {
       throw "No prior levels";
@@ -247,7 +150,7 @@ Graph.prototype = {
         node = this.makeNode(2 * i + j, n, pBreak);
         step.nodes.push(node);
         step.edges.push(this.makeEdge(source, node));
-        if (node.leaf) {
+        if (node.label) {
           node.class = classes.rpop();
         } else {
           level.push(node);
@@ -300,12 +203,12 @@ Graph.prototype = {
       step = this.newStep(this.splitDuration, source);
       for (j = 0; j < 2; j++) {
         k = temp[2*i + j];
-        //TODO handle non-DAG leaf closure?
+        //TODO handle non-DAG label closure?
         while (k >= level.length) {
           node = this.makeNode(k, width);
           step.nodes.push(node);
           level.push(node);
-          if (node.leaf) {
+          if (node.label) {
             node.class = classes.rpop();
           } else {
             nextPrior.push(node);
@@ -338,7 +241,7 @@ Graph.prototype = {
       node = this.makeNode(i, width);
       step.nodes.push(node);
       level.push(node);
-      if (node.leaf) {
+      if (node.label) {
         node.class = i;
       } else {
         nextPrior.push(node);
@@ -363,9 +266,11 @@ Graph.prototype = {
     this.lastLevel = nextPrior;
   }
 };
+Graph.prototype.type = "path";
 
 function Tree(depth, classes, pBreak) {
-  Graph.call(this, 1, depth, classes);
+  Graph.call(this, depth, classes);
+  this.startLevel(1);
   while (this.depth < this.levels && this.lastLevel.length) {
     this.treeLevel(pBreak);
   }
@@ -374,7 +279,8 @@ function Tree(depth, classes, pBreak) {
 Tree.prototype = Object.create(Graph.prototype);
 
 function DAG(depth, classes, width) {
-  Graph.call(this, 1, depth, classes);
+  Graph.call(this, depth, classes);
+  this.startLevel(1);
   width = width || 10;
   while (this.depth < this.levels) {
     if (this.depth + 1 === this.levels) {
@@ -394,21 +300,149 @@ function NN() {
   var depth = hidden.length;
   var features = hidden.shift();
   var classes = hidden.pop();
-  Graph.call(this, features, depth, classes);
-  for (var i = 0; i < hidden.length; i++) {
+  Graph.call(this, depth, classes);
+  this.startLevel(features, true);
+  for (i = 0; i < hidden.length; i++) {
     this.fullLevel(hidden[i]);
   }
   this.fullLevel(classes);
   this.finish();
 }
 NN.prototype = Object.create(Graph.prototype);
+NN.prototype.type = "linear";
 
 var classPallete = d3.scale.category10();
 
 function nodeDisplay(d) {
-  return d.leaf ? classPallete(d.class || 0) : "lightsteelblue";
+  return d.label ? classPallete(d.class || 0) : "lightsteelblue";
 }
 
 function getId(d) {
   return d.id;
+}
+
+var clearStep = new Step({
+  levels:1,
+  maxWidth:1
+}, 400);
+
+function displayStep(step, svg, duration) {
+  if (duration === undefined) {
+    duration = step.duration;
+  }
+  duration = duration || 0;
+
+  var dotr = 5;
+  var sw = step.graph.type === "path" ? 2 : 0.25;
+
+  var h = svg.attr("height");
+  var w = svg.attr("width");
+  var s = Math.min(h / step.graph.levels, w / step.graph.maxWidth) / (3 * dotr);
+
+  var diagonal = function (d) {
+    var s = [];
+    s.push("M");
+    s.push(d.source.x * w);
+    s.push(d.source.y * h);
+    s.push(d.target.x * w);
+    s.push(d.target.y * h);
+    s.push("z");
+    return s.join(" ");
+  };
+
+  var node = svg.selectAll("g.node")
+    .data(step.nodes, getId);
+
+  // Update the links…
+  var link = svg.selectAll("path.link")
+    .data(step.edges, getId);
+
+  var nodeEnter = node.enter().append("svg:g")
+    .attr("class", "node")
+    .attr("transform", function(d) {
+      var source = step.source || d;
+      return "translate(" + source.x * w + "," + source.y * h + ")";
+    });
+
+  nodeEnter.each(function (d) {
+    var e = d3.select(this);
+    if (d.label || d.feature) {
+      e.append("svg:rect")
+        .attr("width", 0)
+        .attr("height", 0)
+        .attr("x", 0)
+        .attr("y", 0)
+        .style("fill", nodeDisplay);
+    } else {
+      e.append("svg:circle")
+        .attr("r", 0)
+        .style("fill", nodeDisplay);
+    }
+  });
+
+  // Enter any new links at the parent's previous position.
+  link.enter().insert("path", "g")
+    .attr("class", "link")
+    .style("stroke-width", 0)
+    .attr("d", function(d) {
+      var source = step.source || d.source;
+      return diagonal({
+        source: d.source,
+        target: source
+      });
+    });
+
+
+  var nodeUpdate = node;
+  var nodeExit = node.exit();
+  var linkUpdate = link;
+  var linkExit = link.exit();
+
+  if (duration) {
+    nodeUpdate = nodeUpdate.transition()
+      .duration(duration);
+    nodeExit = nodeExit.transition()
+        .duration(duration);
+    linkUpdate = linkUpdate.transition()
+          .duration(duration);
+    linkExit = linkExit.transition()
+          .duration(duration);
+  }
+
+  nodeUpdate.attr("transform", function(d) {
+      return "translate(" + d.x * w + "," + d.y * h + ")";
+    });
+
+  nodeUpdate.select("circle")
+    .attr("r", dotr * s);
+
+  nodeUpdate.select("rect")
+    .attr("width", 2 * dotr * s)
+    .attr("height", 2 * dotr * s)
+    .attr("x", -dotr * s)
+    .attr("y", -dotr * s);
+
+
+  nodeExit.select("circle")
+    .attr("r", 0);
+
+  nodeExit.select("rect")
+    .attr("width", 0)
+    .attr("height", 0)
+    .attr("x", 0)
+    .attr("y", 0);
+
+  nodeExit
+    .remove();
+
+
+  // Transition links to their new position.
+  linkUpdate
+    .style("stroke-width", sw)
+    .attr("d", diagonal);
+
+  linkExit.style("opacity", 0)
+    .style("stroke-width", 0)
+    .remove();
+
 }
