@@ -223,33 +223,6 @@ section.has-dark-background a:hover {
   padding-left: 15px;
 }
 
-.reveal .row-eq-height, .reveal .row-eq-height > div[class*='col-'] {
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
-
-.reveal .row-eq-height > div[class*='col-'] > .panel, .reveal .row-eq-height > div[class*='col-'] > .well {
-  width:100%;
-}
-
-.reveal .panel-heading .h1,
-.reveal .panel-heading .h2,
-.reveal .panel-heading .h3,
-.reveal .panel-heading .h4,
-.reveal .panel-heading .h5,
-.reveal .panel-heading .h6,
-.reveal .panel-heading h1,
-.reveal .panel-heading h2,
-.reveal .panel-heading h3,
-.reveal .panel-heading h4,
-.reveal .panel-heading h5,
-.reveal .panel-heading h6 {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
 /*****************************************
  * Bootstrap
  *****************************************/
@@ -2956,11 +2929,11 @@ section.has-dark-background a:hover {
  }
 
  .reveal .panel-body {
-     padding: 15px;
+     padding: 10px;
  }
 
  .reveal .panel-heading {
-     padding: 10px 15px;
+     padding: 10px 10px;
      border-bottom: 2px solid transparent;
      border-top-left-radius: 7px;
      border-top-right-radius: 7px;

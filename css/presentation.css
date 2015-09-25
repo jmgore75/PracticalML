@@ -8,13 +8,24 @@
 .reveal .slides section .fragment.underline.visible {
   text-decoration: underline; }
 
+.reveal .row-eq-height, .reveal .row-eq-height > div[class*='col-'] {
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex: 1 1 auto;
+  flex: 1 1 auto;
+}
+
+.reveal .row-eq-height > div[class*='col-'] > .panel, .reveal .row-eq-height > div[class*='col-'] > .well {
+  width:100%;
+}
+
 .noborder {
   border: none !important;
   box-shadow: none !important; }
 
 .nopadding {
   margin: 0 !important;
-  padding: 0 !important; 
+  padding: 0 !important;
 }
 
 svg .node circle, .node rect {
