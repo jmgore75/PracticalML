@@ -3,6 +3,8 @@ Development Notes
 
 <http://www.pyimagesearch.com/2014/09/22/getting-started-deep-learning-python/>
 
+http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
+
 - Using ML to learn from your data
   - Using forests and dimension reduction to identify your important variables
 
