@@ -15,8 +15,8 @@ If your data has a complex, non-tabular structure, then you have fewer (but more
 
 Also:
 
-- Simple linear algorithms like logistic regression are cheap and often worth a shot.  
 - [Support Vector Machines](SupportVectorMachines.md) also perform well and are usually worth testing.  
+- Simple linear algorithms like logistic regression are cheap and often worth a shot.  
 
 For unsupervised learning:
 - Stacked Autoencoders
@@ -30,7 +30,7 @@ For feature selection and engineering:
 
 - More training data beats a more efficient algorithm. But scalability is also a concern.  
   - To a first approximation most algorithms produce similar results, even in radically different algorithms.
-  - Powerful learners can be accurate but unstable (unreliable and )
+  - Powerful learners can be accurate but unstable (may fail to train)
 - Feature engineering and parameter optimization are absolutely critical and usually the most complex part of the process.  
 - Fixed size learners have limits on how accurate they can be, while variable sized learners often fail due to limitations of their algorithm or computational cost.  Clever algorithms often work the best in the end.
 - Learners that produce interpretable output (rule sets) can yield useful insights.
