@@ -5,6 +5,22 @@ Development Notes
 
 http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
 
+Need To:
+
+- One-hot encoding
+- Neural Networks
+- Theano!
+- Polynomial features
+- Nearest neighbors
+- [Basic linear](http://scikit-learn.org/stable/modules/linear_model.html#linear-model)
+- Moar gifs
+- Naive Bayes?
+- GMM?
+- Scoring metrics?
+- Hyperparameter tuning
+- feature extraction
+- Real world example!
+
 - Using ML to learn from your data
   - Using forests and dimension reduction to identify your important variables
 
