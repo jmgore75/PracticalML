@@ -14,6 +14,8 @@ Array.prototype.rpop = function () {
   return this.splice(Math.floor(Math.random() * this.length), 1)[0];
 };
 
+var nextId = 0;
+
 function idArray(count) {
   var a = [];
   for (i = 0; i < count; i++) {
@@ -23,6 +25,7 @@ function idArray(count) {
 }
 
 function Edge(source, target) {
+  this.id = nextId++;
   this.source = source;
   this.target = target;
   source.edges.push(this);
@@ -31,6 +34,7 @@ function Edge(source, target) {
 
 function Node(pos, peers, depth, levels, pBreak) {
   pBreak = pBreak || 0;
+  this.id = nextId++;
   this.depth = depth;
   this.pos = pos;
   this.edges = [];
@@ -78,7 +82,6 @@ Step.prototype = {
 };
 
 function Graph(levels, classes) {
-  this.nextId = 0;
   this.steps = [];
   this.depth = 0;
   this.maxWidth = 0;
@@ -101,17 +104,11 @@ Graph.prototype = {
   },
   makeNode : function(pos, peers, pBreak) {
     var node = new Node(pos, peers, this.depth, this.levels, pBreak);
-    node.id = this.nextId++;
     return node;
   },
   makeEdge : function (source, target) {
     var edge = new Edge(source, target);
-    edge.id = this.nextId++;
     return edge;
-  },
-  finish : function () {
-    this.lastLevel = [];
-    this.complete = this.newStep(0);
   },
   splitDuration : 200,
   layerDuration : 500,
@@ -132,14 +129,14 @@ Graph.prototype = {
     }
     this.lastLevel = level;
   },
-  treeLevel : function(pBreak) {
+  treeLevel : function(pBreak, condense) {
     if (!this.lastLevel.length) {
       throw "No prior levels";
     }
 
     pBreak = pBreak || 0;
     var level = [];
-    var n = this.lastLevel.length * 2;
+    var n = condense ? this.lastLevel.length * 2 : Math.pow(2, this.depth);
 
     var source, node, step, i, j;
     for (i = 0; i < this.lastLevel.length; i++) {
@@ -147,7 +144,7 @@ Graph.prototype = {
       step = this.newStep(this.splitDuration, source);
       var classes = idArray(this.classes);
       for (j = 0; j < 2; j++) {
-        node = this.makeNode(2 * i + j, n, pBreak);
+        node = this.makeNode((condense ? i : source.pos) * 2 + j, n, pBreak);
         step.nodes.push(node);
         step.edges.push(this.makeEdge(source, node));
         if (node.label) {
@@ -203,7 +200,6 @@ Graph.prototype = {
       step = this.newStep(this.splitDuration, source);
       for (j = 0; j < 2; j++) {
         k = temp[2*i + j];
-        //TODO handle non-DAG label closure?
         while (k >= level.length) {
           node = this.makeNode(k, width);
           step.nodes.push(node);
@@ -268,15 +264,37 @@ Graph.prototype = {
 };
 Graph.prototype.type = "path";
 
-function Tree(depth, classes, pBreak) {
+function Tree(depth, classes, pBreak, noCondense) {
   Graph.call(this, depth, classes);
   this.startLevel(1);
   while (this.depth < this.levels && this.lastLevel.length) {
-    this.treeLevel(pBreak);
+    this.treeLevel(pBreak, !noCondense);
   }
-  this.finish();
+  this.makeLevelSteps();
 }
 Tree.prototype = Object.create(Graph.prototype);
+Tree.prototype.makeLevelSteps = function () {
+  var root = this.steps[0];
+  var tree = this;
+  tree.steps = [root];
+  function crawl(node) {
+    var targets = node.targets();
+    if (targets.length) {
+      var step = tree.newStep(tree.splitDuration, node);
+      tree.steps.push(step);
+      targets.forEach(function (edge) {
+        step.edges.push(edge);
+        step.nodes.push(edge.target);
+      });
+      targets.forEach(function (edge) {
+        crawl(edge.target);
+      });
+    }
+  }
+  root.nodes.forEach(function (node) {
+    crawl(node);
+  });
+};
 
 function DAG(depth, classes, width) {
   Graph.call(this, depth, classes);
@@ -288,12 +306,73 @@ function DAG(depth, classes, width) {
     } else if (this.lastLevel.length * 2 > width) {
       this.dagLevel(width);
     } else {
-      this.treeLevel();
+      this.treeLevel(0, true);
     }
   }
-  this.finish();
 }
 DAG.prototype = Object.create(Graph.prototype);
+
+function Forest(depth, classes, pBreak, scale, noCondense) {
+  scale = scale || 2;
+  Graph.call(this, depth * scale, classes);
+  var trees = [];
+  var maxSteps = 0;
+  var maxWidth = 0;
+  var i, j, k, tree, step, otherTree, otherStep;
+  function posAdjust(node) {
+    node.x = (i + node.x) / scale;
+    node.y = (j + node.y) / scale;
+  }
+  for (i = 0; i < scale; i++) {
+    for (j = 0; j < scale; j++) {
+      tree = new Tree(depth, classes, pBreak, noCondense);
+      if (tree.steps.length > maxSteps) {
+        maxSteps = tree.steps.length;
+      }
+      if (tree.maxWidth > maxWidth) {
+        maxWidth = tree.maxWidth;
+      }
+      tree.lastStep().nodes.forEach(posAdjust);
+      trees.push(tree);
+    }
+  }
+  var steps = [];
+  for (i = 0; i < maxSteps; i++) {
+    for (j = 0; j < trees.length; j++) {
+      tree = trees[j];
+      if (i < tree.steps.length) {
+        step = this.newStep(this.splitDuration / 2);
+        for (k = 0; k < trees.length; k++) {
+          otherTree = trees[k];
+          if (k <= j) {
+            if (i < otherTree.steps.length) {
+              otherStep = otherTree.steps[i];
+            } else {
+              otherStep = otherTree.lastStep();
+            }
+          } else if (k > j && i) {
+            if ((i-1) < otherTree.steps.length) {
+              otherStep = otherTree.steps[i-1];
+            } else {
+              otherStep = otherTree.lastStep();
+            }
+          }
+          if (k === j) {
+            step.source = otherStep.source;
+          }
+          step.nodes = step.nodes.concat(otherStep.nodes);
+          step.edges = step.edges.concat(otherStep.edges);
+        }
+        steps.push(step);
+      }
+    }
+  }
+  this.steps = steps;
+  this.maxWidth = maxWidth * scale;
+  this.depth = depth * scale;
+  this.level = depth * scale;
+}
+Forest.prototype = Object.create(Graph.prototype);
 
 function NN() {
   var hidden = Array.prototype.slice.call(arguments);
@@ -306,7 +385,6 @@ function NN() {
     this.fullLevel(hidden[i]);
   }
   this.fullLevel(classes);
-  this.finish();
 }
 NN.prototype = Object.create(Graph.prototype);
 NN.prototype.type = "linear";
