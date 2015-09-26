@@ -17,7 +17,7 @@ Training nodes in a decision tree has the following steps:
 
 Most machine learning algorithms will require you to preprocess your data by converting it to a numeric form and often scaling it to a tractable range.  Decision trees are an exception: the features can be categorical, discrete, or continuous in any range.  
 
-A decision tree can describe any given set of data perfectly if allowed sufficient depth.  Consequently, they have a bad tendency to overfit in a way that is difficult to avoid.  
+A decision tree can describe any given set of data almost perfectly if allowed sufficient depth.  Consequently, they have a bad tendency to overfit in a way that is difficult to avoid.  
 
 A decision tree only ever considers one feature at a time. It cannot model mathematical relationships between features, and thus cannot generalize well to border cases.  Plotting the map of a decision tree is disturbingly square.  
 
@@ -32,9 +32,7 @@ Random forests have several really nice practical aspects:
 
 - Since they are based on decision trees, no preprocessing of features is necessary.  
 - There are few parameters to tune and those parameters are very forgiving.  Essentially it's just the maximum depth, number of features to sample, and the number of trees.  
-- Training forests is an embarassingly parallel problem, and is typically quite fast.  You can add or remove new trees to forests without retraining the existing trees.  
-- Evaluation is also reasonably fast, although naturally slows with the depth and number of trees.  
-- Like most ensembles, forests scale well both in training and runtime.  
+- Training forests is an embarassingly parallel problem, and is typically quite fast.  You can add or remove new trees to forests without retraining the existing trees.  Evaluation is also reasonably fast.  
 
 Most importantly random forests work very well on a very large number of problems.  In fact with random forests you can continue adding trees to improve your accuracy without danger of overfitting.  This is because [bagging is most effective on unstable algorithms that overfit easily](http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf)... and decision trees overfit more easily than just about anything.
 
