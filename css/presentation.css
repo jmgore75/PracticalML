@@ -12,12 +12,10 @@
   display: -webkit-flex;
   display: flex;
   -webkit-flex: 1 1 auto;
-  flex: 1 1 auto;
-}
+  flex: 1 1 auto;}
 
 .reveal .row-eq-height > div[class*='col-'] > .panel, .reveal .row-eq-height > div[class*='col-'] > .well {
-  width:100%;
-}
+  width:100%;}
 
 .noborder {
   border: none !important;
@@ -25,18 +23,26 @@
 
 .nopadding {
   margin: 0 !important;
-  padding: 0 !important;
-}
+  padding: 0 !important;}
+
+.reveal code {
+  background: #3F3F3F;
+  color: #DCDCDC; }
+
+.reveal pre code {
+  max-height: 600px !important;
+  font-size: 20px !important;}
 
 svg .node circle, .node rect {
   cursor: pointer;
   fill: #fff;
   stroke: black;
-  stroke-width: 1px;
-}
+  stroke-width: 1px;}
 
 svg path.link {
   fill: none;
   stroke: black;
-  stroke-width: 1.5px;
+  stroke-width: 1.5px;}
+
+.slides section a {
 }
