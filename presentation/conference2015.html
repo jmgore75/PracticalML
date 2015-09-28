@@ -835,7 +835,10 @@ from sklearn.ensemble import
         </div>
       </div>
       <div class="col-md-6 nopadding">
-        <svg width="450" height="500"></svg>
+        <p>$$\begin{align}
+      s_j^{(1)} =& \sum_{i} x_{i} w^{(in\rightarrow 1)}_{i\rightarrow j}\\
+      S^{(1)} =& X W^{(in\rightarrow 1)}\\
+    \end{align}$$</p>
       </div>
     </div>
 
@@ -1001,6 +1004,7 @@ from sklearn.svm import SVC, SVR
       { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
       { src: '../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
       { src: '../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: '../reveal.js/plugin/math/math.js'},
       { src: '../reveal.js/plugin/highlight/highlight.js', async: true, condition: function() {
           return !!document.querySelector( 'code' );
         }, callback: function() {
