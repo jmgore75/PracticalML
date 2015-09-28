@@ -11,7 +11,7 @@ Need To:
 - Theano!
 - Nearest neighbors
 - [Basic linear](http://scikit-learn.org/stable/modules/linear_model.html#linear-model)
-- Moar gifs
+- More gifs
 - Naive Bayes?
 - GMM?
 - Scoring metrics?

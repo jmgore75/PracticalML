@@ -524,3 +524,77 @@ function displayStep(step, svg, duration) {
     .remove();
 
 }
+
+var normal = d3.random.normal();
+
+function norm2d() {
+  var m = normal();
+  var t = Math.random() * Math.PI;
+  var x = m * Math.sin(t);
+  var y = m * Math.cos(t);
+  return {x:x, y:y};
+}
+
+function Target(g, w) {
+  this.g = g;
+  this.w = w || 5;
+  this.r = this.w / 2;
+}
+Target.prototype = {
+  doShots : function (shots, duration) {
+    duration = duration || 0;
+    duration /= shots.length;
+    var pts = this.g.selectAll("circle.shot")
+      .data(shots, getId);
+
+    var pte = pts.enter()
+      .append("svg:circle")
+      .attr("class", "shot")
+      .attr("r", this.r)
+      .attr("cx", function (d) {return d.x;})
+      .attr("cy", function (d) {return d.y;});
+
+    var pto = pts.exit();
+
+    if (duration) {
+      pte.style("opacity", 0);
+
+      pts.transition()
+        .delay(function (d, i) {
+          return (i + (Math.random() - 0.5) / 10)*duration;
+        })
+        .duration(0)
+        .style("opacity", 1);
+
+      pto = pto.transition().duration(500)
+        .style("opacity", 0);
+    }
+
+    pto.remove();
+  }
+};
+
+function Shooter(r, t, s) {
+  this.r = r;
+  this.t = t;
+  this.s = s;
+  this.x = Math.sin(t) * this.r;
+  this.y = Math.cos(t) * this.r;
+  this.shots = {};
+  this.shots["first-shots"] = this.makeShots(20);
+  this.shots["many-shots"] = this.makeShots(100);
+}
+Shooter.prototype = {
+  makeShots : function (n) {
+    n = n || 15;
+    var data = [];
+    for (var i = 0; i < n; i++) {
+      var pt = norm2d();
+      pt.x = pt.x * this.s + this.x;
+      pt.y = pt.y * this.s + this.y;
+      pt.id = nextId++;
+      data.push(pt);
+    }
+    return data;
+  }
+};
