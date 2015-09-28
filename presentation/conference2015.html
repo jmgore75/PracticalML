@@ -234,53 +234,63 @@
 </section>
 
 <section>
-  <section id="process">
-    <h1>The process of a machine learning job</h1>
-  </section>
-
   <section id="steps">
-    <h2>Steps of a machine learning problem</h2>
+    <h1>The steps of a machine learning job</h1>
     <ol>
-      <li class="fragment">Know your problem</li>
-      <li class="fragment">Know your data</li>
-      <li class="fragment">Set up your test harness</li>
-      <li class="fragment">Spot check a variety of algorithms</li>
-      <li class="fragment">Fine tune the best ones</li>
+      <li>Know your problem</li>
+      <li>Know your data</li>
+      <li>Set up your test harness</li>
+      <li>Spot check a variety of algorithms</li>
+      <li>Fine tune your best models</li>
     </ol>
 
     <aside class="notes" data-markdown>
-      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this?  What kind of machine learning question is it?
+      Machine learning isn't just algorithms.  There is a definite process to it, and applying the algorithms is in many ways the least complex part of it.  Let's take a look at them
+    </aside>
+  </section>
 
-      - What problem are you trying to solve?
-      - Is machine learning a good fit for this problem?
-      - Is this a supervised or unsupervised question?
-      - Should you use an existing simple model instead?
+  <section id="problem">
+    <h2>Know your problem</h2>
+    <ol>
+      <li>What problem are you trying to solve?</li>
+      <li>Is machine learning the right choice?</li>
+      <li>What kind of machine learning is warranted?</li>
+      <li>Is there a simpler model which you should be using?</li>
+    </ol>
+    <blockquote>Machine learning is appropriate when the problem is too dynamic or complex to be handled by simple rules or models</blockquote>
+
+    <aside class="notes" data-markdown>
+      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?
+
+      Machine learning is most useful on tasks which can be solved but not simply explained.  For instance, you can easily describe the content of an image.  But can you describe the process you used to translate it from your eyes to your mouth?  You can't.  Others have tried with mediocre results.  Machine learning beat those algorithms handily.
     </aside>
   </section>
 
   <section id="data">
     <h2>Know your data</h2>
     <ul>
-      <li class="fragment">Where is it?</li>
-      <li class="fragment">What form is it in?</li>
-      <li class="fragment">What does it look like?</li>
-      <li class="fragment">Is it any good?</li>
+      <li>Where is it, how can I get it, and am I allowed to use it?</li>
+      <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
+      <li>What does it look like?</li>
+      <li>Is it any good and do you have enough of it?</li>
     </ul>
+    <blockquote>You need many more samples than features or parameters to learn effectively.</blockquote>
 
     <aside class="notes" data-markdown>
-      You must also understand your data and how to use it.
+      You must also understand your data and how to use it.  Where is your data, how will you physically get it, and are you even allowed to use it? What form is it in, and how will you convert it into a form that can be analyzed?  Before you try applying machine learning, you should always try to look at your data directly first, to ensure that you aren't
 
-      - Where is your data coming from?
+      Most importantly, is your data any good and do you have enough of it to effectively learn from it?  Just like in statistics, bad data is worse than no data.  And just like in statistics, if you have more parameters than samples, you can't properly solve the problem.  You need many more samples than features or parameters to learn effectively.
+
+      - Where is your data you need, how will you get to it, and are you allowed to use it?
         - How will you obtain it?
         - Do you have sufficient privileges?
         - Are you legally allowed to use your data to solve your problem? Be especially cautious about patient data.
-      - What form is your data in?
+      - What form is your data in, and how do I convert it to a form that can be analyzed?
         - How will you wrangle it into a form that can be analyzed?
-        - Do you need to wrangle your data only once or more often?
+      - What does your data look like?
+        - Can you plot it and if so, is there a pattern?
         - What are the types of your features?
         - Will any of them need to be transformed into a different form for processing?
-      - What does your data look like?
-        - Can you plot it and if so, is their a pattern?
       - What data do you have to work with?
         - Do I have enough examples to train with?
         - Do you have many more samples than features? If not training may not be effective.
@@ -290,6 +300,149 @@
         - Are your labels balanced?
         - Are any of your features exponential in nature? You may want to log transform them.
         - Are any of the features in your data identifiers? You may want to discard these: they can be used to overfit, and should not be interpreted as numbers.
+    </aside>
+  </section>
+
+  <section id="harness">
+    <h2>Set up your test harness</h2>
+    <ul>
+      <li>Set up your project directory and stick to your conventions. </li>
+      <li>Clean up your data into a form suitable for analysis
+        <ul>
+          <li>Handle blanks with placeholders, imputation, or removal</li>
+          <li>Convert categorical values to numeric (e.g. one-hot binary)</li>
+          <li>Remove unhelpful features</li>
+          <li>Add helpful ones if you can</li>
+        </ul>
+      </li>
+      <li>Verify the scoring algorithm to use</li>
+      <li>Determine if you need to compensate for biased input</li>
+    </ul>
+
+    <aside class="notes" data-markdown>
+
+    </aside>
+  </section>
+
+  <section id="spot-check">
+    <h2>Spot check a variety of algorithms</h2>
+    <blockquote>I recommend setting up a reusable generator to yield a standard set of models to test</blockquote>
+<pre><code class="py" data-trim data-noescape>
+def standard_models():
+  yield ExtraTreesClassifier(n_estimators=256)
+  yield Pipeline([
+    ('feat', RandomForestClassifier(max_depth=3,
+      n_estimators=64, class_weight="auto")),
+    ('et', ExtraTreesClassifier(n_estimators=256))])
+  yield Pipeline([
+    ('scale', StandardScaler()),
+    ('svc', SVC())])
+</code></pre>
+  </section>
+
+  <section id="fine-tune">
+    <h2>Fine tune your best models</h2>
+    <ul>
+      <li>Try adding or removing features</li>
+      <li>Use grid searches to fine-tune hyperparameters</li>
+      <li>Make a weighted ensemble of multiple models</li>
+    </ul>
+
+<pre><code class="py" data-trim data-noescape>
+from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
+</code></pre>
+  </section>
+
+</section>
+
+<section>
+  <section id="pitfalls">
+    <h1>Problems and Pitfalls of Machine Learning</h1>
+
+    <aside class="notes" data-markdown>
+      There are a lot of things that can bog down a machine learning task.  Here are some of them.
+    </aside>
+  </section>
+
+  <section id="no-free-lunch">
+    <h2>No Free Lunch Theorem</h2>
+    <p>No one algorithm will be suitable for all problems and any algorithm could be the right one.<span class="fragment" data-fragment-index="1">.. <i>but in practice only a handful of algorithms are really worth considering.</i></span></p>
+
+    <div class="row row-eq-height fragment" data-fragment-index="1">
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Random Forests</h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Neural Networks</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row row-eq-height fragment" data-fragment-index="1">
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Support Vector Machines</h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Cheap Algorithms</h4>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      There is something called the no-free-lunch theorem, which basically says no one algorithm will be suitable for all problems and any algorithm could be the right one.  But I think some algorithms tend to be much better than others.
+
+      And here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
+
+      Let's discuss some of these algorithms in a bit more depth.  I may skip over these.
+    </aside>
+  </section>
+
+  <section id="bias-variance" class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h2>Bias</h2>
+      </div>
+      <div class="col-md-4">
+        <h2>Variance</h2>
+      </div>
+      <div class="col-md-4">
+        <h2>Generalization</h2>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      There are three sources of error in models **Bias** is the tendency of an model to favor specific representations of the data.  The counterpart of bias is **Variance**, the tendency of an algorithm to find very different representations for small variations in the data.  During training, high bias leads to **Underfitting** because the algorithm is incapable of finding or building a model, while high variance leads to **Overfitting** because it effectively memorizes the training data. What we really want is a model which **Generalizes** the data and can accurately and reliably handle whatever we throw at it.
+
+      Let's use a metaphor. If you were shooting at a target, your bias is how far from the bullseye your shots are centered, and your variance is how spread apart your shots are.  A good model would have a tight grouping right in the center.
+
+      The most important point about the bias-variance tradeoff is this: it is impossible to overcome intrinsic bias in a model, but it *is* possible to overcome variance.  We will discuss some tricks for this, but the most straightforward approach is simply more training with more data on complex, low-bias models. One more reason why "big data" is a big deal.
+
+      Which brings us to the third source of error: insufficient or unrepresentative training data.  Garbage in, garbage out.
+    </aside>
+  </section>
+
+  <section id="dimensionality">
+    <h2>The curse of dimensionality</h2>
+    <p class="small"><i>The more dimensions you have, the closer two random points in a bounded space are. </i></p>
+    <img src="../img/dimensionality.png">
+    <p class="small"><i>Consider reducing your features</i></p>
+<pre><code class="py" data-trim data-noescape>
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestClassifier
+</code></pre>
+    <aside class="notes">
+      Irrelevant features are for all intents and purposes noise in your data.  This increases the risk of spurious correlations and makes most algorithms less efficient.  It also leads to higher memory consumption.
+
+      There are deeper issues as well.  Without going into details, bounded high-dimensional spaces are spiky with most of the volume concentrated in the center.  In other words, the distance between random points [tends to be the same](http://yaroslavvb.com/papers/koppen-curse.pdf), and it becomes impossible to learn in many circumstances.  So the curse of dimensionality is really the curse of the central limit theorem.
+
+      However, useful data is not random and generally has [lower true dimensionality](DimensionalityReduction.md) than the ones it is expressed in.  So real data does not necessarily suffer from this problem.  The moral of the story is, you should consider your features, particularly if your data has a large number of them.
+
+      There are many ways to select smaller feature sets or perform dimensionality reduction.  If the identities of your features are not important than you may want to project into a lower dimensional space with PCA.  Otherwise, you probably want to estimate feature importances with a RandomForest and keep the important ones.
     </aside>
   </section>
 
@@ -307,19 +460,6 @@
         - May be messy and include missing data
         - May include unimportant data
         - May be too large for memory, requiring special techniques to process
-    </aside>
-  </section>
-
-  <section id="dimensionality">
-    <h2>The dimensionality problem and feature selection</h2>
-    <aside class="notes">
-      Irrelevant features are for all intents and purposes noise in your data.  This increases the risk of spurious correlations and makes most algorithms less efficient.  It also leads to higher memory consumption.
-
-      There are deeper issues as well.  Without going into details, bounded high-dimensional spaces are spiky with most of the volume concentrated in the center.  In other words, the distance between random points [tends to be the same](http://yaroslavvb.com/papers/koppen-curse.pdf), and it becomes impossible to learn in many circumstances.  Think of it as the curse of the central limit theorem.
-
-      However, useful data is not random and generally has [lower true dimensionality](DimensionalityReduction.md) than the ones it is expressed in.  So real data does not necessarily suffer from this problem.  The moral of the story is, you should consider your features, particularly if your data has a large number of them.
-
-      There are many ways to select smaller feature sets or perform dimensionality reduction.
     </aside>
   </section>
 
@@ -397,7 +537,8 @@
 from sklearn.ensemble import ExtraTreesClassifier
 
 # Create a model
-clf = ExtraTreesClassifier(n_estimators:1024, class_weight:"subsample")
+clf = ExtraTreesClassifier(n_estimators:1024,
+  class_weight:"subsample")
 
 # Fit the model
 clf.fit(X_train, y_train)
@@ -456,7 +597,8 @@ from sklearn.cross_validation import train_test_split,
   KFold, StratifiedShuffleSplit
 
 # Quickly split into 80% train and 20% test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test =
+  train_test_split(X, y, test_size=0.2)
 
 # Or split into 5 folds
 folds = KFold(y.length, 5, shuffle=True)
@@ -503,56 +645,6 @@ predict_df.to_csv("output/predict.csv")
     </aside>
   </section>
 
-</section>
-
-<section>
-  <section id="algorithms">
-    <h1>Algorithms</h1>
-  </section>
-
-  <section id="no-free-lunch">
-    <h2>No Free Lunch Theorem</h2>
-    <br>
-    <p>No one algorithm will be suitable for all problems and any algorithm could be the right one.</p>
-    <p><em class="fragment">But...</em><span class="fragment"> in practice only a handful of algorithms are really worth considering</span></p>
-
-    <aside class="notes" data-markdown>
-    </aside>
-  </section>
-
-  <section id="essential-algorithms" class="container">
-    <h2>The algorithms that really matter</h2>
-    <h2><small>(for supervised learning)</small></h2>
-    <div class="row row-eq-height">
-      <div class="col-md-6">
-        <div class="well">
-          <h3>Random Forests</h3>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h3>Neural Networks</h3>
-        </div>
-      </div>
-    </div>
-    <div class="row row-eq-height">
-      <div class="col-md-6">
-        <div class="well">
-          <h3>Support Vector Machines</h3>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h3>Cheap Algorithms</h3>
-        </div>
-      </div>
-    </div>
-    <aside class="notes" data-markdown>
-      So here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
-
-      Let's discuss some of these algorithms in a bit more depth.  I may skip over these.
-    </aside>
-  </section>
 </section>
 
 <section>
@@ -791,37 +883,6 @@ from sklearn.svm import SVC, SVR
 </section>
 
 <section>
-  <section id="model-behavior">
-    <h1>Model Behavior</h1>
-  </section>
-
-  <section id="bias-variance" class="container">
-    <div class="row">
-      <div class="col-md-4">
-        <h2>Bias</h2>
-      </div>
-      <div class="col-md-4">
-        <h2>Variance</h2>
-      </div>
-      <div class="col-md-4">
-        <h2>Generalization</h2>
-      </div>
-    </div>
-
-    <aside class="notes" data-markdown>
-      There are three sources of error in models **Bias** is the tendency of an model to favor specific representations of the data.  The counterpart of bias is **Variance**, the tendency of an algorithm to find very different representations for small variations in the data.  During training, high bias leads to **Underfitting** because the algorithm is incapable of finding or building a model, while high variance leads to **Overfitting** because it effectively memorizes the training data. What we really want is a model which **Generalizes** the data and can accurately and reliably handle whatever we throw at it.
-
-      Let's use a metaphor. If you were shooting at a target, your bias is how far from the bullseye your shots are centered, and your variance is how spread apart your shots are.  A good model would have a tight grouping right in the center.
-
-      The most important point about the bias-variance tradeoff is this: it is impossible to overcome intrinsic bias in a model, but it *is* possible to overcome variance.  We will discuss some tricks for this, but the most straightforward approach is simply more training with more data on complex, low-bias models. One more reason why "big data" is a big deal.
-
-      Which brings us to the third source of error: insufficient or unrepresentative training data.  Garbage in, garbage out.
-    </aside>
-  </section>
-
-</section>
-
-<section>
   <section id="end" class="container">
     <h2>Thank you!</h2>
     <br>
@@ -851,7 +912,6 @@ from sklearn.svm import SVC, SVR
         <h4>Presentation Tools</h4>
         <ul>
           <li><a href="https://github.com/hakimel/reveal.js">Reveal.js</a> presentation framework</li>
-          <li><a href="http://paletton.com/">Palleton</a> color pallete tool</li>
           <li><a href="http://d3js.org/">d3.js</a> charting library</li>
         </ul>
       </div>

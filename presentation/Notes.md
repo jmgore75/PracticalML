@@ -7,17 +7,14 @@ http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comp
 
 Need To:
 
-- One-hot encoding
 - Neural Networks
 - Theano!
-- Polynomial features
 - Nearest neighbors
 - [Basic linear](http://scikit-learn.org/stable/modules/linear_model.html#linear-model)
 - Moar gifs
 - Naive Bayes?
 - GMM?
 - Scoring metrics?
-- Hyperparameter tuning
 - feature extraction
 - Real world example!
 
