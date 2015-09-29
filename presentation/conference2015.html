@@ -459,12 +459,10 @@ from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
 
     <div class="row">
       <div class="col-md-6">
-        <svg width="250" height="250">
-          <g></g>
-        </svg>
+        <img class="noborder" src="../img/validation.png">
       </div>
       <div class="col-md-6">
-        <svg width="250" height="250"></svg>
+        <img class="noborder" src="../img/learning.png">
       </div>
     </div>
 
@@ -584,6 +582,43 @@ from sklearn.ensemble import RandomForestClassifier
     <h2>Example code with scikit-learn</h2>
   </section>
 
+  <section id="py-ml-stack" class="container">
+    <h2>Recommended Python ML Stack</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <ol class="list-group small">
+          <li class="list-group-item">Python</li>
+          <li class="list-group-item">Pandas</li>
+          <li class="list-group-item">scikit-learn</li>
+          <li class="list-group-item">scikit-neuralnetwork</li>
+          <li class="list-group-item">Theano</li>
+        </ol>
+      </div>
+      <div class="col-md-8">
+        <img class="noborder" width="400" height="auto" style="width:400;height:auto" src="../img/logo-anaconda.svg">
+        <p><a href="https://www.continuum.io/">https://www.continuum.io/</a></p>
+        <blockquote class="small">You must install a compiler (g++) and ideally NVIDIA's CUDA</blockquote>
+<pre><code class="sh" data-trim>
+$ conda install mingw libpython
+$ pip install theano scikit-neuralnetwork
+</code></pre>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      To handle the code I am going to show you today you will need to install the following software:
+
+      - Python
+      - Pandas for data io
+      - scikit-learn for most machine learning algorithms
+      - and scikit-neuralnetwork for neural networks, using Theano
+
+      You could install those individually, but I would recommend that you use the Anaconda distribution for scientific python, and then install theano and scikit-neuralnetwork using pip.
+
+      But, theano is actually a python library for just-in-time compilation of numerical algorithms.  It requires a compiler.  Ideally, if you have a compatible NVIDIA GPU you can install their CUDA tools for even faster execution.  It is well worth it but installation can be a bit of a pain.
+    </aside>
+  </section>
+
   <section id="train-test-predict">
     <h2 class="text-left">Standard train-test-predict workflow</h2>
 <pre><code class="py" data-trim data-noescape>
@@ -701,8 +736,9 @@ predict_df.to_csv("output/predict.csv")
 </section>
 
 <section>
-  <section id="tree-algorithms">
-    <h1>Tree Algorithms</h1>
+  <section id="algorithms">
+    <h1>Algorithms</h1>
+    <img class="noborder" src="../img/algorithms.png">
     <aside class="notes" data-markdown>
       There are many different algorithms for machine learning but they tend to fall into only a few major categories.  One of the most successful are the tree algorithms.  So let's take a look at those.
     </aside>
@@ -874,18 +910,6 @@ from sklearn.ensemble import
 from sklearn.ensemble import
 </code></pre>
     <aside class="notes" data-markdown>
-    </aside>
-  </section>
-
-  <section id="extreme-learning-machines" data-background="#ffff00" data-background-transition="zoom">
-    <h2>Extreme Learning Machines</h2>
-    <svg width="800" height="300" style="background:white"></svg>
-    <aside class="notes" data-markdown>
-      Extreme Learning Machines are a variant of neural networks (usually with one relatively large hidden layer).  The input-hidden weights are initialized randomly (like usual).  The hidden-output weights are then calculated analytically (not like usual).  And that's it - no backpropagation necessary.  Amazingly, this comically simple and fast approach works pretty well.  In practice a few rounds of backpropagation will improve the results even more.
-
-      Essentially, an extreme learning machine is just a logistic/linear regression, albeit on a random and non-linear transformation of the original features.  The fact that it works, and works well, demonstrates two important things: firstly, that discovering tractable features (through transformation or engineering) is *the* critical task of any machine learning pipeline; secondly, that a random linear transformation of arbitrary features can produce a new set of features tractable to linear analysis.
-
-      > elm_kernel_m is the ELM with Gaussian kernel, tuning the regularization parameter and the kernel spread with values 2<sup>-5</sup>..2<sup>14</sup> and 2<sup>-16</sup>..2<sup>8</sup> respectively.  Neurons between 3 and 200. From Huang et al.
     </aside>
   </section>
 

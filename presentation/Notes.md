@@ -3,9 +3,11 @@ Development Notes
 
 <http://www.pyimagesearch.com/2014/09/22/getting-started-deep-learning-python/>
 
+Need To:
+
 http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comparison.html
 
-Need To:
+http://scikit-learn.org/stable/modules/learning_curve.html
 
 - Neural Networks
 - Theano!
