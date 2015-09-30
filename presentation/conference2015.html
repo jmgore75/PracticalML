@@ -118,7 +118,7 @@
     <h2>Core Concepts</h2>
     <div class="row row-eq-height">
       <div class="col-md-6">
-        <div class="panel panel-orange">
+        <div class="panel panel-blue">
           <div class="panel-heading">
             <h4 class="panel-title">Data</h4>
           </div>
@@ -131,7 +131,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <div class="panel panel-purple">
+        <div class="panel panel-yellow">
           <div class="panel-heading">
             <h4 class="panel-title">Models</h4>
           </div>
@@ -380,16 +380,22 @@ $ pip install theano scikit-neuralnetwork
 </section>
 
 <section>
-  <section id="data">
+  <section id="data" class="container">
     <h1 class="text-left">2. Know your data</h1>
-    <ul class="small">
-      <li>Where is it, how can I get it, and am I allowed to use it?</li>
-      <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
-      <li>What does it look like?</li>
-      <li>Is it any good and do you have enough of it?</li>
-      <li>Are your classes biased and do you need to compensate for that? </li>
-    </ul>
-    <blockquote>You need many more samples than features or parameters to learn effectively.</blockquote>
+    <div class="row">
+      <div class="col-md-4">
+        <img class="noborder" src="../img/data.jpg">
+      </div>
+      <div class="col-md-8">
+        <ul class="small">
+          <li>Where is it, how can I get it, and am I allowed to use it?</li>
+          <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
+          <li>What does it look like?</li>
+          <li>Is it any good and do you have enough of it?</li>
+          <li>Are your classes biased and do you need to compensate for that? </li>
+        </ul>
+      </div>
+    </div>
 
     <aside class="notes" data-markdown>
       You must also understand your data and how to use it.  Where is your data, how will you physically get it, and are you even allowed to use it? What form is it in, and how will you convert it into a form that can be analyzed?  Before you try applying machine learning, you should always try to look at your data directly first, to ensure that you aren't
@@ -424,10 +430,6 @@ $ pip install theano scikit-neuralnetwork
     <h2>Data Wrangling</h2>
     <div class="row">
       <div class="col-md-6">
-        <img src="../img/wrangling.gif">
-        <blockquote class="small">Good luck!</blockquote>
-      </div>
-      <div class="col-md-6">
         <div class="panel panel-red">
           <ul class="list-group small">
             <li class="list-group-item">Get it</li>
@@ -439,6 +441,11 @@ $ pip install theano scikit-neuralnetwork
           </ul>
         </div>
       </div>
+      <div class="col-md-6">
+        <img src="../img/wrangling.gif">
+        <blockquote class="small">Good luck!</blockquote>
+      </div>
+    </div>
     <aside class="notes">
       Data wrangling (or munging or preparation) is widely considered to be the most tedious and time consuming part of data science.  You will spend 90% of your time just whipping your data into shape.  But as trivial as it sounds, you can't train a model without data.
 
@@ -499,6 +506,7 @@ from sklearn.ensemble import RandomForestClassifier
 <section>
   <section id="harness">
     <h1 class="text-left">3. Set up your test harness</h1>
+    <img class="noborder" height="200" width="auto" src="../img/organize.jpg">
     <ul>
       <li>Set up your project directory</li>
       <li>Clean up your data into a form suitable for analysis</li>
@@ -863,6 +871,7 @@ from sklearn.svm import SVC, SVR
 <section>
   <section id="fine-tune">
     <h1 class="text-left">5. Fine tune your best models</h1>
+    <img class="noborder" height="200" width="auto" src="../img/goesto11.jpg">
     <ul>
       <li>Try adding or removing features</li>
       <li>Use grid searches to fine-tune hyperparameters</li>
@@ -988,6 +997,11 @@ train_sizes, train_scores, test_scores = learning_curve(
   </section>
 
 </section>
+
+<section id="ambitions">
+  <img class="noborder" src="../img/train.jpg">
+</section>
+
 
 <section>
   <section id="end" class="container">
