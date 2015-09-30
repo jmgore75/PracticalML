@@ -924,30 +924,44 @@ from sklearn.svm import SVC, SVR
 
   <section id="hyperparameter-tuning" class="container">
     <h2>Tuning Hyperparameters</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <img class="noborder" src="../img/validation.png">
-      </div>
-      <div class="col-md-6">
-        <img class="noborder" src="../img/learning.png">
-      </div>
-    </div>
+    <img class="noborder" src="../img/validation.png">
 
 <pre><code class="py small" data-trim data-noescape>
+from sklearn.grid_search import GridSearchCV,
 from sklearn.cross_validation import StratifiedShuffleSplit
 
-params = {"kernel": ["poly", "rbf"], "gamma": np.logspace(-9, 3, 13)}
+params = {"gamma": np.logspace(-9, 3, 13)}
 splits = StratifiedShuffleSplit(y, n_iter=3, test_size=0.2)
-clf = SVC(degree=2)
-grid = GridSearchCV(clf, param_grid=params, cv=splits)
+grid = GridSearchCV(SVC(), param_grid=params, cv=splits)
 grid.fit(X_train, y_train)
-
 print grid.best_params_, grid.best_score_
 </code></pre>
     <aside class="notes" data-markdown>
-      When constructing or training a model you are generally required to provide hyperparameters.  This is not simply a matter of choice - choosing the right hyperparameters can be the difference between a model with high accuracy and one that doesn't even train.  Some models are definitely more sensitive than others.  As such, you usually need to explore variants of a model with different hyperparameters set.
+      The bias-variance tradeoff can be adjusted when constructing many models, by adjusting particular hyperparameters.  Choosing the right hyperparameters is very important, and can mean the difference between a model with high accuracy and one that doesn't even train.  As such, you usually need to explore variants of a model with different hyperparameters set.  Tuning hyperparameters can be tricky, as they can interact with each other or be just plain sensitive.
 
+      Here we see an example of hyperparameter tuning for a Support Vector Machine.  The parameter is called gamma and controls how complex the model is allowed to be; we are tuning it across a logarithmic range.  So when gamma is low, the model complexity is low, and therefore the intrinisic bias of the model is high.  Both the training score and the testing score is poor: the model is underfitting.  When gamma is high, the model is allowed to be complex, which means the training score is nearly perfect but the testing score is much worse: the model is overfitting.  The sweet spot is in the middle, at 0.001.  By the way this sort of visual exploration is called a validation curve
 
+      In python, one would typically use the GridSearchCV to explore a particular parameter space.  You provide the GridSearchCV with the model to tune and a dictionary of parameter options, and it will explore every combination of those options to find the one with the best accuracy.  You can then extract the parameters and retrain the model with the best ones (GridSearchCV will even do that for you).
+    </aside>
+  </section>
+
+  <section id="performance-data" class="container">
+    <h2>Model performance with data</h2>
+    <img class="noborder" src="../img/learning.png">
+
+<pre><code class="py small" data-trim data-noescape>
+from sklearn.cross_validation import ShuffleSplit
+from sklearn.learning_curve import learning_curve
+
+train_sizes = np.linspace(.1, 1.0, 9)
+cv = cross_validation.ShuffleSplit(
+  len(y), n_iter=10, test_size=0.2)
+
+train_sizes, train_scores, test_scores = learning_curve(
+    clf, X, y, cv=cv, train_sizes=train_sizes)
+</code></pre>
+    <aside class="notes" data-markdown>
+      Of course model performance is also heavily dependent on data.  One way to get a feel for the true intrinsic bias of a model is by looking at how well it trains with different amounts of data.  Generally you expect that your train and test accuracy will converge as you train with more and more data.  The shared asymptote of the two curves represents the intrinsic bias, the maximum possible accuracy this model can obtain.  The curve of the two lines gives you an idea about how much data you actually need to get acceptably close to that point.
     </aside>
   </section>
 
