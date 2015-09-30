@@ -104,14 +104,14 @@
   <aside class="notes">
     Here's a brief overview of what we'll be covering today.  We'll review what machine learning is and what it's all about, before reviewing the job process with Python and scikit-learn.  Along the way we'll discuss some major supervised algorithms.
 
-    We *won't* be covering other algorithms, platforms, or more complex data models, but rest assured much of what we will discuss today can be applied directly in these other contexts.  
+    We *won't* be covering other algorithms, platforms, or more complex data models, but rest assured much of what we will discuss today can be applied directly in these other contexts.
   </aside>
 </section>
 
 <section>
   <section id="what-is-ml">
     <h1>What is machine learning?</h1>
-    <img src="../img/ml.gif">
+    <img class="noborder" src="../img/ml.gif">
   </section>
 
   <section id="concepts" class="container">
@@ -220,9 +220,9 @@
         </ol>
       </div>
       <div class="col-md-8">
-        <img class="noborder" width="400" height="auto" style="width:400;height:auto" src="../img/logo-anaconda.svg">
+        <img class="noborder" width="300" height="150" src="../img/logo-anaconda.svg">
         <p><a href="https://www.continuum.io/">https://www.continuum.io/</a></p>
-        <blockquote class="small">You must install a compiler (g++) and ideally NVIDIA's CUDA</blockquote>
+        <blockquote class="small">You must install a compiler (g++) and ideally CUDA</blockquote>
 <pre><code class="sh" data-trim>
 $ conda install mingw libpython
 $ pip install theano scikit-neuralnetwork
@@ -271,9 +271,45 @@ $ pip install theano scikit-neuralnetwork
       <li>What problem are you trying to solve?</li>
       <li>Is machine learning the right choice?</li>
       <li>What kind of machine learning is warranted?</li>
-      <li>Is there a simpler model which you should be using?</li>
       <li>What scoring algorithm should you use?</li>
     </ul>
+
+    <aside class="notes" data-markdown>
+      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?
+
+      Machine learning is most useful on tasks which can be solved but not simply explained.  For instance, you can easily describe the content of an image.  But can you describe the process you used to translate it from your eyes to your mouth?  You can't.  Others have tried with mediocre results.  Machine learning beat those algorithms handily.
+    </aside>
+  </section>
+
+  <section id="data-models" class="container">
+    <h2>Data and models</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <img class="noborder" src="../img/titanic.png">
+      </div>
+      <div class="col-md-6">
+        <img class="noborder" src="../img/convolution.jpg">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <img class="noborder" src="../img/diags.jpeg">
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      The most common form of machine learning problem is to make a prediction for independent samples, where the features of the sample are not really related to each other.  But this is not always the case.  There are many others that require special formulation and considerations, such as:
+
+      - [Structured data](NeuralNetworks.md#convolutional-layers): When there is a structural relationship between the features (such as pixels in an image)
+      - [Graphical models](Probabilistic.md#graphical-techniques): Given samples for a collection of nodes, construct a network between the nodes
+      - [Sequential or process models](NeuralNetworks.md#recurrent-neural-networks): When the input and/or output is a sequence of arbitrary length
+    </aside>
+  </section>
+
+  <section id="when-ml">
+    <h2><i>When</i> to use machine learning</h1>
+    <img class="noborder" src="../img/celebs.jpg">
     <blockquote>Machine learning is appropriate when the problem is too dynamic or complex to be handled by simple rules or models</blockquote>
 
     <aside class="notes" data-markdown>
@@ -341,24 +377,6 @@ $ pip install theano scikit-neuralnetwork
     </aside>
   </section>
 
-  <section id="data-models">
-    <h2>Data and models</h2>
-    <ul>
-      <li>Tabular data</li>
-      <li>Structured data</li>
-      <li>Graphical models</li>
-      <li>Sequential or process models</li>
-    </ul>
-
-    <aside class="notes" data-markdown>
-      The most common form of machine learning problem is to make a prediction for independent samples, where the features of the sample are not really related to each other.  But this is not always the case.  There are many others that require special formulation and considerations, such as:
-
-      - [Structured data](NeuralNetworks.md#convolutional-layers): When there is a structural relationship between the features (such as pixels in an image)
-      - [Graphical models](Probabilistic.md#graphical-techniques): Given samples for a collection of nodes, construct a network between the nodes
-      - [Sequential or process models](NeuralNetworks.md#recurrent-neural-networks): When the input and/or output is a sequence of arbitrary length
-    </aside>
-  </section>
-
 </section>
 
 <section>
@@ -403,7 +421,7 @@ $ pip install theano scikit-neuralnetwork
   </section>
 
   <section id="wrangling" class="container">
-    <h2>Data Wrangling / Munging</h2>
+    <h2>Data Wrangling</h2>
     <div class="row">
       <div class="col-md-6">
         <img src="../img/wrangling.gif">
@@ -412,7 +430,8 @@ $ pip install theano scikit-neuralnetwork
       <div class="col-md-6">
         <div class="panel panel-red">
           <ul class="list-group small">
-            <li class="list-group-item">Convert to correct format</li>
+            <li class="list-group-item">Get it</li>
+            <li class="list-group-item">Convert to useful format</li>
             <li class="list-group-item">Handle blanks</li>
             <li class="list-group-item">Convert categorical values to numeric</li>
             <li class="list-group-item">Remove unhelpful features</li>
@@ -431,7 +450,7 @@ $ pip install theano scikit-neuralnetwork
   </section>
 
   <section id="pandas">
-    <h2 class="text-left">Data i/o with Pandas</h2>
+    <h2>Data i/o with Pandas</h2>
 <pre><code class="py" data-trim data-noescape>
 import pandas as pd
 
@@ -493,13 +512,12 @@ from sklearn.ensemble import RandomForestClassifier
   </section>
 
   <section id="train-test-predict">
-    <h2 class="text-left">Standard train-test-predict workflow</h2>
+    <h2>Standard train-test-predict workflow</h2>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.ensemble import ExtraTreesClassifier
 
 # Create a model
-clf = ExtraTreesClassifier(n_estimators:1024,
-  class_weight:"subsample")
+clf = ExtraTreesClassifier(n_estimators:1024, class_weight:"subsample")
 
 # Fit the model
 clf.fit(X_train, y_train)
@@ -520,7 +538,7 @@ y_predict = clf.predict(X_predict)
   </section>
 
   <section id="preprocess-pipeline">
-    <h2 class="text-left">Preprocessing and Pipelines</h2>
+    <h2>Preprocessing and Pipelines</h2>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
@@ -552,14 +570,13 @@ clf.fit(X_train, y_train)
   </section>
 
   <section id="splitting">
-    <h2 class="text-left">Splitting data for validation</h2>
+    <h2>Splitting data for validation</h2>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.cross_validation import train_test_split,
   KFold, StratifiedShuffleSplit
 
 # Quickly split into 80% train and 20% test
-X_train, X_test, y_train, y_test =
-  train_test_split(X, y, test_size=0.2)
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # Or split into 5 folds
 folds = KFold(y.length, 5, shuffle=True)
@@ -569,8 +586,6 @@ for i_train, i_test in folds:
 
 # Or generate 5 random splits preserving class percentages
 sss = StratifiedShuffleSplit(y, 5, test_size=0.2)
-
-# etc.
 </code></pre>
     <aside class="notes" data-markdown>
       With machine learning models the accuracy you get on the data you train with is usually much higher than what you will get for other data.  Which is why every machine learning workflow will require you to save some of your data for testing.
@@ -799,10 +814,6 @@ clf = Classifier(layers=layers)
 
   <section id="svm" class="container">
     <div class="row">
-      <div class="col-md-6 nopadding">
-        <img src="../img/svc.gif" style="width:320px;height:auto">
-        <img src="../img/svc-projection.gif" style="width:320px;height:auto;clip:rect(0px,140px,140px,0px);">
-      </div>
       <div class="col-md-6">
         <h2 class="text-left">Support Vector Machines</h2>
         <div class="panel panel-green small">
@@ -819,6 +830,10 @@ clf = Classifier(layers=layers)
             <li class="list-group-item">Not suitable for large training sets</li>
           </ul>
         </div>
+      </div>
+      <div class="col-md-6 nopadding">
+        <img src="../img/svc.gif" style="width:320px;height:auto">
+        <img src="../img/svc-projection.gif" style="width:320px;height:auto;clip:rect(0px,140px,140px,0px);">
       </div>
     </div>
 <pre><code class="py" data-trim data-noescape>
@@ -848,22 +863,15 @@ from sklearn.svm import SVC, SVR
 <section>
   <section id="fine-tune">
     <h1 class="text-left">5. Fine tune your best models</h1>
-    <div class="row">
-      <div class="col-md-6">
-        <img class="noborder" src="../img/validation.png">
-      </div>
-      <div class="col-md-6">
-        <ul>
-          <li>Try adding or removing features</li>
-          <li>Use grid searches to fine-tune hyperparameters</li>
-          <li>Train longer</li>
-          <li>Make a weighted ensemble of multiple models</li>
-        </ul>
-      </div>
-    </div>
+    <ul>
+      <li>Try adding or removing features</li>
+      <li>Use grid searches to fine-tune hyperparameters</li>
+      <li>Train longer</li>
+      <li>Make a weighted ensemble of multiple models</li>
+    </ul>
 
     <aside class="notes" data-markdown>
-      Lastly once you have some good models, try improving them. See if adding or removing features makes a difference.  Use a grid search to optimize hyperparameters.  Maybe even make a weighted ensemble of multiple models.
+      Once you have some good models, try improving them. See if adding or removing features makes a difference.  Use a grid search to optimize hyperparameters.  Maybe even make a weighted ensemble of multiple models.
     </aside>
   </section>
 
@@ -998,7 +1006,7 @@ train_sizes, train_scores, test_scores = learning_curve(
     <div>
   </section>
 
-  <section id="tools">
+  <section id="tools" class="container">
     <div class="row">
       <div class="col-md-6 text-left">
         <h4>Development Tools</h4>
@@ -1017,10 +1025,6 @@ train_sizes, train_scores, test_scores = learning_curve(
         </ul>
       </div>
     </div>
-
-    <aside class="notes">
-
-    </aside>
   </section>
 
 </section>
@@ -1123,12 +1127,10 @@ train_sizes, train_scores, test_scores = learning_curve(
     Reveal.addEventListener( 'slidechanged', handleSlide);
 
     var graphMap = {
-      "title" : [new Tree(5, 3, 0.1), new DAG(7, 3, 8), new NN(4, 8, 8, 8, 3)],
+      "title" : [new Tree(5, 3, 0.1), new NN(4, 8, 8, 8, 3), new DAG(7, 3, 8), new NN(4, 32, 3)],
       "decision-tree" : [new Tree(5, 3, 0.2), new Tree(4, 3, 0), new Tree(4, 2, 0.2)],
       "random-forest" : [new Forest(4, 3, 0.1), new Forest(4, 2, 0.2), new Forest(5, 3, 0.2)],
-      "decision-jungle" : [new DAG(7, 3, 8), new DAG(8, 2, 6), new DAG(7, 3, 8)],
-      "neural-network"  : [new NN(4, 8, 8, 8, 3)],
-      "extreme-learning-machines" : [new NN(4, 32, 3)]
+      "neural-network"  : [new NN(4, 8, 8, 8, 3)]
     }
 
     function loopGraphs(slide, graphs) {
