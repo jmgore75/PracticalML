@@ -155,6 +155,135 @@
     </aside>
   </section>
 
+  <section id="hardware-software" class="container">
+    <h2>Hardware and Software</h2>
+    <div class="row row-eq-height">
+      <div class="col-md-6">
+        <div class="panel panel-orange">
+          <div class="panel-heading">
+            <h4 class="panel-title">Machine</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item">Plenty of memory (8GB)</li>
+            <li class="list-group-item">NVidia GPU, or decent CPU</li>
+            <li class="list-group-item">Preferably Linux</li>
+            <li class="list-group-item">Local or Server?</li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-purple">
+          <div class="panel-heading">
+            <h4 class="panel-title">ML Platform</h4>
+          </div>
+          <ul class="list-group">
+            <li class="list-group-item"><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
+            <li class="list-group-item"><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
+            <li class="list-group-item"><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
+            <li class="list-group-item"><em><a href="http://julialang.org/">Julia</a></em>: New hotness</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      Like any heavy computing task, in machine learning you must consider hardware and software.
+
+      When choosing the system to perform machine learning (if you have a choice) you should take the following aspects into account:
+
+      1. Plenty of memory, because both datasets and algorithms can require a lot of memory
+      2. NVidia GPU, which can give you massive performance improvements for neural networks, often 30x.  It can make a huge difference in your ability to investigate.  Failing that, you want the best CPU you have.
+      3. Most tools, libraries, and dependencies are available for Linux, OS X, and Windows.  But you will find that actually installing those on systems other than Linux can be quite painful, even on another Unix like OS X.  One time I had a compile fail because I didn't invoke the makefile from bash.  So if you can, save yourself some grief and use Linux.
+      4. The first three requirements definitely favor a server, but there are plenty of benefits to being able to work without a connection.  If you can, do both, and keep things in sync with git, which you were already using RIGHT?
+
+      Which brings us to your machine learning software platform.  Sure there are innumerable tools and services, but if you want to investigate properly you need a platform with a consistent interface which is kept up-to-date with the latest algorithms. At the moment, there are two primary ones and two secondary ones, all of which I have used at one time or another.
+
+      [R](https://www.r-project.org/) is *the* premier open source statistical platform, and the most popular ML tool with the most algorithms.  It is widely used in academia, and so most new algorithms actually show up there first.
+
+      [Python](https://www.python.org/) on the other hand is a general-purpose programming language.  Two packages are especially useful for machine Learning: [scikit-learn](http://scikit-learn.org) wraps many ML algorithms in a common API along with plenty of utilities, and  [Theano](http://deeplearning.net/software/theano) can be used to compile numerical algorithms to native code.  Significantly, python is production ready and excellent for data wrangling.  This is the environment I will be using today.
+
+      [MatLab](http://www.mathworks.com/products/matlab/) is a numerical computing environment with extensive use in academic and research institutions. But it is also proprietary and expensive and doesn't see much use elsewhere.
+
+      [Julia](http://julialang.org/) is a very new high-performance dynamic programming language. It is specifically designed for numerical and scientific computing but also aims to be an effective general purpose language.  The syntax is concise and the performance is actually quite good.  But it is very young and core APIs are still changing, so although its package ecosystem is growing rapidly I can't recommend it just yet.
+    </aside>
+  </section>
+
+  <section id="py-ml-stack" class="container">
+    <h2>Recommended Python ML Stack</h2>
+    <div class="row">
+      <div class="col-md-4">
+        <ol class="list-group small">
+          <li class="list-group-item">Python</li>
+          <li class="list-group-item">Pandas</li>
+          <li class="list-group-item">scikit-learn</li>
+          <li class="list-group-item">scikit-neuralnetwork</li>
+          <li class="list-group-item">Theano</li>
+        </ol>
+      </div>
+      <div class="col-md-8">
+        <img class="noborder" width="400" height="auto" style="width:400;height:auto" src="../img/logo-anaconda.svg">
+        <p><a href="https://www.continuum.io/">https://www.continuum.io/</a></p>
+        <blockquote class="small">You must install a compiler (g++) and ideally NVIDIA's CUDA</blockquote>
+<pre><code class="sh" data-trim>
+$ conda install mingw libpython
+$ pip install theano scikit-neuralnetwork
+</code></pre>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      To handle the code I am going to show you today you will need to install the following software:
+
+      - Python
+      - Pandas for data io
+      - scikit-learn for most machine learning algorithms
+      - and scikit-neuralnetwork for neural networks, using Theano
+
+      You could install those individually, but I would recommend that you use the Anaconda distribution for scientific python, and then install theano and scikit-neuralnetwork using pip.
+
+      But, theano is actually a python library for just-in-time compilation of numerical algorithms.  It requires a compiler.  Ideally, if you have a compatible NVIDIA GPU you can install their CUDA tools for even faster execution.  It is well worth it but installation can be a bit of a pain.
+    </aside>
+  </section>
+
+</section>
+
+<section>
+  <section id="steps">
+    <h1>The steps of a machine learning job</h1>
+    <ol>
+      <li>Know your problem</li>
+      <li>Know your data</li>
+      <li>Set up your test harness</li>
+      <li>Spot check a variety of algorithms</li>
+      <li>Fine tune your best models</li>
+    </ol>
+
+    <aside class="notes" data-markdown>
+      Machine learning isn't just algorithms.  There is a definite process to it, and applying the algorithms is in many ways the least complex part of it.  Let's take a look at them
+    </aside>
+  </section>
+
+</section>
+
+<section>
+  <section id="problem">
+    <h1 class="text-left">1. Know your problem</h1>
+    <ul>
+      <li>What problem are you trying to solve?</li>
+      <li>Is machine learning the right choice?</li>
+      <li>What kind of machine learning is warranted?</li>
+      <li>Is there a simpler model which you should be using?</li>
+      <li>What scoring algorithm should you use?</li>
+    </ul>
+    <blockquote>Machine learning is appropriate when the problem is too dynamic or complex to be handled by simple rules or models</blockquote>
+
+    <aside class="notes" data-markdown>
+      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?
+
+      Machine learning is most useful on tasks which can be solved but not simply explained.  For instance, you can easily describe the content of an image.  But can you describe the process you used to translate it from your eyes to your mouth?  You can't.  Others have tried with mediocre results.  Machine learning beat those algorithms handily.
+    </aside>
+  </section>
+
   <section id="ml-flavors" class="container">
     <h2>Flavors of Machine Learning</h2>
     <div class="row row-eq-height">
@@ -234,42 +363,9 @@
 </section>
 
 <section>
-  <section id="steps">
-    <h1>The steps of a machine learning job</h1>
-    <ol>
-      <li>Know your problem</li>
-      <li>Know your data</li>
-      <li>Set up your test harness</li>
-      <li>Spot check a variety of algorithms</li>
-      <li>Fine tune your best models</li>
-    </ol>
-
-    <aside class="notes" data-markdown>
-      Machine learning isn't just algorithms.  There is a definite process to it, and applying the algorithms is in many ways the least complex part of it.  Let's take a look at them
-    </aside>
-  </section>
-
-  <section id="problem">
-    <h2>Know your problem</h2>
-    <ol>
-      <li>What problem are you trying to solve?</li>
-      <li>Is machine learning the right choice?</li>
-      <li>What kind of machine learning is warranted?</li>
-      <li>Is there a simpler model which you should be using?</li>
-      <li>What scoring algorithm should you use?</li>
-    </ol>
-    <blockquote>Machine learning is appropriate when the problem is too dynamic or complex to be handled by simple rules or models</blockquote>
-
-    <aside class="notes" data-markdown>
-      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?
-
-      Machine learning is most useful on tasks which can be solved but not simply explained.  For instance, you can easily describe the content of an image.  But can you describe the process you used to translate it from your eyes to your mouth?  You can't.  Others have tried with mediocre results.  Machine learning beat those algorithms handily.
-    </aside>
-  </section>
-
   <section id="data">
-    <h2>Know your data</h2>
-    <ul>
+    <h1 class="text-left">2. Know your data</h1>
+    <ul class="small">
       <li>Where is it, how can I get it, and am I allowed to use it?</li>
       <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
       <li>What does it look like?</li>
@@ -307,8 +403,73 @@
     </aside>
   </section>
 
+  <section id="wrangling">
+    <h2>Data Wrangling / Munging</h2>
+    <img src="../img/wrangling.gif">
+    <blockquote class="fragment">
+      <p>You will spend 90% of your time just whipping your data into shape...</p>
+      <p>I guarantee it.</p>
+    </blockquote>
+    <aside class="notes">
+      Data wrangling (or munging or preparation) is widely considered to be the most tedious and time consuming part of data science.  You will spend 90% of your time just whipping your data into shape.  But as trivial as it sounds, you can't train a model without data.
+
+        - May come in a wide variety of formats
+        - May be messy and include missing data
+        - May include unimportant data
+        - May be too large for memory, requiring special techniques to process
+    </aside>
+  </section>
+
+  <section id="pandas">
+    <h2 class="text-left">Data i/o with Pandas</h2>
+<pre><code class="py" data-trim data-noescape>
+import pandas as pd
+
+# Load the data from a csv file
+df = pd.read_csv("input/data.csv");
+
+# Clean up data
+
+# Get features matrix 'X' for feature names (don't include ID!)
+X = df[features].values
+
+# Get labels vector 'y'
+y = df["label_name"].values
+
+# Write out data later...
+predict_df = pd.DataFrame({'Id': ids, 'Label': predictions })
+predict_df.to_csv("output/predict.csv")
+</code></pre>
+    <aside class="notes" data-markdown>
+      Somewhere in the data wrangling process you will need to load your data for analysis (and maybe wrangle it some more).  And at the end of the job you will need to output it.  With tabular data, the pandas library is a great help.  This is essentially the dataframes object that is popular in R.  The full scope of its functionality is beyond what we have time to discuss, but know that it exists and that it makes working with tabular data easier.
+    </aside>
+  </section>
+
+  <section id="dimensionality">
+    <h2>The curse of dimensionality</h2>
+    <p class="small"><i>The more dimensions you have, the closer two random points in a bounded space are. </i></p>
+    <img src="../img/dimensionality.png">
+    <p class="small"><i>Consider reducing your features</i></p>
+<pre><code class="py" data-trim data-noescape>
+from sklearn.decomposition import PCA
+from sklearn.ensemble import RandomForestClassifier
+</code></pre>
+    <aside class="notes">
+      Irrelevant features are for all intents and purposes noise in your data.  This increases the risk of spurious correlations and makes most algorithms less efficient.  It also leads to higher memory consumption.
+
+      There are deeper issues as well.  Without going into details, bounded high-dimensional spaces are spiky with most of the volume concentrated in the center.  In other words, the distance between random points [tends to be the same](http://yaroslavvb.com/papers/koppen-curse.pdf), and it becomes impossible to learn in many circumstances.  So the curse of dimensionality is really the curse of the central limit theorem.
+
+      However, useful data is not random and generally has [lower true dimensionality](DimensionalityReduction.md) than the ones it is expressed in.  So real data does not necessarily suffer from this problem.  The moral of the story is, you should consider your features, particularly if your data has a large number of them.
+
+      There are many ways to select smaller feature sets or perform dimensionality reduction.  If the identities of your features are not important than you may want to project into a lower dimensional space with PCA.  Otherwise, you probably want to estimate feature importances with a RandomForest and keep the important ones.
+    </aside>
+  </section>
+
+</section>
+
+<section>
   <section id="harness">
-    <h2>Set up your test harness</h2>
+    <h1 class="text-left">3. Set up your test harness</h1>
     <ul>
       <li>Set up your project directory and stick to your conventions. </li>
       <li>Clean up your data into a form suitable for analysis
@@ -324,55 +485,6 @@
 
     <aside class="notes" data-markdown>
       Now that you understand the problem and your data, it's time to prepare to make predictions.  First set up your work directory, then get your data into a form suitable for loading.  That means cleaning it up, transforming features if necessary, and handling blanks.  Remove unhelpful features, as these will only slow you down.  Then verify your score
-    </aside>
-  </section>
-
-  <section id="spot-check">
-    <h2>Spot check a variety of algorithms</h2>
-    <blockquote>I recommend setting up a reusable generator to yield a standard set of models to test</blockquote>
-<pre><code class="py" data-trim data-noescape>
-def standard_clfs():
-  yield ExtraTreesClassifier(n_estimators=256)
-  yield Pipeline([
-    ('feat', RandomForestClassifier(max_depth=3,
-      n_estimators=64, class_weight="auto")),
-    ('et', ExtraTreesClassifier(n_estimators=256))])
-  yield Pipeline([
-    ('scale', StandardScaler()),
-    ('svc', SVC())])
-
-for clf in standard_clfs():
-  print clf.fit(X_train, y_train).score(X_test, y_test)
-</code></pre>
-    <aside class="notes">
-      Once you have your harness set up, it's time to actually test some algorithms.  You should check a range of algorithms to identify which ones are performing well for you.  Be sure to keep track of what you have checked so far.
-    </aside>
-  </section>
-
-  <section id="fine-tune">
-    <h2>Fine tune your best models</h2>
-    <ul>
-      <li>Try adding or removing features</li>
-      <li>Use grid searches to fine-tune hyperparameters</li>
-      <li>Make a weighted ensemble of multiple models</li>
-    </ul>
-
-<pre><code class="py" data-trim data-noescape>
-from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
-</code></pre>
-    <aside class="notes" data-markdown>
-      Lastly once you have some good models, try improving them.  See if adding or removing features makes a difference.  Use a grid search to optimize hyperparameters.  Maybe even make a weighted ensemble of multiple models.
-    </aside>
-  </section>
-
-</section>
-
-<section>
-  <section id="pitfalls">
-    <h1>Problems and Pitfalls of Machine Learning</h1>
-
-    <aside class="notes" data-markdown>
-      There are a lot of things that can bog down a machine learning task.  Here are some of them.
     </aside>
   </section>
 
@@ -409,223 +521,6 @@ from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
       There is something called the no-free-lunch theorem, which basically says no one algorithm will be suitable for all problems and any algorithm could be the right one.  But I think some algorithms tend to be much better than others.
 
       And here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
-    </aside>
-  </section>
-
-  <section id="bias-variance" class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <svg id="bias-target" width="250" height="250">
-          <g transform="translate(125, 125) scale(1.23)">
-            <g class="target" stroke="black" stroke-width="0.75">
-              <circle r="100" style="fill:white;"></circle>
-              <circle r="90" style="fill:white;"></circle>
-              <circle r="80" style="fill:gray;"></circle>
-              <circle r="70" stroke="white" style="fill:gray;"></circle>
-              <circle r="60" style="fill:lightblue;"></circle>
-              <circle r="50" style="fill:lightblue;"></circle>
-              <circle r="40" style="fill:lightcoral;"></circle>
-              <circle r="30" style="fill:lightcoral;"></circle>
-              <circle r="20" style="fill:yellow;"></circle>
-              <circle r="10" style="fill:yellow;"></circle>
-            </g>
-            <g class="shots" fill="black" stroke="red" stroke-width="0.5"></g>
-          </g>
-        </svg>
-      </div>
-      <div class="col-md-6">
-        <svg id="variance-target" width="250" height="250">
-          <g transform="translate(125, 125) scale(1.23)">
-            <g class="target" stroke="black" stroke-width="0.75">
-              <circle r="100" style="fill:white;"></circle>
-              <circle r="90" style="fill:white;"></circle>
-              <circle r="80" style="fill:gray;"></circle>
-              <circle r="70" stroke="white" style="fill:gray;"></circle>
-              <circle r="60" style="fill:lightblue;"></circle>
-              <circle r="50" style="fill:lightblue;"></circle>
-              <circle r="40" style="fill:lightcoral;"></circle>
-              <circle r="30" style="fill:lightcoral;"></circle>
-              <circle r="20" style="fill:yellow;"></circle>
-              <circle r="10" style="fill:yellow;"></circle>
-            </g>
-            <g class="shots" fill="black" stroke="red" stroke-width="0.5"></g>
-          </g>
-        </svg>
-      </div>
-    </div>
-    <div style="display:none">
-      <span class="fragment" id="first-shots"></span>
-      <span class="fragment" id="many-shots"></span>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <h2>Bias</h2>
-      </div>
-      <div class="col-md-6">
-        <h2>Variance</h2>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <img class="noborder" src="../img/validation.png">
-      </div>
-      <div class="col-md-6">
-        <img class="noborder" src="../img/learning.png">
-      </div>
-    </div>
-
-    <aside class="notes" data-markdown>
-      There are three sources of error in models **Bias** is the tendency of an model to favor specific representations of the data.  The counterpart of bias is **Variance**, the tendency of an algorithm to find very different representations for small variations in the data.  During training, high bias leads to **Underfitting** because the algorithm is incapable of finding or building a model, while high variance leads to **Overfitting** because it effectively memorizes the training data. What we really want is a model which **Generalizes** the data and can accurately and reliably handle whatever we throw at it.
-
-      Let's use a metaphor. If you were shooting at a target, your bias is how far from the bullseye your shots are centered, and your variance is how spread apart your shots are.  A good model would have a tight grouping right in the center.
-
-      The most important point about the bias-variance tradeoff is this: it is impossible to overcome intrinsic bias in a model, but it *is* possible to overcome variance.  We will discuss some tricks for this, but the most straightforward approach is simply more training with more data on complex, low-bias models. One more reason why "big data" is a big deal.
-
-      Which brings us to the third source of error: insufficient or unrepresentative training data.  Garbage in, garbage out.
-    </aside>
-  </section>
-
-  <section id="dimensionality">
-    <h2>The curse of dimensionality</h2>
-    <p class="small"><i>The more dimensions you have, the closer two random points in a bounded space are. </i></p>
-    <img src="../img/dimensionality.png">
-    <p class="small"><i>Consider reducing your features</i></p>
-<pre><code class="py" data-trim data-noescape>
-from sklearn.decomposition import PCA
-from sklearn.ensemble import RandomForestClassifier
-</code></pre>
-    <aside class="notes">
-      Irrelevant features are for all intents and purposes noise in your data.  This increases the risk of spurious correlations and makes most algorithms less efficient.  It also leads to higher memory consumption.
-
-      There are deeper issues as well.  Without going into details, bounded high-dimensional spaces are spiky with most of the volume concentrated in the center.  In other words, the distance between random points [tends to be the same](http://yaroslavvb.com/papers/koppen-curse.pdf), and it becomes impossible to learn in many circumstances.  So the curse of dimensionality is really the curse of the central limit theorem.
-
-      However, useful data is not random and generally has [lower true dimensionality](DimensionalityReduction.md) than the ones it is expressed in.  So real data does not necessarily suffer from this problem.  The moral of the story is, you should consider your features, particularly if your data has a large number of them.
-
-      There are many ways to select smaller feature sets or perform dimensionality reduction.  If the identities of your features are not important than you may want to project into a lower dimensional space with PCA.  Otherwise, you probably want to estimate feature importances with a RandomForest and keep the important ones.
-    </aside>
-  </section>
-
-  <section id="wrangling">
-    <h2>Data Wrangling / Munging</h2>
-    <img src="../img/wrangling.gif">
-    <blockquote class="fragment">
-      <p>You will spend 90% of your time just whipping your data into shape...</p>
-      <p>I guarantee it.</p>
-    </blockquote>
-    <aside class="notes">
-      Data wrangling (or munging or preparation) is widely considered to be the most tedious and time consuming part of data science.  You will spend 90% of your time just whipping your data into shape.  But as trivial as it sounds, you can't train a model without data.
-
-        - May come in a wide variety of formats
-        - May be messy and include missing data
-        - May include unimportant data
-        - May be too large for memory, requiring special techniques to process
-    </aside>
-  </section>
-
-</section>
-
-<section>
-  <section id="environment">
-    <h1>Environment</h1>
-  </section>
-
-  <section id="hardware-software" class="container">
-    <h2>Hardware and Software</h2>
-    <div class="row row-eq-height">
-      <div class="col-md-6">
-        <div class="panel panel-orange">
-          <div class="panel-heading">
-            <h4 class="panel-title">Machine</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item">Plenty of memory (8GB)</li>
-            <li class="list-group-item">NVidia GPU, or decent CPU</li>
-            <li class="list-group-item">Preferably Linux</li>
-            <li class="list-group-item">Local or Server?</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-purple">
-          <div class="panel-heading">
-            <h4 class="panel-title">ML Platform</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item"><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
-            <li class="list-group-item"><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
-            <li class="list-group-item"><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
-            <li class="list-group-item"><em><a href="http://julialang.org/">Julia</a></em>: New hotness</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <aside class="notes" data-markdown>
-      Like any heavy computing task, in machine learning you must consider hardware and software.
-
-      When choosing the system to perform machine learning (if you have a choice) you should take the following aspects into account:
-
-      1. Plenty of memory, because both datasets and algorithms can require a lot of memory
-      2. NVidia GPU, which can give you massive performance improvements for neural networks, often 30x.  It can make a huge difference in your ability to investigate.  Failing that, you want the best CPU you have.
-      3. Most tools, libraries, and dependencies are available for Linux, OS X, and Windows.  But you will find that actually installing those on systems other than Linux can be quite painful, even on another Unix like OS X.  One time I had a compile fail because I didn't invoke the makefile from bash.  So if you can, save yourself some grief and use Linux.
-      4. The first three requirements definitely favor a server, but there are plenty of benefits to being able to work without a connection.  If you can, do both, and keep things in sync with git, which you were already using RIGHT?
-
-      Which brings us to your machine learning software platform.  Sure there are innumerable tools and services, but if you want to investigate properly you need a platform with a consistent interface which is kept up-to-date with the latest algorithms. At the moment, there are two primary ones and two secondary ones, all of which I have used at one time or another.
-
-      [R](https://www.r-project.org/) is *the* premier open source statistical platform, and the most popular ML tool with the most algorithms.  It is widely used in academia, and so most new algorithms actually show up there first.
-
-      [Python](https://www.python.org/) on the other hand is a general-purpose programming language.  Two packages are especially useful for machine Learning: [scikit-learn](http://scikit-learn.org) wraps many ML algorithms in a common API along with plenty of utilities, and  [Theano](http://deeplearning.net/software/theano) can be used to compile numerical algorithms to native code.  Significantly, python is production ready and excellent for data wrangling.  This is the environment I will be using today.
-
-      [MatLab](http://www.mathworks.com/products/matlab/) is a numerical computing environment with extensive use in academic and research institutions. But it is also proprietary and expensive and doesn't see much use elsewhere.
-
-      [Julia](http://julialang.org/) is a very new high-performance dynamic programming language. It is specifically designed for numerical and scientific computing but also aims to be an effective general purpose language.  The syntax is concise and the performance is actually quite good.  But it is very young and core APIs are still changing, so although its package ecosystem is growing rapidly I can't recommend it just yet.
-    </aside>
-  </section>
-
-</section>
-
-<section>
-
-  <section id="sklearn">
-    <h2>Example code with scikit-learn</h2>
-  </section>
-
-  <section id="py-ml-stack" class="container">
-    <h2>Recommended Python ML Stack</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <ol class="list-group small">
-          <li class="list-group-item">Python</li>
-          <li class="list-group-item">Pandas</li>
-          <li class="list-group-item">scikit-learn</li>
-          <li class="list-group-item">scikit-neuralnetwork</li>
-          <li class="list-group-item">Theano</li>
-        </ol>
-      </div>
-      <div class="col-md-8">
-        <img class="noborder" width="400" height="auto" style="width:400;height:auto" src="../img/logo-anaconda.svg">
-        <p><a href="https://www.continuum.io/">https://www.continuum.io/</a></p>
-        <blockquote class="small">You must install a compiler (g++) and ideally NVIDIA's CUDA</blockquote>
-<pre><code class="sh" data-trim>
-$ conda install mingw libpython
-$ pip install theano scikit-neuralnetwork
-</code></pre>
-      </div>
-    </div>
-
-    <aside class="notes" data-markdown>
-      To handle the code I am going to show you today you will need to install the following software:
-
-      - Python
-      - Pandas for data io
-      - scikit-learn for most machine learning algorithms
-      - and scikit-neuralnetwork for neural networks, using Theano
-
-      You could install those individually, but I would recommend that you use the Anaconda distribution for scientific python, and then install theano and scikit-neuralnetwork using pip.
-
-      But, theano is actually a python library for just-in-time compilation of numerical algorithms.  It requires a compiler.  Ideally, if you have a compatible NVIDIA GPU you can install their CUDA tools for even faster execution.  It is well worth it but installation can be a bit of a pain.
     </aside>
   </section>
 
@@ -718,39 +613,36 @@ sss = StratifiedShuffleSplit(y, 5, test_size=0.2)
     </aside>
   </section>
 
-  <section id="pandas">
-    <h2 class="text-left">Data i/o with Pandas</h2>
-<pre><code class="py" data-trim data-noescape>
-import pandas as pd
-
-# Load the data from a csv file
-df = pd.read_csv("input/data.csv");
-
-# Clean up data
-
-# Get features matrix 'X' for feature names (don't include ID!)
-X = df[features].values
-
-# Get labels vector 'y'
-y = df["label_name"].values
-
-# Write out data later...
-predict_df = pd.DataFrame({'Id': ids, 'Label': predictions })
-predict_df.to_csv("output/predict.csv")
-</code></pre>
-    <aside class="notes" data-markdown>
-      Somewhere in the data wrangling process you will need to load your data for analysis (and maybe wrangle it some more).  And at the end of the job you will need to output it.  With tabular data, the pandas library is a great help.  This is essentially the dataframes object that is popular in R.  The full scope of its functionality is beyond what we have time to discuss, but know that it exists and that it makes working with tabular data easier.
-    </aside>
-  </section>
-
 </section>
 
 <section>
-  <section id="algorithms">
-    <h1>Algorithms</h1>
+  <section id="spot-check">
+    <h1 class="text-left">4. Spot check a variety of algorithms</h1>
     <img class="noborder" src="../img/algorithms.png">
-    <aside class="notes" data-markdown>
-      There are many different algorithms for machine learning but they tend to fall into only a few major categories.  One of the most successful are the tree algorithms.  So let's take a look at those.
+    <aside class="notes">
+      Once you have your harness set up, it's time to actually test some algorithms.  You should check a range of algorithms to identify which ones are performing well for you.  Be sure to keep track of what you have checked so far.
+    </aside>
+  </section>
+
+  <section id="model-generator">
+    <h2>Standard algorithm generator</h2>
+    <blockquote>I recommend setting up a reusable generator of starter models</blockquote>
+<pre><code class="py" data-trim data-noescape>
+def standard_clfs():
+  yield ExtraTreesClassifier(n_estimators=256)
+  yield Pipeline([
+    ('feat', RandomForestClassifier(max_depth=3,
+      n_estimators=64, class_weight="auto")),
+    ('et', ExtraTreesClassifier(n_estimators=256))])
+  yield Pipeline([
+    ('scale', StandardScaler()),
+    ('svc', SVC())])
+
+for clf in standard_clfs():
+  print clf.fit(X_train, y_train).score(X_test, y_test)
+</code></pre>
+    <aside class="notes">
+      I recommend setting up a reusable generator of your starter models.  That way you can quickly and consitently apply a range of models to a problem.
     </aside>
   </section>
 
@@ -830,41 +722,6 @@ from sklearn.ensemble import
     </aside>
   </section>
 
-  <section id="decision-jungle" class="container" data-background="#ffff00" data-background-transition="zoom">
-    <div class="row">
-      <div class="col-md-4 nopadding">
-        <svg width="300" height="600" style="background:white"></svg>
-      </div>
-      <div class="col-md-8">
-        <h2>Bonus: Decision Jungles</h2>
-        <div class="panel panel-default small">
-          <ul class="list-group small">
-            <li class="list-group-item">Use DAGs instead of trees</li>
-            <li class="list-group-item">Less memory</li>
-            <li class="list-group-item">Slightly more general</li>
-            <li class="list-group-item">Microsoft... Kinect?</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <aside class="notes" data-markdown>
-      Decision trees grow exponentially with depth, which can be a problem in constrained environments.  So microsoft has developed a variant of random forests called [decision jungles](http://research.microsoft.com/apps/pubs/?id=205439) which use directed acyclic graphs instead of trees.  So the DAG will grow only linearly past a certain point, and reduces redundancy.  They are more complicated to train but require less memory to store.  Also, they are also less prone to overfitting and generalize better.
-
-      Fun fact: the invention of decision jungles at Microsoft was may have been prompted by the XBox Kinect controller, which famously uses random forests.
-    </aside>
-  </section>
-
-</section>
-
-<section>
-  <section id="linear-algorithms">
-    <h1>Linear Algorithms</h1>
-    <aside class="notes" data-markdown>
-      Trees work well but they have some inherent limitations.  And as you may have heard the hot algorithms for deep learning now are neural networks and related models.  These are all based on linear transformation.
-    </aside>
-  </section>
-
   <section id="linear-transformation" class="container">
     <h2>Linear Transformations</h2>
     <div class="row">
@@ -935,16 +792,6 @@ clf = Classifier(layers=layers)
       However they are not without cost - some of these beasts are absolutely enormous.  This for instance is GoogLeNet: I couldn't even get the model to load without running out of GPU memory on my machine.  Here there be dragons.
     </aside>
   </section>
-</section>
-
-<section>
-
-  <section id="other-algorithms">
-    <h1>Other Algorithms</h1>
-    <aside class="notes" data-markdown>
-      Although random forests and neural networks are the big performers these days, there are still some other algorithms worth trying.  Remember, the no-free-lunch theorem says we should at least look at other algorithms before pronouncing a winner.  And some of these algorithms work well enough or are cheap enough to give them a look.
-    </aside>
-  </section>
 
   <section id="svm" class="container">
     <div class="row">
@@ -974,11 +821,133 @@ clf = Classifier(layers=layers)
 from sklearn.svm import SVC, SVR
 </code></pre>
     <aside class="notes" data-markdown>
+      Although random forests and neural networks are the big performers these days, Support Vector Machines are right up there.
+
       Support Vector Machines exploit something known as the "kernel trick", which is a way of projecting your samples into a higher dimensional combinatorial space.  The trick is that by using certain mathematically behaved functions that work on the dot products between the sample vectors, we don't actually have to *make* the projection to solve the SVM.  The final model after training is based on a selection of the training samples, the so-called support vectors.  Presuming you don't use too many the function is quick to evaluate.
 
       Support vectors generate very high quality class boundaries and can give good accuracy in many cases.  They also can be trained on a single class for outlier detection.
 
       But there are big catches.  Tuning the parameters can be quite tricky, as SVMs overfit easily.  And most significantly, the memory requirements are quadratic, which can be a huge burden if you aren't careful.
+    </aside>
+  </section>
+
+</section>
+
+<section>
+  <section id="fine-tune">
+    <h1 class="text-left">5. Fine tune your best models</h1>
+    <div class="row">
+      <div class="col-md-6">
+        <img class="noborder" src="../img/validation.png">
+      </div>
+      <div class="col-md-6">
+        <ul>
+          <li>Try adding or removing features</li>
+          <li>Use grid searches to fine-tune hyperparameters</li>
+          <li>Train longer</li>
+          <li>Make a weighted ensemble of multiple models</li>
+        </ul>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      Lastly once you have some good models, try improving them. See if adding or removing features makes a difference.  Use a grid search to optimize hyperparameters.  Maybe even make a weighted ensemble of multiple models.
+    </aside>
+  </section>
+
+  <section id="bias-variance" class="container">
+    <h2>The bias-variance tradeoff</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <svg id="bias-target" width="250" height="250">
+          <g transform="translate(125, 125) scale(1.23)">
+            <g class="target" stroke="black" stroke-width="0.75">
+              <circle r="100" style="fill:white;"></circle>
+              <circle r="90" style="fill:white;"></circle>
+              <circle r="80" style="fill:gray;"></circle>
+              <circle r="70" stroke="white" style="fill:gray;"></circle>
+              <circle r="60" style="fill:lightblue;"></circle>
+              <circle r="50" style="fill:lightblue;"></circle>
+              <circle r="40" style="fill:lightcoral;"></circle>
+              <circle r="30" style="fill:lightcoral;"></circle>
+              <circle r="20" style="fill:yellow;"></circle>
+              <circle r="10" style="fill:yellow;"></circle>
+            </g>
+            <g class="shots" fill="black" stroke="red" stroke-width="0.5"></g>
+          </g>
+        </svg>
+      </div>
+      <div class="col-md-6">
+        <svg id="variance-target" width="250" height="250">
+          <g transform="translate(125, 125) scale(1.23)">
+            <g class="target" stroke="black" stroke-width="0.75">
+              <circle r="100" style="fill:white;"></circle>
+              <circle r="90" style="fill:white;"></circle>
+              <circle r="80" style="fill:gray;"></circle>
+              <circle r="70" stroke="white" style="fill:gray;"></circle>
+              <circle r="60" style="fill:lightblue;"></circle>
+              <circle r="50" style="fill:lightblue;"></circle>
+              <circle r="40" style="fill:lightcoral;"></circle>
+              <circle r="30" style="fill:lightcoral;"></circle>
+              <circle r="20" style="fill:yellow;"></circle>
+              <circle r="10" style="fill:yellow;"></circle>
+            </g>
+            <g class="shots" fill="black" stroke="red" stroke-width="0.5"></g>
+          </g>
+        </svg>
+      </div>
+    </div>
+    <div style="display:none">
+      <span class="fragment" id="first-shots"></span>
+      <span class="fragment" id="many-shots"></span>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Bias</h2>
+      </div>
+      <div class="col-md-6">
+        <h2>Variance</h2>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      There are three sources of error in models **Bias** is the tendency of an model to favor specific representations of the data.  The counterpart of bias is **Variance**, the tendency of an algorithm to find very different representations for small variations in the data.  During training, high bias leads to **Underfitting** because the algorithm is incapable of finding or building a model, while high variance leads to **Overfitting** because it effectively memorizes the training data. What we really want is a model which **Generalizes** the data and can accurately and reliably handle whatever we throw at it.
+
+      Let's use a metaphor. If you were shooting at a target, your bias is how far from the bullseye your shots are centered, and your variance is how spread apart your shots are.  A good model would have a tight grouping right in the center.
+
+      The most important point about the bias-variance tradeoff is this: it is impossible to overcome intrinsic bias in a model, but it *is* possible to overcome variance.  We will discuss some tricks for this, but the most straightforward approach is simply more training with more data on complex, low-bias models. One more reason why "big data" is a big deal.
+
+      Which brings us to the third source of error: insufficient or unrepresentative training data.  Garbage in, garbage out.
+    </aside>
+  </section>
+
+  <section id="hyperparameter-tuning" class="container">
+    <h2>Tuning Hyperparameters</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <img class="noborder" src="../img/validation.png">
+      </div>
+      <div class="col-md-6">
+        <img class="noborder" src="../img/learning.png">
+      </div>
+    </div>
+
+<pre><code class="py small" data-trim data-noescape>
+from sklearn.cross_validation import StratifiedShuffleSplit
+
+params = {"kernel": ["poly", "rbf"], "gamma": np.logspace(-9, 3, 13)}
+splits = StratifiedShuffleSplit(y, n_iter=3, test_size=0.2)
+clf = SVC(degree=2)
+grid = GridSearchCV(clf, param_grid=params, cv=splits)
+grid.fit(X_train, y_train)
+
+print grid.best_params_, grid.best_score_
+</code></pre>
+    <aside class="notes" data-markdown>
+      When constructing or training a model you are generally required to provide hyperparameters.  This is not simply a matter of choice - choosing the right hyperparameters can be the difference between a model with high accuracy and one that doesn't even train.  Some models are definitely more sensitive than others.  As such, you usually need to explore variants of a model with different hyperparameters set.
+
+
     </aside>
   </section>
 
@@ -1008,6 +977,8 @@ from sklearn.svm import SVC, SVR
         <ul>
           <li><a href="https://www.python.org/">Python</a> language</li>
           <li><a href="http://scikit-learn.org">scikit-learn</a> ML library</li>
+          <li><a href="https://github.com/aigamedev/scikit-neuralnetwork">scikit-neuralnetwork</a> ANN library</li>
+          <li><a href="http://deeplearning.net/software/theano/">Theano</a> numerical library</li>
         </ul>
       </div>
       <div class="col-md-6 text-left">
