@@ -256,6 +256,7 @@
       <li>Is machine learning the right choice?</li>
       <li>What kind of machine learning is warranted?</li>
       <li>Is there a simpler model which you should be using?</li>
+      <li>What scoring algorithm should you use?</li>
     </ol>
     <blockquote>Machine learning is appropriate when the problem is too dynamic or complex to be handled by simple rules or models</blockquote>
 
@@ -273,6 +274,7 @@
       <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
       <li>What does it look like?</li>
       <li>Is it any good and do you have enough of it?</li>
+      <li>Are your classes biased and do you need to compensate for that? </li>
     </ul>
     <blockquote>You need many more samples than features or parameters to learn effectively.</blockquote>
 
@@ -300,6 +302,8 @@
         - Are your labels balanced?
         - Are any of your features exponential in nature? You may want to log transform them.
         - Are any of the features in your data identifiers? You may want to discard these: they can be used to overfit, and should not be interpreted as numbers.
+      - Are your classes biased?
+        - You may want to use an algorithm that can compensate for that bias.
     </aside>
   </section>
 
@@ -316,11 +320,10 @@
         </ul>
       </li>
       <li>Verify the scoring algorithm to use</li>
-      <li>Determine if you need to compensate for biased input</li>
     </ul>
 
     <aside class="notes" data-markdown>
-
+      Now that you understand the problem and your data, it's time to prepare to make predictions.  First set up your work directory, then get your data into a form suitable for loading.  That means cleaning it up, transforming features if necessary, and handling blanks.  Remove unhelpful features, as these will only slow you down.  Then verify your score
     </aside>
   </section>
 
@@ -328,7 +331,7 @@
     <h2>Spot check a variety of algorithms</h2>
     <blockquote>I recommend setting up a reusable generator to yield a standard set of models to test</blockquote>
 <pre><code class="py" data-trim data-noescape>
-def standard_models():
+def standard_clfs():
   yield ExtraTreesClassifier(n_estimators=256)
   yield Pipeline([
     ('feat', RandomForestClassifier(max_depth=3,
@@ -337,7 +340,13 @@ def standard_models():
   yield Pipeline([
     ('scale', StandardScaler()),
     ('svc', SVC())])
+
+for clf in standard_clfs():
+  print clf.fit(X_train, y_train).score(X_test, y_test)
 </code></pre>
+    <aside class="notes">
+      Once you have your harness set up, it's time to actually test some algorithms.  You should check a range of algorithms to identify which ones are performing well for you.  Be sure to keep track of what you have checked so far.
+    </aside>
   </section>
 
   <section id="fine-tune">
@@ -351,6 +360,9 @@ def standard_models():
 <pre><code class="py" data-trim data-noescape>
 from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
 </code></pre>
+    <aside class="notes" data-markdown>
+      Lastly once you have some good models, try improving them.  See if adding or removing features makes a difference.  Use a grid search to optimize hyperparameters.  Maybe even make a weighted ensemble of multiple models.
+    </aside>
   </section>
 
 </section>
@@ -397,8 +409,6 @@ from sklearn.grid_search import GridSearchCV, RandomizedSearchCV
       There is something called the no-free-lunch theorem, which basically says no one algorithm will be suitable for all problems and any algorithm could be the right one.  But I think some algorithms tend to be much better than others.
 
       And here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
-
-      Let's discuss some of these algorithms in a bit more depth.  I may skip over these.
     </aside>
   </section>
 
@@ -856,30 +866,26 @@ from sklearn.ensemble import
   </section>
 
   <section id="linear-transformation" class="container">
+    <h2>Linear Transformations</h2>
     <div class="row">
-      <div class="col-md-6">
-        <h2 class="text-left">Linear layers</h2>
-        <div class="panel panel-green small">
-          <ul class="list-group">
-            <li class="list-group-item">Mathematical processing</li>
-          </ul>
-        </div>
-        <div class="panel panel-red small">
-          <ul class="list-group">
-            <li class="list-group-item">Tuning necessary</li>
-          </ul>
-        </div>
+      <div class="col-md-4 nopadding">
+        <br>
+        <p>
+          $$\begin{align}
+          s_j^{(1)} =& \sum_{i} x_{i} w^{(in\rightarrow 1)}_{i\rightarrow j}\\
+          S^{(1)} =& X W^{(in\rightarrow 1)}\\
+          \end{align}$$
+        </p>
       </div>
-      <div class="col-md-6 nopadding">
-        <p>$$\begin{align}
-      s_j^{(1)} =& \sum_{i} x_{i} w^{(in\rightarrow 1)}_{i\rightarrow j}\\
-      S^{(1)} =& X W^{(in\rightarrow 1)}\\
-    \end{align}$$</p>
+      <div class="col-md-8">
+        <img class="noborder" src="../img/gradient-descent.gif">
       </div>
     </div>
 
     <aside class="notes" data-markdown>
+      The linear family of algorithms are all variations on a simple premise: given an input vector, generate an output vector where every component is a weighted sum of the input vector.  This can be efficiently expressed using matrix algebra, allowing you to process multiple items at a time.
 
+      The key then for any linear algorithm is to find the weight matrix.  This can be done analytically or using iterative methods, most notably gradient descent.
     </aside>
   </section>
 
@@ -891,28 +897,44 @@ from sklearn.ensemble import
       </div>
       <div class="col-md-6">
         <h2 class="text-left">Neural Networks</h2>
-        <div class="panel panel-green small">
-          <ul class="list-group">
+        <div class="panel panel-green">
+          <ul class="list-group small">
+            <li class="list-group-item">Flexible architecture</li>
+            <li class="list-group-item">Superior accuracy</li>
             <li class="list-group-item">Learn progressively higher-level features</li>
-            <li class="list-group-item"></li>
-            <li class="list-group-item"></li>
-            <li class="list-group-item"><a href="http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf">Reliably good results</a></li>
           </ul>
         </div>
-        <div class="panel panel-red small">
+        <div class="panel panel-red">
           <ul class="list-group small">
-            <li class="list-group-item">No mathematical processing</li>
+            <li class="list-group-item">Computationally intensive</li>
+            <li class="list-group-item">Long training times</li>
           </ul>
         </div>
       </div>
     </div>
 <pre><code class="py" data-trim data-noescape>
-from sklearn.ensemble import
+from sknn.mlp import Classifier, Regressor, Layer, Convolution
+layers = [Layer("Rectifier", units=100), Layer("Softmax")]
+clf = Classifier(layers=layers)
 </code></pre>
     <aside class="notes" data-markdown>
+      The basic neural network architecture is simply a stack of these linear transformations, where each transformation is wrapped in a non-linear activation function.  Activation functions are required because otherwise the linear transformations could be collapsed down to a single one (which is not very interesting or expressively powerful).
+
+      The layers between the output and input are known as the hidden layers.  In theory a single hidden layer of large enough width could approximate any function, but in practice multiple hidden layers may be much more expressive.  Up until recently it was not possible to train more than a couple of layers, but now there are techniques allowing for many layers.  In addition, variations on the basic architecture such as convolutional layers and recurrent networks are tremendously useful for certain types of problems.
     </aside>
   </section>
 
+  <section id="deep-neural-network" class="container">
+    <h2>Deep Neural Networks</h2>
+    <img class="noborder" height="250px" width="auto" src="../img/googlenet.png">
+    <img class="noborder" height="250px" width="auto" class="fragment" src="../img/weedyseadragon.png">
+
+    <aside class="notes" data-markdown>
+      This has led to the renaissance of deep neural networks, which are setting records for processing of structured data like audio and video.  Furthermore, it has been found that these deep networks are actually learning recognizable features at higher and higher levels, to the point that a single node can code for something like "dog".
+
+      However they are not without cost - some of these beasts are absolutely enormous.  This for instance is GoogLeNet: I couldn't even get the model to load without running out of GPU memory on my machine.  Here there be dragons.
+    </aside>
+  </section>
 </section>
 
 <section>
@@ -1036,7 +1058,6 @@ from sklearn.svm import SVC, SVR
         }
       },
       { src: '../reveal.js/plugin/zoom-js/zoom.js', async: true },
-      { src: '../reveal.js/plugin/remotes/remotes.js', async: true },
       { src: '../reveal.js/plugin/notes/notes.js', async: true }
     ]
   });

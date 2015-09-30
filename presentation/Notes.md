@@ -9,11 +9,7 @@ http://scikit-learn.org/stable/auto_examples/classification/plot_classifier_comp
 
 http://scikit-learn.org/stable/modules/learning_curve.html
 
-- Neural Networks
-- Theano!
 - Nearest neighbors
-- [Basic linear](http://scikit-learn.org/stable/modules/linear_model.html#linear-model)
-- More gifs
 - Naive Bayes?
 - GMM?
 - Scoring metrics?
