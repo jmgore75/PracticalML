@@ -403,13 +403,24 @@ $ pip install theano scikit-neuralnetwork
     </aside>
   </section>
 
-  <section id="wrangling">
+  <section id="wrangling" class="container">
     <h2>Data Wrangling / Munging</h2>
-    <img src="../img/wrangling.gif">
-    <blockquote class="fragment">
-      <p>You will spend 90% of your time just whipping your data into shape...</p>
-      <p>I guarantee it.</p>
-    </blockquote>
+    <div class="row">
+      <div class="col-md-6">
+        <img src="../img/wrangling.gif">
+        <blockquote class="small">Good luck!</blockquote>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-red">
+          <ul class="list-group small">
+            <li class="list-group-item">Convert to correct format</li>
+            <li class="list-group-item">Handle blanks</li>
+            <li class="list-group-item">Convert categorical values to numeric</li>
+            <li class="list-group-item">Remove unhelpful features</li>
+            <li class="list-group-item">Add helpful features</li>
+          </ul>
+        </div>
+      </div>
     <aside class="notes">
       Data wrangling (or munging or preparation) is widely considered to be the most tedious and time consuming part of data science.  You will spend 90% of your time just whipping your data into shape.  But as trivial as it sounds, you can't train a model without data.
 
@@ -471,56 +482,14 @@ from sklearn.ensemble import RandomForestClassifier
   <section id="harness">
     <h1 class="text-left">3. Set up your test harness</h1>
     <ul>
-      <li>Set up your project directory and stick to your conventions. </li>
-      <li>Clean up your data into a form suitable for analysis
-        <ul>
-          <li>Handle blanks with placeholders, imputation, or removal</li>
-          <li>Convert categorical values to numeric (e.g. one-hot binary)</li>
-          <li>Remove unhelpful features</li>
-          <li>Add helpful ones if you can</li>
-        </ul>
-      </li>
+      <li>Set up your project directory</li>
+      <li>Clean up your data into a form suitable for analysis</li>
       <li>Verify the scoring algorithm to use</li>
+      <li>Set up your analysis routines</li>
     </ul>
 
     <aside class="notes" data-markdown>
       Now that you understand the problem and your data, it's time to prepare to make predictions.  First set up your work directory, then get your data into a form suitable for loading.  That means cleaning it up, transforming features if necessary, and handling blanks.  Remove unhelpful features, as these will only slow you down.  Then verify your score
-    </aside>
-  </section>
-
-  <section id="no-free-lunch">
-    <h2>No Free Lunch Theorem</h2>
-    <p>No one algorithm will be suitable for all problems and any algorithm could be the right one.<span class="fragment" data-fragment-index="1">.. <i>but in practice only a handful of algorithms are really worth considering.</i></span></p>
-
-    <div class="row row-eq-height fragment" data-fragment-index="1">
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Random Forests</h4>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Neural Networks</h4>
-        </div>
-      </div>
-    </div>
-    <div class="row row-eq-height fragment" data-fragment-index="1">
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Support Vector Machines</h4>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Cheap Algorithms</h4>
-        </div>
-      </div>
-    </div>
-
-    <aside class="notes" data-markdown>
-      There is something called the no-free-lunch theorem, which basically says no one algorithm will be suitable for all problems and any algorithm could be the right one.  But I think some algorithms tend to be much better than others.
-
-      And here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
     </aside>
   </section>
 
@@ -621,6 +590,42 @@ sss = StratifiedShuffleSplit(y, 5, test_size=0.2)
     <img class="noborder" src="../img/algorithms.png">
     <aside class="notes">
       Once you have your harness set up, it's time to actually test some algorithms.  You should check a range of algorithms to identify which ones are performing well for you.  Be sure to keep track of what you have checked so far.
+    </aside>
+  </section>
+
+  <section id="no-free-lunch">
+    <h2>No Free Lunch Theorem</h2>
+    <p>No one algorithm will be suitable for all problems and any algorithm could be the right one.<span class="fragment" data-fragment-index="1">.. <i>but in practice only a handful of algorithms are really worth considering.</i></span></p>
+
+    <div class="row row-eq-height fragment" data-fragment-index="1">
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Random Forests</h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Neural Networks</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row row-eq-height fragment" data-fragment-index="1">
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Support Vector Machines</h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Cheap Algorithms</h4>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      There is something called the no-free-lunch theorem, which basically says no one algorithm will be suitable for all problems and any algorithm could be the right one.  But I think some algorithms tend to be much better than others.
+
+      And here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
     </aside>
   </section>
 
@@ -831,6 +836,14 @@ from sklearn.svm import SVC, SVR
     </aside>
   </section>
 
+  <section id="new-algorithms">
+    <h1>Keep your eyes open!</h1>
+
+    <aside class="notes" data-markdown>
+      The state of the art is continually being improved and new algorithms are invented all the time.  So, keep your eyes open.  Follow a machine learning blog, or use news aggregators to see what's new.  You will probably learn a thing or two.  
+    </aside>
+  </section>
+
 </section>
 
 <section>
@@ -939,7 +952,9 @@ print grid.best_params_, grid.best_score_
     <aside class="notes" data-markdown>
       The bias-variance tradeoff can be adjusted when constructing many models, by adjusting particular hyperparameters.  Choosing the right hyperparameters is very important, and can mean the difference between a model with high accuracy and one that doesn't even train.  As such, you usually need to explore variants of a model with different hyperparameters set.  Tuning hyperparameters can be tricky, as they can interact with each other or be just plain sensitive.
 
-      Here we see an example of hyperparameter tuning for a Support Vector Machine.  The parameter is called gamma and controls how complex the model is allowed to be; we are tuning it across a logarithmic range.  So when gamma is low, the model complexity is low, and therefore the intrinisic bias of the model is high.  Both the training score and the testing score is poor: the model is underfitting.  When gamma is high, the model is allowed to be complex, which means the training score is nearly perfect but the testing score is much worse: the model is overfitting.  The sweet spot is in the middle, at 0.001.  By the way this sort of visual exploration is called a validation curve
+      Here we see an example of hyperparameter tuning for a Support Vector Machine.  The parameter is called gamma and controls how complex the model is allowed to be; we are tuning it across a logarithmic range.  So when gamma is low, the model complexity is low, and therefore the intrinisic bias of the model is high.  Both the training score and the testing score is poor: the model is underfitting.  When gamma is high, the model is allowed to be complex, which means the training score is nearly perfect but the testing score is much worse: the model is overfitting.  The sweet spot is in the middle, at 0.001.  By the way this sort of visual exploration is called a validation curve.
+
+      Of course if when spot-checking your model you use a bad hyperparameter you might not even bother trying to improve it.  So when spot checking models like Support vector machines, do spot checks with widely spaced hyperparameters to see if any makes a difference.
 
       In python, one would typically use the GridSearchCV to explore a particular parameter space.  You provide the GridSearchCV with the model to tune and a dictionary of parameter options, and it will explore every combination of those options to find the one with the best accuracy.  You can then extract the parameters and retrain the model with the best ones (GridSearchCV will even do that for you).
     </aside>
