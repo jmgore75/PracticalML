@@ -53,7 +53,9 @@
     <aside class="notes" data-markdown>
       To say machine learning is a big subject is a big understatement, but it may be easier than you think.
 
-      Using python and scikit-learn, we'll walk through a machine learning process from start to finish discussing when to apply machine learning, the most successful algorithms, best practices, and even a little philosophy.
+      So today we are going to walk through the machine learning process from start to finish.  Using python and scikit-learn,  we will discuss what machine learning is, when to apply it, and what you need to do to guarantee good results.  Along the way we'll cover some of the most successful algorithms, best practices, and even a little philosophy.
+
+      Let's get started.
     </aside>
   </section>
 
@@ -101,10 +103,10 @@
     </div>
   </div>
 
-  <aside class="notes">
+  <aside class="notes" data-markdown>
     Here's a brief overview of what we'll be covering today.  We'll review what machine learning is and what it's all about, before reviewing the job process with Python and scikit-learn.  Along the way we'll discuss some major supervised algorithms.
 
-    We *won't* be covering other algorithms, platforms, or more complex data models, but rest assured much of what we will discuss today can be applied directly in these other contexts.
+    We *won't* be covering other algorithms, other ml platforms, or more complex data models, but rest assured much of what we will discuss today can be applied directly in these other contexts.
   </aside>
 </section>
 
@@ -199,11 +201,9 @@
 
       [R](https://www.r-project.org/) is *the* premier open source statistical platform, and the most popular ML tool with the most algorithms.  It is widely used in academia, and so most new algorithms actually show up there first.
 
-      [Python](https://www.python.org/) on the other hand is a general-purpose programming language.  Two packages are especially useful for machine Learning: [scikit-learn](http://scikit-learn.org) wraps many ML algorithms in a common API along with plenty of utilities, and  [Theano](http://deeplearning.net/software/theano) can be used to compile numerical algorithms to native code.  Significantly, python is production ready and excellent for data wrangling.  This is the environment I will be using today.
+      [Python](https://www.python.org/) on the other hand is a general-purpose programming language which has some nice packages for machine learning.  Significantly, python is production ready and excellent for data wrangling.  This is the environment I will be using today.
 
-      [MatLab](http://www.mathworks.com/products/matlab/) is a numerical computing environment with extensive use in academic and research institutions. But it is also proprietary and expensive and doesn't see much use elsewhere.
-
-      [Julia](http://julialang.org/) is a very new high-performance dynamic programming language. It is specifically designed for numerical and scientific computing but also aims to be an effective general purpose language.  The syntax is concise and the performance is actually quite good.  But it is very young and core APIs are still changing, so although its package ecosystem is growing rapidly I can't recommend it just yet.
+      The other two are of more limited interest.  [MatLab](http://www.mathworks.com/products/matlab/) is a numerical computing environment with extensive use in academic and research institutions. But it is also proprietary and expensive and doesn't see much use elsewhere. [Julia](http://julialang.org/) is a very new high-performance dynamic programming language. It is very interesting but still very much in development, so I can't recommend it just yet.
     </aside>
   </section>
 
@@ -251,7 +251,7 @@ $ pip install theano scikit-neuralnetwork
     <h1>The steps of a machine learning job</h1>
     <ol>
       <li>Know your problem</li>
-      <li>Know your data</li>
+      <li>Prepare your data</li>
       <li>Set up your test harness</li>
       <li>Spot check a variety of algorithms</li>
       <li>Fine tune your best models</li>
@@ -271,52 +271,24 @@ $ pip install theano scikit-neuralnetwork
       <li>What problem are you trying to solve?</li>
       <li>Is machine learning the right choice?</li>
       <li>What kind of machine learning is warranted?</li>
-      <li>What scoring algorithm should you use?</li>
+      <li>How will you judge model performance?</li>
     </ul>
     <img class="noborder" height="300px" width="auto" src="../img/sherlock.jpg">
 
     <aside class="notes" data-markdown>
-      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?
-
-      Machine learning is most useful on tasks which can be solved but not simply explained.  For instance, you can easily describe the content of an image.  But can you describe the process you used to translate it from your eyes to your mouth?  You can't.  Others have tried with mediocre results.  Machine learning beat those algorithms handily.
-    </aside>
-  </section>
-
-  <section id="data-models" class="container">
-    <h2>Data and models</h2>
-
-    <div class="row">
-      <div class="col-md-6">
-        <img class="noborder" src="../img/titanic.png">
-      </div>
-      <div class="col-md-6">
-        <img class="noborder" src="../img/convolution.jpg">
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-        <img class="noborder" src="../img/diags.jpeg">
-      </div>
-    </div>
-
-    <aside class="notes" data-markdown>
-      The most common form of machine learning problem is to make a prediction for independent samples, where the features of the sample are not really related to each other.  But this is not always the case.  There are many others that require special formulation and considerations, such as:
-
-      - [Structured data](NeuralNetworks.md#convolutional-layers): When there is a structural relationship between the features (such as pixels in an image)
-      - [Graphical models](Probabilistic.md#graphical-techniques): Given samples for a collection of nodes, construct a network between the nodes
-      - [Sequential or process models](NeuralNetworks.md#recurrent-neural-networks): When the input and/or output is a sequence of arbitrary length
+      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?  How will you judge your model's performance?
     </aside>
   </section>
 
   <section id="when-ml">
-    <h2><i>When</i> to use machine learning</h1>
+    <h2>When to use machine learning</h1>
     <img class="noborder" src="../img/celebs.jpg">
     <blockquote>Machine learning is appropriate when the problem is too dynamic or complex to be handled by simple rules or models</blockquote>
 
     <aside class="notes" data-markdown>
-      The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?
+      Machine learning is most useful on tasks which can be solved but not simply explained.  For instance, consider facial recognition.  As a human being you can do this easily, but I doubt you can describe just how you do it.  Even if you could, it would be a complex and inelegant explanation.  This applies to facial recognition algorithms as well.  People tried writing these by hand originally but their accuracy was mediocre at best.  The latest machine learning algorithms are far more accuracte.
 
-      Machine learning is most useful on tasks which can be solved but not simply explained.  For instance, you can easily describe the content of an image.  But can you describe the process you used to translate it from your eyes to your mouth?  You can't.  Others have tried with mediocre results.  Machine learning beat those algorithms handily.
+      So when shouldn't you use machine learning? Machine learning models can solve a lot of problems but many algorithms don't offer much insight into the nature of the problem.  In other words, they can get you a result even if they don't give you an explanation.  That may not be enough.  Also, machine learning is not magic, it is limited by the quality of the data and by its own design.
     </aside>
   </section>
 
@@ -351,7 +323,7 @@ $ pip install theano scikit-neuralnetwork
       <div class="col-md-4">
         <div class="panel panel-green">
           <div class="panel-heading">
-            <h4 class="panel-title">Hybrid</h4>
+            <h4 class="panel-title">Other</h4>
           </div>
           <ul class="list-group">
             <li class="list-group-item">Semi-supervised</li>
@@ -362,19 +334,31 @@ $ pip install theano scikit-neuralnetwork
     </div>
 
     <aside class="notes" data-markdown>
-      There are four major types of machine learning problems:
+      There are two major types of machine learning.  Supervised learning is the prediction of a label based on the input features.  It is used for classifying samples, regression to a numerical amount or ranking.  Unsupervised learning is identifying structure in the input data.  This include clustering, density estimation, pattern identification, and so on.  Fundamentally every form of unsupervised technique is a way of representing the original data, i.e. compression.
 
-      - Supervised: make predictions
-        - Classification: predict from a sample of labels
-        - Regression: predict a numeric value
-        - Ranking: predict an order for data
-      - Unsupervised: identify structure
-        - Clustering: find groups within your data
-        - Density estimation: identify distribution of samples in the feature domain
-        - Pattern identification: identify common patterns
-        - Representation learning: describe the data with much less information
-      - Semi-supervised: supervised learning with additional unlabeled data to help characterize the feature domain
-      - Reinforcement learning: data is generated by interaction with environment, attempting to maximize a reward
+      Besides the big two there are others, such as semi-supervised learning in which not all training data is labeled, and reinforcement learning which can be used for training robots without explicit instructions.
+    </aside>
+  </section>
+
+  <section id="data-models" class="container">
+    <h2>Data and models</h2>
+
+    <div class="row">
+      <div class="col-md-6">
+        <img class="noborder" src="../img/titanic.png">
+      </div>
+      <div class="col-md-6">
+        <img class="noborder" src="../img/convolution.jpg">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <img class="noborder" src="../img/diags.jpeg">
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      The exact form your problem takes is closely related to the form of your data.  In plain tabular data the features of the sample are not really related to each other.  But this is not always the case.  Others require special formulation and considerations.  Images for instance are a form of structured data.  It's features are pixels, but ever pixel is similar to the others and has relationships with neighboring pixels.  Other models, such as text and video, have a temporal component.  Taking these qualities into account is necessary when choosing your models.
     </aside>
   </section>
 
@@ -382,7 +366,7 @@ $ pip install theano scikit-neuralnetwork
 
 <section>
   <section id="data" class="container">
-    <h1 class="text-left">2. Know your data</h1>
+    <h1 class="text-left">2. Prepare your data</h1>
     <div class="row">
       <div class="col-md-4">
         <img class="noborder" src="../img/data.jpg">
@@ -393,7 +377,7 @@ $ pip install theano scikit-neuralnetwork
           <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
           <li>What does it look like?</li>
           <li>Is it any good and do you have enough of it?</li>
-          <li>Are your classes biased and do you need to compensate for that? </li>
+          <li>Are your classes balanced and do you need to compensate for that? </li>
         </ul>
       </div>
     </div>
@@ -436,7 +420,7 @@ $ pip install theano scikit-neuralnetwork
             <li class="list-group-item">Get it</li>
             <li class="list-group-item">Convert to useful format</li>
             <li class="list-group-item">Handle blanks</li>
-            <li class="list-group-item">Convert categorical values to numeric</li>
+            <li class="list-group-item">Convert categorical features to numeric</li>
             <li class="list-group-item">Remove unhelpful features</li>
             <li class="list-group-item">Add helpful features</li>
           </ul>
@@ -444,16 +428,13 @@ $ pip install theano scikit-neuralnetwork
       </div>
       <div class="col-md-6">
         <img src="../img/wrangling.gif">
-        <blockquote class="small">Good luck!</blockquote>
+        <blockquote class="small">It's 90% of the job.</blockquote>
       </div>
     </div>
-    <aside class="notes">
-      Data wrangling (or munging or preparation) is widely considered to be the most tedious and time consuming part of data science.  You will spend 90% of your time just whipping your data into shape.  But as trivial as it sounds, you can't train a model without data.
+    <aside class="notes" data-markdown>
+      Data wrangling (or munging or preparation) is the process of preparing your data for analysis.  That doesn't sound like much, but in fact it is the most tedious and time consuming part of the entire process.  You will spend 90% of a machine learning job just whipping your data into shape, and what you need to do will be different every time.  But at minimum, you will need to: get the data; convert it into a format you can work with; figure out what to do with blanks or placeholder values; convert categorical features to a numeric form; remove unhelpful features; and add helpful ones from other sources.
 
-        - May come in a wide variety of formats
-        - May be messy and include missing data
-        - May include unimportant data
-        - May be too large for memory, requiring special techniques to process
+      The good news is, you work for Tessella, which means you should be very accustomed to this sort of thing already.  Have fun with that!
     </aside>
   </section>
 
@@ -491,7 +472,7 @@ predict_df.to_csv("output/predict.csv")
 from sklearn.decomposition import PCA
 from sklearn.ensemble import RandomForestClassifier
 </code></pre>
-    <aside class="notes">
+    <aside class="notes" data-markdown>
       Irrelevant features are for all intents and purposes noise in your data.  This increases the risk of spurious correlations and makes most algorithms less efficient.  It also leads to higher memory consumption.
 
       There are deeper issues as well.  Without going into details, bounded high-dimensional spaces are spiky with most of the volume concentrated in the center.  In other words, the distance between random points [tends to be the same](http://yaroslavvb.com/papers/koppen-curse.pdf), and it becomes impossible to learn in many circumstances.  So the curse of dimensionality is really the curse of the central limit theorem.
@@ -546,6 +527,41 @@ y_predict = clf.predict(X_predict)
     </aside>
   </section>
 
+  <section id="splitting">
+    <h2>Validating models</h2>
+
+    <aside class="notes" data-markdown>
+      We don't jump straight from data to modelling.  We will need to evaluate many models.  And that means we need ways of validating those models and comparing them.
+    </aside>
+  </section>
+
+  <section id="splitting">
+    <h2>Splitting data for validation</h2>
+<pre><code class="py" data-trim data-noescape>
+from sklearn.cross_validation import train_test_split,
+  KFold, StratifiedShuffleSplit
+
+# Quickly split into 80% train and 20% test
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Or split into 5 folds
+folds = KFold(y.length, 5, shuffle=True)
+for i_train, i_test in folds:
+  X_train, X_test = X[i_train], X[i_test]
+  y_train, y_test = y[i_train], y[i_test]
+
+# Or generate 5 random splits preserving class percentages
+sss = StratifiedShuffleSplit(y, 5, test_size=0.2)
+</code></pre>
+    <aside class="notes" data-markdown>
+      With machine learning models the accuracy you get on the data you train with is usually much higher than what you will get for other data.  Which is why every machine learning workflow will require you to save some of your data for testing.
+
+      The simplest way to do this is with the train_test_split function, which will randomly split all input matrices the same way.
+
+      Of course one train-test split may by chance not produce representative results, so you usually want to split more than once.  There are many different strategies, but they all work the same: create a splitter and get back a series of tuples with the train and test indices,
+    </aside>
+  </section>
+
   <section id="preprocess-pipeline">
     <h2>Preprocessing and Pipelines</h2>
 <pre><code class="py" data-trim data-noescape>
@@ -578,77 +594,14 @@ clf.fit(X_train, y_train)
     </aside>
   </section>
 
-  <section id="splitting">
-    <h2>Splitting data for validation</h2>
-<pre><code class="py" data-trim data-noescape>
-from sklearn.cross_validation import train_test_split,
-  KFold, StratifiedShuffleSplit
-
-# Quickly split into 80% train and 20% test
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-# Or split into 5 folds
-folds = KFold(y.length, 5, shuffle=True)
-for i_train, i_test in folds:
-  X_train, X_test = X[i_train], X[i_test]
-  y_train, y_test = y[i_train], y[i_test]
-
-# Or generate 5 random splits preserving class percentages
-sss = StratifiedShuffleSplit(y, 5, test_size=0.2)
-</code></pre>
-    <aside class="notes" data-markdown>
-      With machine learning models the accuracy you get on the data you train with is usually much higher than what you will get for other data.  Which is why every machine learning workflow will require you to save some of your data for testing.
-
-      The simplest way to do this is with the train_test_split function, which will randomly split all input matrices the same way.
-
-      Of course one train-test split may by chance not produce representative results, so you usually want to split more than once.  There are many different strategies, but they all work the same: create a splitter and get back a series of tuples with the train and test indices,
-    </aside>
-  </section>
-
 </section>
 
 <section>
   <section id="spot-check">
     <h1 class="text-left">4. Spot check a variety of algorithms</h1>
     <img class="noborder" src="../img/algorithms.png">
-    <aside class="notes">
-      Once you have your harness set up, it's time to actually test some algorithms.  You should check a range of algorithms to identify which ones are performing well for you.  Be sure to keep track of what you have checked so far.
-    </aside>
-  </section>
-
-  <section id="no-free-lunch">
-    <h2>No Free Lunch Theorem</h2>
-    <p>No one algorithm will be suitable for all problems and any algorithm could be the right one.<span class="fragment" data-fragment-index="1">.. <i>but in practice only a handful of algorithms are really worth considering.</i></span></p>
-
-    <div class="row row-eq-height fragment" data-fragment-index="1">
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Random Forests</h4>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Neural Networks</h4>
-        </div>
-      </div>
-    </div>
-    <div class="row row-eq-height fragment" data-fragment-index="1">
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Support Vector Machines</h4>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Cheap Algorithms</h4>
-        </div>
-      </div>
-    </div>
-
     <aside class="notes" data-markdown>
-      There is something called the no-free-lunch theorem, which basically says no one algorithm will be suitable for all problems and any algorithm could be the right one.  But I think some algorithms tend to be much better than others.
-
-      And here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
+      Once you have everything set up, it's time to move to the next phase - building a model.  To do that, you are actually going to need to test a variety of algorithms to find one that is going to work well for your problem and data.  And that begins by spot checking a range of algorithms.
     </aside>
   </section>
 
@@ -669,15 +622,55 @@ def standard_clfs():
 for clf in standard_clfs():
   print clf.fit(X_train, y_train).score(X_test, y_test)
 </code></pre>
-    <aside class="notes">
-      I recommend setting up a reusable generator of your starter models.  That way you can quickly and consitently apply a range of models to a problem.
+    <aside class="notes" data-markdown>
+      I'd like to make a recommendation for how you go about spot checking algorithms: set up a standard list of preconfigured models to evaluate, and the code to evaluate them quickly.  In python, the natural approach is to use a generator to stream the models to test.  That way you are consistent, and you can let your code spot-check your models while you do something else.  When it's done you can review the results and pick which models to examine further.
+
+      But there are of course many many different algorithms with an infinite number of configurations.  So which ones should you test?
+    </aside>
+  </section>
+
+  <section id="no-free-lunch">
+    <h2>No Free Lunch Theorem</h2>
+    <p>No one algorithm will be suitable for all problems and any algorithm could be the right one.<span class="fragment" data-fragment-index="1">.. <i>but in practice only a handful of algorithms are really worth considering.</i></span></p>
+
+    <div class="row row-eq-height fragment" data-fragment-index="2">
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Random Forests</h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Neural Networks</h4>
+        </div>
+      </div>
+    </div>
+    <div class="row row-eq-height fragment" data-fragment-index="2">
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Support Vector Machines</h4>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="well">
+          <h4>Cheap Algorithms</h4>
+        </div>
+      </div>
+    </div>
+
+    <aside class="notes" data-markdown>
+      There is something called the no-free-lunch theorem, which basically says no one algorithm will be suitable for all problems and that any algorithm could be the right one.  Which isn't particularly helpful.
+
+      *But* in practice some algorithms are definitely more useful than others.  In fact there's only a handful that are really good.  And here they are: Random Forests and Neural Networks are definitely the big two.  Support Vector Machines are also good enough to be worth a shot, and there's no reason not to try various cheap algorithms.
+
+      Let's look at these.
     </aside>
   </section>
 
   <section id="decision-tree" class="container">
     <div class="row">
       <div class="col-md-6">
-        <h2 class="text-left">Decision Trees</h2>
+        <h2 class="text-left">Decision trees</h2>
         <div class="panel panel-green small">
           <ul class="list-group">
             <li class="list-group-item">Easily understood</li>
@@ -701,11 +694,13 @@ from sklearn.tree import
   DecisionTreeClassifier, DecisionTreeRegressor
 </code></pre>
     <aside class="notes" data-markdown>
+      Algorithms can categorized by how they work with input data.  One way of doing that is using decision trees.
+
       Decision trees are arguably the simplest and most intuitive machine learning model in existence.  They are essentially a flowchart: for each node starting at the root, you evaluate a rule and are directed to another node, until you reach a final decision. They require no preprocessing and are fast and cheap to train, store, and evaluate.
 
-      How you actually build a given decision tree from the training data depends on your algorithm. With a simple algorithm and no constraints they can produce the best possible fit to the training data.
+      How you actually build a given decision tree from the training data depends on your algorithm. With a simple algorithm and no constraints they can produce the best possible fit to the training data.  Which is to say, they can easily overfit.  Also, they can't perform any mathematical processing, so they do not generalize very well.
 
-      Which is to say, they can easily overfit.  Also, they cannot perform any mathematical processing, so they do not generalize very well.
+      But it's a different story if you use more than one...
     </aside>
   </section>
 
@@ -737,14 +732,16 @@ from sklearn.ensemble import
   ExtraTreesClassifier, ExtraTreesRegressor
 </code></pre>
     <aside class="notes" data-markdown>
-      A random forest is simply an ensemble of specially constructed decision trees.  Each tree is trained using a bootstraped dataset, and each decision node is based on a random subset of features.  Random forests have several really nice practical aspects:
+      A random forest is simply an ensemble of specially constructed decision trees.  Each tree is different because at any given branch it can only choose from a random set of features - or a random set of feature splits in the case of the extra trees variant.
+
+      Random forests have several really nice practical aspects:
 
       - Since they are based on decision trees, no preprocessing of features is necessary.
-      - There are few parameters to tune and those parameters are very forgiving.  Essentially it's just the maximum depth, number of features to sample, and the number of trees. Interestingly, adding trees can only improve test accuracy.
-      - Training and evaluation is embarassingly parallel, and typically quite fast.  You can add trees for accuracy or remove trees for performance at will.
+      - There are few hyperparameters to tune and those hyperparameters are very forgiving.
+      - Training and evaluation is typically quite fast.  You can add trees for accuracy or remove trees for performance at will.
       - Most importantly random forests work [very well on a very large number of problems](http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf).
 
-      In fact if I was really in a pinch and could use only one algorithm, it would be the extremely randomized trees variant, which is an even more random forest.  It will almost certainly give me an accurate result with no fuss whatsoever.
+      In fact if I was really in a pinch and could use only one algorithm, it would be ExtraTrees.  It will almost certainly give me an accurate result with no fuss whatsoever.
 
       Forests work well because [bagging is most effective on unstable algorithms that overfit easily](http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf)... and decision trees overfit more easily than just about anything.
     </aside>
@@ -774,7 +771,6 @@ from sklearn.ensemble import
     </aside>
   </section>
 
-
   <section id="neural-network" class="container">
     <div class="row">
       <div class="col-md-6 nopadding">
@@ -803,9 +799,13 @@ layers = [Layer("Rectifier", units=100), Layer("Softmax")]
 clf = Classifier(layers=layers)
 </code></pre>
     <aside class="notes" data-markdown>
-      The basic neural network architecture is simply a stack of these linear transformations, where each transformation is wrapped in a non-linear activation function.  Activation functions are required because otherwise the linear transformations could be collapsed down to a single one (which is not very interesting or expressively powerful).
+      Now there are many algorithms based on linear transformations, but neural networks are certainly the hottest at the moment.
 
-      The layers between the output and input are known as the hidden layers.  In theory a single hidden layer of large enough width could approximate any function, but in practice multiple hidden layers may be much more expressive.  Up until recently it was not possible to train more than a couple of layers, but now there are techniques allowing for many layers.  In addition, variations on the basic architecture such as convolutional layers and recurrent networks are tremendously useful for certain types of problems.
+      The basic neural network architecture is simply a stack of these linear transformations, except that each transformation is wrapped in a non-linear activation function.  You need that activation functions because a linear tranformation of a linear transformation is just a linear transformation (which is not very interesting or expressively powerful).
+
+      In a neural network, the layers between the output and input are known as the hidden layers.  In theory a single hidden layer if wide enough could approximate any function, but in practice multiple hidden layers can be much more expressive.  The problem was that up until recently it was not possible to train more than a couple of layers, but now there are techniques allowing for many layers.
+
+      Additionally, the architecture of neural networks is very flexible.  A neural network doesn't have to be a plain stack, and different kinds of layers can be used.  In particular, convolutional layers and recurrent networks are tremendously useful for certain types of problems.
     </aside>
   </section>
 
@@ -815,9 +815,9 @@ clf = Classifier(layers=layers)
     <img class="noborder" height="250px" width="auto" class="fragment" src="../img/weedyseadragon.png">
 
     <aside class="notes" data-markdown>
-      This has led to the renaissance of deep neural networks, which are setting records for processing of structured data like audio and video.  Furthermore, it has been found that these deep networks are actually learning recognizable features at higher and higher levels, to the point that a single node can code for something like "dog".
+      This has led to the renaissance of deep neural networks, which are setting records for processing of structured data like audio and video.  And what has been found is that every layer in a deep network is learning more abstract concepts than the layer before.  This was demonstrated most startlingly in Google's Deep Dream example, which showed that a single node could code for something as abstract as "dog".
 
-      However they are not without cost - some of these beasts are absolutely enormous.  This for instance is GoogLeNet: I couldn't even get the model to load without running out of GPU memory on my machine.  Here there be dragons.
+      But deep networks are not without cost - some of these beasts are absolutely enormous.  This for instance is GoogLeNet: I couldn't even get the model to load without running out of GPU memory on my machine.
     </aside>
   </section>
 
@@ -1008,15 +1008,17 @@ train_sizes, train_scores, test_scores = learning_curve(
   <section id="end" class="container">
     <h2>Thank you!</h2>
     <br>
-
     <div class="row">
-      <div class="col-md-12 text-left">
+      <div class="col-md-6 text-left">
         <h4>Further reading</h4>
         <ul>
           <li><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/jmgore75/PracticalML/master/presentation/conference2015.html">Replay</a> this presentation on <a href="https://github.com/jmgore75/PracticalML/">GitHub</a></li>
           <li><a href="http://machinelearningmastery.com/">Machine learning mastery</a> blog</li>
           <li><a href="https://www.udacity.com/course/machine-learning--ud262">Machine Learning</a> Udacity course series</li>
         </ul>
+      </div>
+      <div class="col-md-6">
+        <img src="../img/dream_logo.jpg">
       </div>
     <div>
   </section>

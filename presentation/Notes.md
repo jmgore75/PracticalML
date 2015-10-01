@@ -1,6 +1,23 @@
 Development Notes
 ===========
 
+# Review Notes
+
+Need tessella logo
+
+Clean up notes
+
+Interlude to explain concept of validation
+  Also bias-variance as source of error
+
+Data wrangling explain why 90%
+
+Clean up curse of dimensionality
+
+No free lunch - I'm going to talk about this
+
+##3
+
 <http://www.pyimagesearch.com/2014/09/22/getting-started-deep-learning-python/>
 
 Need To:
