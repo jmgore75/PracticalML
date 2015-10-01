@@ -40,14 +40,14 @@
 <div class="slides">
 
 <section>
-  <section id="title" class="container">
-    <div class="col-md-4 nopadding">
+  <section id="title">
+    <div class="tier">
       <svg width="300" height="600"></svg>
-    </div>
-    <div class="col-md-8 text-right">
-      <img class="noborder" style="width:300px;height:auto; margin-bottom:1em; " src='../img/Tessella_Logo.png'>
-      <h2 class="text-right">A Practical Guide to Applied Machine Learning</h2>
-      <h2 class="text-right"><small>Jeremy Gore<br>Autumn Conference 2015-10-05</small></h2>
+      <div class="w2 text-right">
+        <img class="noborder" style="width:300px;height:auto; margin-bottom:1em; " src='../img/Tessella_Logo.png'>
+        <h2 class="text-right">A Practical Guide to Applied Machine Learning</h2>
+        <h2 class="text-right"><small>Jeremy Gore<br>Autumn Conference 2015-10-05</small></h2>
+      </div>
     </div>
 
     <aside class="notes" data-markdown>
@@ -73,34 +73,22 @@
 
 </section>
 
-<section id="topics" class="container">
+<section id="topics">
   <h2>Topics</h2>
-  <div class="row row-eq-height">
-    <div class="col-md-6">
-      <div class="panel panel-green">
-        <div class="panel-heading">
-          <h4 class="panel-title">Will Cover</h4>
-        </div>
-        <ul class="list-group">
-          <li class="list-group-item">What is ML</li>
-          <li class="list-group-item">Job process</li>
-          <li class="list-group-item">Python with scikit-learn</li>
-          <li class="list-group-item">Major supervised algorithms</li>
-        </ul>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="panel panel-red">
-        <div class="panel-heading">
-          <h4 class="panel-title">Won't Cover</h4>
-        </div>
-        <ul class="list-group">
-          <li class="list-group-item">Other algorithms</li>
-          <li class="list-group-item">Other Plaforms</li>
-          <li class="list-group-item">Structured and sequential models</li>
-        </ul>
-      </div>
-    </div>
+  <div class="tier">
+    <ul class="list-group green">
+      <h4 class="panel-title">Will Cover</h4>
+      <li>What is ML</li>
+      <li>Job process</li>
+      <li>Python with scikit-learn</li>
+      <li>Major supervised algorithms</li>
+    </ul>
+    <ul class="list-group red">
+      <h4 class="panel-title">Won't Cover</h4>
+      <li>Other algorithms</li>
+      <li>Other Plaforms</li>
+      <li>Structured and sequential models</li>
+    </ul>
   </div>
 
   <aside class="notes" data-markdown>
@@ -116,35 +104,23 @@
     <img class="noborder" src="../img/ml.gif">
   </section>
 
-  <section id="concepts" class="container">
+  <section id="concepts">
     <h2>Core Concepts</h2>
-    <div class="row row-eq-height">
-      <div class="col-md-6">
-        <div class="panel panel-blue">
-          <div class="panel-heading">
-            <h4 class="panel-title">Data</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item">Items</li>
-            <li class="list-group-item">Features</li>
-            <li class="list-group-item">Labels</li>
-            <li class="list-group-item">Classes</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-yellow">
-          <div class="panel-heading">
-            <h4 class="panel-title">Models</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item">Algorithms</li>
-            <li class="list-group-item">Parameters</li>
-            <li class="list-group-item">Hyper-parameters</li>
-            <li class="list-group-item">Ensembles</li>
-          </ul>
-        </div>
-      </div>
+    <div class="tier">
+      <ul class="list-group blue">
+        <h4 class="panel-title">Data</h4>
+        <li>Items</li>
+        <li>Features</li>
+        <li>Labels</li>
+        <li>Classes</li>
+      </ul>
+      <ul class="list-group yellow">
+        <h4 class="panel-title">Models</h4>
+        <li>Algorithms</li>
+        <li>Parameters</li>
+        <li>Hyper-parameters</li>
+        <li>Ensembles</li>
+      </ul>
     </div>
 
     <aside class="notes" data-markdown>
@@ -156,35 +132,23 @@
     </aside>
   </section>
 
-  <section id="hardware-software" class="container">
+  <section id="hardware-software">
     <h2>Hardware and Software</h2>
-    <div class="row row-eq-height">
-      <div class="col-md-6">
-        <div class="panel panel-orange">
-          <div class="panel-heading">
-            <h4 class="panel-title">Machine</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item">Plenty of memory (8GB)</li>
-            <li class="list-group-item">NVidia GPU, or decent CPU</li>
-            <li class="list-group-item">Preferably Linux</li>
-            <li class="list-group-item">Local or Server?</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="panel panel-purple">
-          <div class="panel-heading">
-            <h4 class="panel-title">ML Platform</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item"><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
-            <li class="list-group-item"><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
-            <li class="list-group-item"><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
-            <li class="list-group-item"><em><a href="http://julialang.org/">Julia</a></em>: New hotness</li>
-          </ul>
-        </div>
-      </div>
+    <div class="tier">
+      <ul class="list-group orange">
+        <h4 class="panel-title">Machine</h4>
+        <li>Plenty of memory (8GB)</li>
+        <li>NVidia GPU, or decent CPU</li>
+        <li>Preferably Linux</li>
+        <li>Local or Server?</li>
+      </ul>
+      <ul class="list-group purple">
+        <h4 class="panel-title">ML Platform</h4>
+        <li><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
+        <li><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
+        <li><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
+        <li><em><a href="http://julialang.org/">Julia</a></em>: New hotness</li>
+      </ul>
     </div>
 
     <aside class="notes" data-markdown>
@@ -207,22 +171,20 @@
     </aside>
   </section>
 
-  <section id="py-ml-stack" class="container">
+  <section id="py-ml-stack">
     <h2>Recommended Python ML Stack</h2>
-    <div class="row">
-      <div class="col-md-4">
-        <ol class="list-group small">
-          <li class="list-group-item">Python</li>
-          <li class="list-group-item">Pandas</li>
-          <li class="list-group-item">scikit-learn</li>
-          <li class="list-group-item">scikit-neuralnetwork</li>
-          <li class="list-group-item">Theano</li>
-        </ol>
-      </div>
-      <div class="col-md-8">
+    <div class="tier">
+      <ul class="list-group">
+        <li>Python</li>
+        <li>Pandas</li>
+        <li>scikit-learn</li>
+        <li>scikit-neuralnetwork</li>
+        <li>Theano</li>
+      </ul>
+      <div class="w2">
         <img class="noborder" width="300" height="150" src="../img/logo-anaconda.svg">
         <p><a href="https://www.continuum.io/">https://www.continuum.io/</a></p>
-        <blockquote class="small">You must install a compiler (g++) and ideally CUDA</blockquote>
+        <blockquote>You must install a compiler (g++) and ideally CUDA</blockquote>
 <pre><code class="sh" data-trim>
 $ conda install mingw libpython
 $ pip install theano scikit-neuralnetwork
@@ -292,45 +254,27 @@ $ pip install theano scikit-neuralnetwork
     </aside>
   </section>
 
-  <section id="ml-flavors" class="container">
+  <section id="ml-flavors">
     <h2>Flavors of Machine Learning</h2>
-    <div class="row row-eq-height">
-      <div class="col-md-4">
-        <div class="panel panel-red">
-          <div class="panel-heading">
-            <h4 class="panel-title">Supervised</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item">Classification</li>
-            <li class="list-group-item">Regression</li>
-            <li class="list-group-item">Ranking</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-blue">
-          <div class="panel-heading">
-            <h4 class="panel-title">Unsupervised</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item">Clustering</li>
-            <li class="list-group-item">Density estimation</li>
-            <li class="list-group-item">Pattern identification</li>
-            <li class="list-group-item">Representation learning</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="panel panel-green">
-          <div class="panel-heading">
-            <h4 class="panel-title">Other</h4>
-          </div>
-          <ul class="list-group">
-            <li class="list-group-item">Semi-supervised</li>
-            <li class="list-group-item">Reinforcement learning</li>
-          </ul>
-        </div>
-      </div>
+    <div class="tier">
+      <ul class="list-group red">
+        <h4 class="panel-title">Supervised</h4>
+        <li>Classification</li>
+        <li>Regression</li>
+        <li>Ranking</li>
+      </ul>
+      <ul class="list-group blue">
+        <h4 class="panel-title">Unsupervised</h4>
+        <li>Clustering</li>
+        <li>Density estimation</li>
+        <li>Pattern identification</li>
+        <li>Representation learning</li>
+      </ul>
+      <ul class="list-group green">
+        <h4 class="panel-title">Other</h4>
+        <li>Semi-supervised</li>
+        <li>Reinforcement learning</li>
+      </ul>
     </div>
 
     <aside class="notes" data-markdown>
@@ -340,20 +284,20 @@ $ pip install theano scikit-neuralnetwork
     </aside>
   </section>
 
-  <section id="data-models" class="container">
+  <section id="data-models">
     <h2>Data and models</h2>
 
-    <div class="row">
-      <div class="col-md-6">
-        <img class="noborder" src="../img/titanic.png">
+    <div class="tier relax">
+      <div>
+        <img class="noborder" src="../img/titanic.png" height="250px" width="auto">
       </div>
-      <div class="col-md-6">
-        <img class="noborder" src="../img/convolution.jpg">
+      <div>
+        <img class="noborder" src="../img/convolution.jpg" height="250px" width="auto">
       </div>
     </div>
     <div class="row">
-      <div class="col-md-12">
-        <img class="noborder" src="../img/diags.jpeg">
+      <div>
+        <img class="noborder" src="../img/diags.jpeg" height="250px" width="auto">
       </div>
     </div>
 
@@ -365,21 +309,19 @@ $ pip install theano scikit-neuralnetwork
 </section>
 
 <section>
-  <section id="data" class="container">
+  <section id="data">
     <h1 class="text-left">2. Prepare your data</h1>
-    <div class="row">
-      <div class="col-md-4">
+    <div class="tier">
+      <div>
         <img class="noborder" src="../img/data.jpg">
       </div>
-      <div class="col-md-8">
-        <ul class="small">
-          <li>Where is it, how can I get it, and am I allowed to use it?</li>
-          <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
-          <li>What does it look like?</li>
-          <li>Is it any good and do you have enough of it?</li>
-          <li>Are your classes balanced and do you need to compensate for that? </li>
-        </ul>
-      </div>
+      <ul class="w2">
+        <li>Where is it, how can I get it, and am I allowed to use it?</li>
+        <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
+        <li>What does it look like?</li>
+        <li>Is it any good and do you have enough of it?</li>
+        <li>Are your classes balanced and do you need to compensate for that? </li>
+      </ul>
     </div>
 
     <aside class="notes" data-markdown>
@@ -411,24 +353,20 @@ $ pip install theano scikit-neuralnetwork
     </aside>
   </section>
 
-  <section id="wrangling" class="container">
+  <section id="wrangling">
     <h2>Data Wrangling</h2>
-    <div class="row">
-      <div class="col-md-6">
-        <div class="panel panel-red">
-          <ul class="list-group small">
-            <li class="list-group-item">Get it</li>
-            <li class="list-group-item">Convert to useful format</li>
-            <li class="list-group-item">Handle blanks</li>
-            <li class="list-group-item">Convert categorical features to numeric</li>
-            <li class="list-group-item">Remove unhelpful features</li>
-            <li class="list-group-item">Add helpful features</li>
-          </ul>
-        </div>
-      </div>
-      <div class="col-md-6">
+    <div class="tier">
+      <ul class="list-group purple">
+        <li>Get it</li>
+        <li>Convert to useful format</li>
+        <li>Handle blanks</li>
+        <li>Convert categorical features to numeric</li>
+        <li>Remove unhelpful features</li>
+        <li>Add helpful features</li>
+      </ul>
+      <div>
         <img src="../img/wrangling.gif">
-        <blockquote class="small">It's 90% of the job.</blockquote>
+        <blockquote>It's 90% of the job.</blockquote>
       </div>
     </div>
     <aside class="notes" data-markdown>
@@ -465,9 +403,9 @@ predict_df.to_csv("output/predict.csv")
 
   <section id="dimensionality">
     <h2>The curse of dimensionality</h2>
-    <p class="small"><i>The more dimensions you have, the closer two random points in a bounded space are. </i></p>
+    <p><i>The more dimensions you have, the closer two random points in a bounded space are. </i></p>
     <img src="../img/dimensionality.png">
-    <p class="small"><i>Consider reducing your features</i></p>
+    <p><i>Consider reducing your features</i></p>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.decomposition import PCA
 from sklearn.ensemble import RandomForestClassifier
@@ -633,28 +571,20 @@ for clf in standard_clfs():
     <h2>No Free Lunch Theorem</h2>
     <p>No one algorithm will be suitable for all problems and any algorithm could be the right one.<span class="fragment" data-fragment-index="1">.. <i>but in practice only a handful of algorithms are really worth considering.</i></span></p>
 
-    <div class="row row-eq-height fragment" data-fragment-index="2">
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Random Forests</h4>
-        </div>
+    <div class="tier fragment" data-fragment-index="2">
+      <div class="well">
+        <h4>Random Forests</h4>
       </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Neural Networks</h4>
-        </div>
+      <div class="well">
+        <h4>Neural Networks</h4>
       </div>
     </div>
-    <div class="row row-eq-height fragment" data-fragment-index="2">
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Support Vector Machines</h4>
-        </div>
+    <div class="tier fragment" data-fragment-index="2">
+      <div class="well">
+        <h4>Support Vector Machines</h4>
       </div>
-      <div class="col-md-6">
-        <div class="well">
-          <h4>Cheap Algorithms</h4>
-        </div>
+      <div class="well">
+        <h4>Cheap Algorithms</h4>
       </div>
     </div>
 
@@ -667,27 +597,21 @@ for clf in standard_clfs():
     </aside>
   </section>
 
-  <section id="decision-tree" class="container">
-    <div class="row">
-      <div class="col-md-6">
+  <section id="decision-tree">
+    <div class="tier">
+      <div>
         <h2 class="text-left">Decision trees</h2>
-        <div class="panel panel-green small">
-          <ul class="list-group">
-            <li class="list-group-item">Easily understood</li>
-            <li class="list-group-item">No preprocessing</li>
-            <li class="list-group-item">Fast and cheap</li>
-          </ul>
-        </div>
-        <div class="panel panel-red small">
-          <ul class="list-group">
-            <li class="list-group-item">Overfits</li>
-            <li class="list-group-item">No mathematical processing</li>
-          </ul>
-        </div>
+        <ul class="list-group green stretch small">
+          <li>Easily understood</li>
+          <li>No preprocessing</li>
+          <li>Fast and cheap</li>
+        </ul>
+        <ul class="list-group red stretch small">
+          <li>Overfits</li>
+          <li>No mathematical processing</li>
+        </ul>
       </div>
-      <div class="col-md-6 nopadding">
-        <svg width="450" height="500"></svg>
-      </div>
+      <svg width="400" height="500"></svg>
     </div>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.tree import
@@ -704,26 +628,20 @@ from sklearn.tree import
     </aside>
   </section>
 
-  <section id="random-forest" class="container">
-    <div class="row">
-      <div class="col-md-6 nopadding">
-        <svg width="450" height="500"></svg>
-      </div>
-      <div class="col-md-6">
+  <section id="random-forest">
+    <div class="tier">
+      <svg width="450" height="500"></svg>
+      <div>
         <h2 class="text-left">Random Forests</h2>
-        <div class="panel panel-green small">
-          <ul class="list-group">
-            <li class="list-group-item">No preprocessing</li>
-            <li class="list-group-item">Minimal tuning</li>
-            <li class="list-group-item">Fast</li>
-            <li class="list-group-item"><a href="http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf">Reliably good results</a></li>
-          </ul>
-        </div>
-        <div class="panel panel-red small">
-          <ul class="list-group small">
-            <li class="list-group-item">No mathematical processing</li>
-          </ul>
-        </div>
+        <ul class="list-group green stretch small">
+          <li>No preprocessing</li>
+          <li>Minimal tuning</li>
+          <li>Fast</li>
+          <li><a href="http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf">Reliably good results</a></li>
+        </ul>
+        <ul class="list-group red stretch small">
+          <li>No mathematical processing</li>
+        </ul>
       </div>
     </div>
 <pre><code class="py" data-trim data-noescape>
@@ -747,11 +665,10 @@ from sklearn.ensemble import
     </aside>
   </section>
 
-  <section id="linear-transformation" class="container">
+  <section id="linear-transformation">
     <h2>Linear Transformations</h2>
-    <div class="row">
-      <div class="col-md-4 nopadding">
-        <br>
+    <div class="tier" style="align-items:center;">
+      <div style="padding:20px">
         <p>
           $$\begin{align}
           s_j^{(1)} =& \sum_{i} x_{i} w^{(in\rightarrow 1)}_{i\rightarrow j}\\
@@ -759,7 +676,7 @@ from sklearn.ensemble import
           \end{align}$$
         </p>
       </div>
-      <div class="col-md-8">
+      <div>
         <img class="noborder" src="../img/gradient-descent.gif">
       </div>
     </div>
@@ -771,26 +688,20 @@ from sklearn.ensemble import
     </aside>
   </section>
 
-  <section id="neural-network" class="container">
-    <div class="row">
-      <div class="col-md-6 nopadding">
-        <svg width="450" height="500"></svg>
-      </div>
-      <div class="col-md-6">
+  <section id="neural-network">
+    <div class="tier">
+      <svg width="450" height="500"></svg>
+      <div>
         <h2 class="text-left">Neural Networks</h2>
-        <div class="panel panel-green">
-          <ul class="list-group small">
-            <li class="list-group-item">Flexible architecture</li>
-            <li class="list-group-item">Superior accuracy</li>
-            <li class="list-group-item">Learn progressively higher-level features</li>
-          </ul>
-        </div>
-        <div class="panel panel-red">
-          <ul class="list-group small">
-            <li class="list-group-item">Computationally intensive</li>
-            <li class="list-group-item">Long training times</li>
-          </ul>
-        </div>
+        <ul class="list-group green stretch small">
+          <li>Flexible architecture</li>
+          <li>Superior accuracy</li>
+          <li>Learn progressively higher-level features</li>
+        </ul>
+        <ul class="list-group red stretch small">
+          <li>Computationally intensive</li>
+          <li>Long training times</li>
+        </ul>
       </div>
     </div>
 <pre><code class="py" data-trim data-noescape>
@@ -809,7 +720,7 @@ clf = Classifier(layers=layers)
     </aside>
   </section>
 
-  <section id="deep-neural-network" class="container">
+  <section id="deep-neural-network">
     <h2>Deep Neural Networks</h2>
     <img class="noborder" height="250px" width="auto" src="../img/googlenet.png">
     <img class="noborder" height="250px" width="auto" class="fragment" src="../img/weedyseadragon.png">
@@ -821,26 +732,22 @@ clf = Classifier(layers=layers)
     </aside>
   </section>
 
-  <section id="svm" class="container">
-    <div class="row">
-      <div class="col-md-6">
+  <section id="svm">
+    <div class="tier">
+      <div>
         <h2 class="text-left">Support Vector Machines</h2>
-        <div class="panel panel-green small">
-          <ul class="list-group">
-            <li class="list-group-item">High quality class boundaries</li>
-            <li class="list-group-item"><a href="http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf">Pretty good accuracy</a></li>
-            <li class="list-group-item">One-class training!</li>
-          </ul>
-        </div>
-        <div class="panel panel-red small">
-          <ul class="list-group small">
-            <li class="list-group-item">Lots of tuning</li>
-            <li class="list-group-item">Overfit easily</li>
-            <li class="list-group-item">Not suitable for large training sets</li>
-          </ul>
-        </div>
+        <ul class="list-group green stretch small">
+          <li>High quality class boundaries</li>
+          <li><a href="http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf">Pretty good accuracy</a></li>
+          <li>One-class training!</li>
+        </ul>
+        <ul class="list-group red stretch small">
+          <li>Lots of tuning</li>
+          <li>Overfit easily</li>
+          <li>Not suitable for large training sets</li>
+        </ul>
       </div>
-      <div class="col-md-6 nopadding">
+      <div>
         <img src="../img/svc.gif" style="width:320px;height:auto">
         <img src="../img/svc-projection.gif" style="width:320px;height:auto;clip:rect(0px,140px,140px,0px);">
       </div>
@@ -885,10 +792,10 @@ from sklearn.svm import SVC, SVR
     </aside>
   </section>
 
-  <section id="bias-variance" class="container">
+  <section id="bias-variance">
     <h2>The bias-variance tradeoff</h2>
-    <div class="row">
-      <div class="col-md-6">
+    <div class="tier">
+      <div>
         <svg id="bias-target" width="250" height="250">
           <g transform="translate(125, 125) scale(1.23)">
             <g class="target" stroke="black" stroke-width="0.75">
@@ -906,8 +813,9 @@ from sklearn.svm import SVC, SVR
             <g class="shots" fill="black" stroke="red" stroke-width="0.5"></g>
           </g>
         </svg>
+        <h2>Bias</h2>
       </div>
-      <div class="col-md-6">
+      <div>
         <svg id="variance-target" width="250" height="250">
           <g transform="translate(125, 125) scale(1.23)">
             <g class="target" stroke="black" stroke-width="0.75">
@@ -925,20 +833,12 @@ from sklearn.svm import SVC, SVR
             <g class="shots" fill="black" stroke="red" stroke-width="0.5"></g>
           </g>
         </svg>
+        <h2>Variance</h2>
       </div>
     </div>
     <div style="display:none">
       <span class="fragment" id="first-shots"></span>
       <span class="fragment" id="many-shots"></span>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-        <h2>Bias</h2>
-      </div>
-      <div class="col-md-6">
-        <h2>Variance</h2>
-      </div>
     </div>
 
     <aside class="notes" data-markdown>
@@ -952,11 +852,11 @@ from sklearn.svm import SVC, SVR
     </aside>
   </section>
 
-  <section id="hyperparameter-tuning" class="container">
+  <section id="hyperparameter-tuning">
     <h2>Tuning Hyperparameters</h2>
     <img class="noborder" src="../img/validation.png">
 
-<pre><code class="py small" data-trim data-noescape>
+<pre><code class="py" data-trim data-noescape>
 from sklearn.grid_search import GridSearchCV,
 from sklearn.cross_validation import StratifiedShuffleSplit
 
@@ -977,11 +877,11 @@ print grid.best_params_, grid.best_score_
     </aside>
   </section>
 
-  <section id="performance-data" class="container">
+  <section id="performance-data">
     <h2>Model performance with data</h2>
     <img class="noborder" src="../img/learning.png">
 
-<pre><code class="py small" data-trim data-noescape>
+<pre><code class="py" data-trim data-noescape>
 from sklearn.cross_validation import ShuffleSplit
 from sklearn.learning_curve import learning_curve
 
@@ -1005,11 +905,11 @@ train_sizes, train_scores, test_scores = learning_curve(
 
 
 <section>
-  <section id="end" class="container">
+  <section id="end">
     <h2>Thank you!</h2>
     <br>
-    <div class="row">
-      <div class="col-md-6 text-left">
+    <div class="tier">
+      <div class="text-left">
         <h4>Further reading</h4>
         <ul>
           <li><a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/jmgore75/PracticalML/master/presentation/conference2015.html">Replay</a> this presentation on <a href="https://github.com/jmgore75/PracticalML/">GitHub</a></li>
@@ -1017,15 +917,15 @@ train_sizes, train_scores, test_scores = learning_curve(
           <li><a href="https://www.udacity.com/course/machine-learning--ud262">Machine Learning</a> Udacity course series</li>
         </ul>
       </div>
-      <div class="col-md-6">
+      <div>
         <img src="../img/dream_logo.jpg">
       </div>
-    <div>
+    </div>
   </section>
 
-  <section id="tools" class="container">
-    <div class="row">
-      <div class="col-md-6 text-left">
+  <section id="tools">
+    <div class="tier">
+      <div class="text-left">
         <h4>Development Tools</h4>
         <ul>
           <li><a href="https://www.python.org/">Python</a> language</li>
@@ -1034,7 +934,7 @@ train_sizes, train_scores, test_scores = learning_curve(
           <li><a href="http://deeplearning.net/software/theano/">Theano</a> numerical library</li>
         </ul>
       </div>
-      <div class="col-md-6 text-left">
+      <div class="text-left">
         <h4>Presentation Tools</h4>
         <ul>
           <li><a href="https://github.com/hakimel/reveal.js">Reveal.js</a> presentation framework</li>
