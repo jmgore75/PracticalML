@@ -141,6 +141,9 @@ Reveal.initialize({
 	// key is pressed
 	help: true,
 
+	// Flags if speaker notes should be visible to all viewers
+	showNotes: false,
+
 	// Number of milliseconds between automatically proceeding to the
 	// next slide, disabled when set to 0, this value can be overwritten
 	// by using a data-autoslide attribute on your slides
@@ -313,6 +316,13 @@ Reveal.configure({
 });
 ```
 
+### Touch Navigation
+
+You can swipe to navigate through a presentation on any touch-enabled device. Horizontal swipes change between horizontal slides, vertical swipes change between vertical slides. If you wish to disable this you can set the `touch` config option to false when initializing reveal.js.
+
+If there's some part of your content that needs to remain accessible to touch events you'll need to highlight this by adding a `data-prevent-swipe` attribute to the element. One common example where this is useful is elements that need to be scrolled.
+
+
 ### Lazy Loading
 
 When working on presentation with a lot of media or iframe content it's important to load lazily. Lazy loading means that reveal.js will only load content for the few slides nearest to the current slide. The number of slides that are preloaded is determined by the `viewDistance` configuration option.
@@ -368,6 +378,9 @@ Reveal.getCurrentSlide();
 Reveal.getIndices(); // { h: 0, v: 0 } }
 Reveal.getProgress(); // 0-1
 Reveal.getTotalSlides();
+
+// Returns the speaker notes for the current slide
+Reveal.getSlideNotes();
 
 // State checks
 Reveal.isFirstSlide();
@@ -735,6 +748,8 @@ reveal.js comes with a speaker notes plugin which can be used to present per-sli
 
 Notes are defined by appending an ```<aside>``` element to a slide as seen below. You can add the ```data-markdown``` attribute to the aside element if you prefer writing notes using Markdown.
 
+Alternatively you can add your notes in a `data-notes` attribute on the slide. Like `<section data-notes="Something important"></section>`.
+
 When used locally, this feature requires that reveal.js [runs from a local web server](#full-setup).
 
 ```html
@@ -746,6 +761,8 @@ When used locally, this feature requires that reveal.js [runs from a local web s
 	</aside>
 </section>
 ```
+
+Notes are only visible to you in the speaker view. If you wish to share your notes with the audience initialize reveal.js with the `showNotes` config value set to `true`.
 
 If you're using the external Markdown plugin, you can add notes with the help of a special delimiter:
 
@@ -819,7 +836,7 @@ Reveal.initialize({
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 
 		// and if you want speaker notes
@@ -847,7 +864,7 @@ Reveal.initialize({
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
 
 		// other dependencies...
@@ -885,7 +902,7 @@ Reveal.initialize({
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
 
 		// other dependencies...
@@ -908,57 +925,12 @@ Reveal.initialize({
 
 	// Don't forget to add the dependencies
 	dependencies: [
-		{ src: '//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js', async: true },
+		{ src: '//cdn.socket.io/socket.io-1.3.5.js', async: true },
 		{ src: 'plugin/multiplex/master.js', async: true },
 		{ src: 'plugin/multiplex/client.js', async: true }
 
 		// other dependencies...
 	]
-});
-```
-
-## Leap Motion
-The Leap Motion plugin lets you utilize your [Leap Motion](https://www.leapmotion.com/) device to control basic navigation of your presentation. The gestures currently supported are:
-
-##### 1 to 2 fingers
-Pointer &mdash; Point to anything on screen. Move your finger past the device to expand the pointer.
-
-##### 1 hand + 3 or more fingers (left/right/up/down)
-Navigate through your slides. See config options to invert movements.
-
-##### 2 hands upwards
-Toggle the overview mode. Do it a second time to exit the overview.
-
-#### Config Options
-You can edit the following options:
-
-| Property          | Default           | Description
-| ----------------- |:-----------------:| :-------------
-| autoCenter        | true              | Center the pointer based on where you put your finger into the leap motions detection field.
-| gestureDelay      | 500               | How long to delay between gestures in milliseconds.
-| naturalSwipe      | true              | Swipe as though you were touching a touch screen. Set to false to invert.
-| pointerColor      | #00aaff           | The color of the pointer.
-| pointerOpacity    | 0.7               | The opacity of the pointer.
-| pointerSize       | 15                | The minimum height and width of the pointer.
-| pointerTolerance  | 120               | Bigger = slower pointer.
-
-
-Example configuration:
-```js
-Reveal.initialize({
-
-	// other options...
-
-	leap: {
-		naturalSwipe   : false,    // Invert swipe gestures
-		pointerOpacity : 0.5,      // Set pointer opacity to 0.5
-		pointerColor   : '#d80000' // Red pointer
-	},
-
-	dependencies: [
-		{ src: 'plugin/leap/leap.js', async: true }
-	]
-
 });
 ```
 
