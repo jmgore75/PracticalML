@@ -424,7 +424,6 @@ function displayStep(step, svg, duration) {
     s.push(d.source.y * h);
     s.push(d.target.x * w);
     s.push(d.target.y * h);
-    s.push("z");
     return s.join(" ");
   };
 

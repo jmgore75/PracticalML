@@ -1,3 +1,7 @@
+.reveal a {
+  color: #103160;
+}
+
 .reveal .slides section .fragment.strike, .reveal .slides section .fragment.underline {
   opacity: 1;
   visibility: visible; }
@@ -15,6 +19,18 @@
 .nopadding {
   margin: 0 !important;
   padding: 0 !important;}
+
+.reveal kbd {
+  font-family: monospace;
+  padding: 1px 5px;
+  font-size: 90%;
+  color: #DCDCDC;
+  background-color: #3F3F3F;
+  border-radius: 6px;
+  -webkit-box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
+  box-shadow: inset 0 -1px 0 rgba(0,0,0,.25);
+}
+
 
 .reveal code {
   background: #3F3F3F;
@@ -79,7 +95,7 @@ svg path.link {
   width: auto;
 }
 
-.reveal .list-group {
+.reveal .boxed {
   border: 1px solid black;
   border-radius: 10px;
   margin: 10px;
@@ -89,7 +105,7 @@ svg path.link {
   font-size: 0.9em;
 }
 
-.reveal .list-group > * {
+.reveal .boxed > * {
   display: block;
   border-color: gray;
   border-top-width: 1px;
@@ -98,13 +114,13 @@ svg path.link {
   padding: 10px;
 }
 
-.reveal .list-group > *:first-child {
+.reveal .boxed > *:first-child {
+  border: 1px solid transparent;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  border-top-width: 0px;
 }
 
-.reveal .list-group > .panel-title {
+.reveal .boxed > .heading {
   color: white;
   background-color: black;
   text-align: center;
@@ -129,50 +145,50 @@ svg path.link {
   margin-bottom:0;
 }
 
-.reveal .list-group.red {
+.reveal .boxed.red {
   border-color: #c00000;
 }
 
-.reveal .list-group.red > .panel-title {
+.reveal .boxed.red > .heading {
   background-color: #c00000;
 }
 
-.reveal .list-group.orange {
+.reveal .boxed.orange {
   border-color: #ed7d31;
 }
 
-.reveal .list-group.orange > .panel-title {
+.reveal .boxed.orange > .heading {
   background-color: #ed7d31;
 }
 
-.reveal .list-group.yellow {
+.reveal .boxed.yellow {
   border-color: #ffc000;
 }
 
-.reveal .list-group.yellow > .panel-title {
+.reveal .boxed.yellow > .heading {
   background-color: #ffc000;
 }
 
-.reveal .list-group.green {
+.reveal .boxed.green {
   border-color: #00b050;
 }
 
-.reveal .list-group.green > .panel-title {
+.reveal .boxed.green > .heading {
   background-color: #00b050;
 }
 
-.reveal .list-group.blue {
+.reveal .boxed.blue {
   border-color: #0070c0;
 }
 
-.reveal .list-group.blue > .panel-title {
+.reveal .boxed.blue > .heading {
   background-color: #0070c0;
 }
 
-.reveal .list-group.purple {
+.reveal .boxed.purple {
   border-color: #7030a0;
 }
 
-.reveal .list-group.purple > .panel-title {
+.reveal .boxed.purple > .heading {
   background-color: #7030a0;
 }

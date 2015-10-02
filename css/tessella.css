@@ -112,7 +112,10 @@ body {
   padding: 5px;
   font-style: italic;
   background: rgba(255, 255, 255, 0.05);
-  box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2); }
+  background-color: #f5f5f5;
+  border: 2px solid #e3e3e3;
+  -webkit-box-shadow: inset 0 3px 3px rgba(0,0,0,.05);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.05); }
 
 .reveal blockquote p:first-child, .reveal blockquote p:last-child {
   display: inline-block; }

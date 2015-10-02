@@ -26,7 +26,8 @@
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.type = 'text/css';
-    link.href = window.location.search.match(/print-pdf/gi) ? '../reveal.js/css/print/pdf.css' : '../reveal.js/css/print/paper.css';
+    window.printing_pdf = window.location.search.match(/print-pdf/gi);
+    link.href = window.printing_pdf ? '../reveal.js/css/print/pdf.css' : '../reveal.js/css/print/paper.css';
     document.getElementsByTagName('head')[0].appendChild(link);
   </script>
 
@@ -76,17 +77,17 @@
 <section id="topics">
   <h2>Topics</h2>
   <div class="tier">
-    <ul class="list-group green">
-      <h4 class="panel-title">Will Cover</h4>
+    <ul class="boxed green">
+      <h4 class="heading">Will Cover</h4>
       <li>What is ML</li>
       <li>Job process</li>
       <li>Python with scikit-learn</li>
       <li>Major supervised algorithms</li>
     </ul>
-    <ul class="list-group red">
-      <h4 class="panel-title">Won't Cover</h4>
+    <ul class="boxed red">
+      <h4 class="heading">Won't Cover</h4>
       <li>Other algorithms</li>
-      <li>Other Plaforms</li>
+      <li>Other Platforms</li>
       <li>Structured and sequential models</li>
     </ul>
   </div>
@@ -107,15 +108,15 @@
   <section id="concepts">
     <h2>Core Concepts</h2>
     <div class="tier">
-      <ul class="list-group blue">
-        <h4 class="panel-title">Data</h4>
+      <ul class="boxed blue">
+        <h4 class="heading">Data</h4>
         <li>Items</li>
         <li>Features</li>
         <li>Labels</li>
         <li>Classes</li>
       </ul>
-      <ul class="list-group yellow">
-        <h4 class="panel-title">Models</h4>
+      <ul class="boxed yellow">
+        <h4 class="heading">Models</h4>
         <li>Algorithms</li>
         <li>Parameters</li>
         <li>Hyper-parameters</li>
@@ -135,15 +136,15 @@
   <section id="hardware-software">
     <h2>Hardware and Software</h2>
     <div class="tier">
-      <ul class="list-group orange">
-        <h4 class="panel-title">Machine</h4>
+      <ul class="boxed orange">
+        <h4 class="heading">Machine</h4>
         <li>Plenty of memory (8GB)</li>
         <li>NVidia GPU, or decent CPU</li>
         <li>Preferably Linux</li>
         <li>Local or Server?</li>
       </ul>
-      <ul class="list-group purple">
-        <h4 class="panel-title">ML Platform</h4>
+      <ul class="boxed purple">
+        <h4 class="heading">ML Platform</h4>
         <li><a href="https://www.r-project.org/">R</a></strong>: Premier statistical platform</li>
         <li><a href="https://www.python.org/">Python</a></strong>: Production ready, highly flexible</li>
         <li><em><a href="http://www.mathworks.com/products/matlab/">MatLab</a></em>: Proprietary numerical platform</li>
@@ -174,7 +175,7 @@
   <section id="py-ml-stack">
     <h2>Recommended Python ML Stack</h2>
     <div class="tier">
-      <ul class="list-group">
+      <ul class="boxed">
         <li>Python</li>
         <li>Pandas</li>
         <li>scikit-learn</li>
@@ -257,21 +258,21 @@ $ pip install theano scikit-neuralnetwork
   <section id="ml-flavors">
     <h2>Flavors of Machine Learning</h2>
     <div class="tier">
-      <ul class="list-group red">
-        <h4 class="panel-title">Supervised</h4>
+      <ul class="boxed red">
+        <h4 class="heading">Supervised</h4>
         <li>Classification</li>
         <li>Regression</li>
         <li>Ranking</li>
       </ul>
-      <ul class="list-group blue">
-        <h4 class="panel-title">Unsupervised</h4>
+      <ul class="boxed blue">
+        <h4 class="heading">Unsupervised</h4>
         <li>Clustering</li>
         <li>Density estimation</li>
         <li>Pattern identification</li>
         <li>Representation learning</li>
       </ul>
-      <ul class="list-group green">
-        <h4 class="panel-title">Other</h4>
+      <ul class="boxed green">
+        <h4 class="heading">Other</h4>
         <li>Semi-supervised</li>
         <li>Reinforcement learning</li>
       </ul>
@@ -356,7 +357,7 @@ $ pip install theano scikit-neuralnetwork
   <section id="wrangling">
     <h2>Data Wrangling</h2>
     <div class="tier">
-      <ul class="list-group purple">
+      <ul class="boxed purple">
         <li>Get it</li>
         <li>Convert to useful format</li>
         <li>Handle blanks</li>
@@ -601,12 +602,12 @@ for clf in standard_clfs():
     <div class="tier">
       <div>
         <h2 class="text-left">Decision trees</h2>
-        <ul class="list-group green stretch small">
+        <ul class="boxed green stretch small">
           <li>Easily understood</li>
           <li>No preprocessing</li>
           <li>Fast and cheap</li>
         </ul>
-        <ul class="list-group red stretch small">
+        <ul class="boxed red stretch small">
           <li>Overfits</li>
           <li>No mathematical processing</li>
         </ul>
@@ -633,13 +634,13 @@ from sklearn.tree import
       <svg width="450" height="500"></svg>
       <div>
         <h2 class="text-left">Random Forests</h2>
-        <ul class="list-group green stretch small">
+        <ul class="boxed green stretch small">
           <li>No preprocessing</li>
           <li>Minimal tuning</li>
           <li>Fast</li>
           <li><a href="http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf">Reliably good results</a></li>
         </ul>
-        <ul class="list-group red stretch small">
+        <ul class="boxed red stretch small">
           <li>No mathematical processing</li>
         </ul>
       </div>
@@ -693,12 +694,12 @@ from sklearn.ensemble import
       <svg width="450" height="500"></svg>
       <div>
         <h2 class="text-left">Neural Networks</h2>
-        <ul class="list-group green stretch small">
+        <ul class="boxed green stretch small">
           <li>Flexible architecture</li>
           <li>Superior accuracy</li>
           <li>Learn progressively higher-level features</li>
         </ul>
-        <ul class="list-group red stretch small">
+        <ul class="boxed red stretch small">
           <li>Computationally intensive</li>
           <li>Long training times</li>
         </ul>
@@ -736,12 +737,12 @@ clf = Classifier(layers=layers)
     <div class="tier">
       <div>
         <h2 class="text-left">Support Vector Machines</h2>
-        <ul class="list-group green stretch small">
+        <ul class="boxed green stretch small">
           <li>High quality class boundaries</li>
           <li><a href="http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf">Pretty good accuracy</a></li>
           <li>One-class training!</li>
         </ul>
-        <ul class="list-group red stretch small">
+        <ul class="boxed red stretch small">
           <li>Lots of tuning</li>
           <li>Overfit easily</li>
           <li>Not suitable for large training sets</li>
@@ -962,7 +963,6 @@ train_sizes, train_scores, test_scores = learning_curve(
     progress: true,
     history: true,
     center: true,
-    showNotes: true, 
 
     transition: 'concave',
 
@@ -1036,13 +1036,20 @@ train_sizes, train_scores, test_scores = learning_curve(
       }
     }
 
-    Reveal.addEventListener( 'fragmentshown', handleChange);
+    if (window.printing_pdf) {
+      Reveal.addEventListener('ready', function () {
+        bias_target.showShots();
+        variance_target.showShots();
+      });
+    } else {
+      Reveal.addEventListener('ready', handleSlide);
 
-    Reveal.addEventListener( 'fragmenthidden', handleChange);
+      Reveal.addEventListener( 'fragmentshown', handleChange);
 
-    Reveal.addEventListener('ready', handleSlide);
+      Reveal.addEventListener( 'fragmenthidden', handleChange);
 
-    Reveal.addEventListener( 'slidechanged', handleSlide);
+      Reveal.addEventListener( 'slidechanged', handleSlide);
+    }
 
     var graphMap = {
       "title" : [new Tree(5, 3, 0.1), new NN(4, 8, 8, 8, 3), new DAG(7, 3, 8), new NN(4, 32, 3)],
@@ -1114,20 +1121,30 @@ train_sizes, train_scores, test_scores = learning_curve(
       }
     }
 
-    Reveal.addEventListener('ready', function (event) {
+    function showAllGraphs() {
       for (var id in graphMap) {
         var slide = document.getElementById(id);
         if (slide) {
-          showGraph(slide)
+          showGraph(slide);
         }
       }
-      loopGraphs(event.currentSlide);
-    });
+    }
 
-    Reveal.addEventListener( 'slidechanged', function(event) {
-      showGraph(event.previousSlide);
-      loopGraphs(event.currentSlide);
-    } );
+    if (window.printing_pdf) {
+      Reveal.addEventListener('ready', function (event) {
+        showAllGraphs();
+      });
+    } else {
+      Reveal.addEventListener('ready', function (event) {
+        showAllGraphs();
+        loopGraphs(event.currentSlide);
+      });
+
+      Reveal.addEventListener( 'slidechanged', function(event) {
+        showGraph(event.previousSlide);
+        loopGraphs(event.currentSlide);
+      } );
+    }
 
   })();
 
