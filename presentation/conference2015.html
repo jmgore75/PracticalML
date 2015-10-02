@@ -327,36 +327,11 @@ $ pip install theano scikit-neuralnetwork
         <li>What form is it in, and how do I convert it to a form that can be analyzed?</li>
         <li>What does it look like?</li>
         <li>Is it any good and do you have enough of it?</li>
-        <li>Are your classes balanced and do you need to compensate for that? </li>
       </ul>
     </div>
 
     <aside class="notes" data-markdown>
-      You must also understand your data and how to use it.  Where is your data, how will you physically get it, and are you even allowed to use it? What form is it in, and how will you convert it into a form that can be analyzed?  Before you try applying machine learning, you should always try to look at your data directly first, to ensure that you aren't
-
-      Most importantly, is your data any good and do you have enough of it to effectively learn from it?  Just like in statistics, bad data is worse than no data.  And just like in statistics, if you have more parameters than samples, you can't properly solve the problem.  You need many more samples than features or parameters to learn effectively.
-
-      - Where is your data you need, how will you get to it, and are you allowed to use it?
-        - How will you obtain it?
-        - Do you have sufficient privileges?
-        - Are you legally allowed to use your data to solve your problem? Be especially cautious about patient data.
-      - What form is your data in, and how do I convert it to a form that can be analyzed?
-        - How will you wrangle it into a form that can be analyzed?
-      - What does your data look like?
-        - Can you plot it and if so, is there a pattern?
-        - What are the types of your features?
-        - Will any of them need to be transformed into a different form for processing?
-      - What data do you have to work with?
-        - Do I have enough examples to train with?
-        - Do you have many more samples than features? If not training may not be effective.
-        - Do you have a lot of irrelevant features? These can introduce spurious correlations.
-        - Are there any other features that you think might be useful and can you get them?
-        - Is it labeled, and if so how?
-        - Are your labels balanced?
-        - Are any of your features exponential in nature? You may want to log transform them.
-        - Are any of the features in your data identifiers? You may want to discard these: they can be used to overfit, and should not be interpreted as numbers.
-      - Are your classes biased?
-        - You may want to use an algorithm that can compensate for that bias.
+      The next major step is to prepare your data.  You have to obtain it, you have to understand it, and you need to prepare to work with it.  Let's look at those major steps.  
     </aside>
   </section>
 
@@ -379,7 +354,7 @@ $ pip install theano scikit-neuralnetwork
     <aside class="notes" data-markdown>
       Data wrangling (or munging or preparation) is the process of preparing your data for analysis.  That doesn't sound like much, but in fact it is the most tedious and time consuming part of the entire process.  You will spend 90% of a machine learning job just whipping your data into shape, and what you need to do will be different every time.  I'm not even going to describe it in detail.  But at minimum, you will need to: get the data; convert it into a format you can work with; figure out what to do with blanks or placeholder values; convert categorical features to a numeric form; remove unhelpful features; and add helpful ones from other sources.
 
-      The good news is, you work for Tessella, which means you should be very accustomed to this sort of thing already.  Have fun with that!
+      The good news is, you work for Tessella, which means you have already done this many times.
     </aside>
   </section>
 
@@ -397,7 +372,7 @@ df = pd.read_csv("input/data.csv");
 X = df[features].values
 
 # Get labels vector 'y'
-y = df["label_name"].values
+y = df[label_name].values
 
 # Write out data later...
 predict_df = pd.DataFrame({'Id': ids, 'Label': predictions })
@@ -405,6 +380,95 @@ predict_df.to_csv("output/predict.csv")
 </code></pre>
     <aside class="notes" data-markdown>
       Somewhere in the data wrangling process you will need to load your data for analysis (and maybe wrangle it some more).  And at the end of the job you will need to output it.  With tabular data, the pandas library is a great help.  This is essentially the dataframes object that is popular in R.  The full scope of its functionality is beyond what we have time to discuss, but know that it exists and that it makes working with tabular data easier.
+    </aside>
+  </section>
+
+  <section id="exploration">
+    <h2>Data Exploration</h2>
+    <div class="tier">
+      <div>
+<pre><code class="py" data-trim data-noescape>
+# See first few rows
+df.head()
+
+# Shows basic statistics for all
+#  numeric columns
+df.describe()
+
+# See histograms for columns
+df.hist()
+
+# Determine balance of classes
+print df[label_name].value_counts()
+>>> 0    500
+>>> 1    268
+>>> dtype: int64
+</code></pre>
+      </div>
+      <div>
+        <table border="1" class="dataframe">
+          <thead>
+            <tr style="text-align: right;">
+              <th></th>
+              <th>preg</th>
+              <th>plas</th>
+              <th>pres</th>
+              <th>age</th>
+              <th>class</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th>0</th>
+              <td>6</td>
+              <td>148</td>
+              <td>72</td>
+              <td>50</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th>1</th>
+              <td>1</td>
+              <td>85</td>
+              <td>66</td>
+              <td>31</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <th>2</th>
+              <td>8</td>
+              <td>183</td>
+              <td>64</td>
+              <td>32</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <th>3</th>
+              <td>1</td>
+              <td>89</td>
+              <td>66</td>
+              <td>21</td>
+              <td>0</td>
+            </tr>
+            <tr>
+              <th>4</th>
+              <td>0</td>
+              <td>137</td>
+              <td>40</td>
+              <td>33</td>
+              <td>1</td>
+            </tr>
+          </tbody>
+        </table>
+        <img class="noborder" src="../img/histograms.png">
+      </div>
+    </div>
+    <aside class="notes" data-markdown>
+      Before you try applying machine learning, you should always look at your data directly to get a feel for what you are working with.  More generally you need to know if your data is any good and if you have enough to effectively learn from it. Just like in statistics, bad data is worse than no data.
+
+      To start with, just look at the first few rows with head.  This can tell you quite a bit. You can also describe the numeric columns to see basic statistics.  The hist method is a particularly useful way to quickly see if any of the columns have non-normal distributions.
+
+      For non-numeric columns, you can use the value_counts method to see what the distribution of values is.  You should always do this for classification problems to ensure that they are reasonably balanced.  Because if 99% of your samples are in class A, then you can score 99% accuracy just by always guessing class A.  If your classes are seriously imbalanced, you will need to address this when you build your models.
     </aside>
   </section>
 
@@ -738,7 +802,7 @@ clf = Classifier(layers=layers)
   <section id="deep-neural-network">
     <h2>Deep Neural Networks</h2>
     <img class="noborder" height="250px" width="auto" src="../img/googlenet.png">
-    <img class="noborder" height="250px" width="auto" class="fragment" src="../img/weedyseadragon.png">
+    <img class="noborder" height="250px" width="auto" class="fragment" src="../img/datacenter.jpg">
 
     <aside class="notes" data-markdown>
       This has led to the renaissance of deep neural networks, which are setting records for processing of structured data like audio and video.  And what has been found is that every layer in a deep network is learning more abstract concepts than the layer before.  This was demonstrated most startlingly in Google's Deep Dream example, which showed that a single node could code for something as abstract as "dog".

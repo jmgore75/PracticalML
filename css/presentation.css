@@ -209,3 +209,12 @@ svg path.link {
 .reveal .boxed.purple > .heading {
   background-color: #7030a0;
 }
+
+.reveal table.dataframe {
+  border: 1px solid black;
+  font-size: 14pt;
+}
+
+.reveal table.dataframe th, .reveal table.dataframe td {
+  border: 1px solid black;
+} 
