@@ -3,20 +3,14 @@ Development Notes
 
 # Review Notes
 
-Need tessella logo
-
 Clean up notes
 
 Interlude to explain concept of validation
   Also bias-variance as source of error
 
-Data wrangling explain why 90%
-
-Clean up curse of dimensionality
-
 No free lunch - I'm going to talk about this
 
-Class balance what does it mean? 
+Class balance what does it mean?
 
 ##3
 

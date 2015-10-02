@@ -230,13 +230,19 @@ $ pip install theano scikit-neuralnetwork
 <section>
   <section id="problem">
     <h1 class="text-left">1. Know your problem</h1>
-    <ul>
-      <li>What problem are you trying to solve?</li>
-      <li>Is machine learning the right choice?</li>
-      <li>What kind of machine learning is warranted?</li>
-      <li>How will you judge model performance?</li>
-    </ul>
-    <img class="noborder" height="300px" width="auto" src="../img/sherlock.jpg">
+    <div class="tier vc">
+      <div class="w2">
+        <ul>
+          <li>What problem are you trying to solve?</li>
+          <li>Is machine learning the right choice?</li>
+          <li>What kind of machine learning is warranted?</li>
+          <li>How will you judge model performance?</li>
+        </ul>
+      </div>
+      <div>
+        <img src="../img/thinking.png">
+      </div>
+    </div>
 
     <aside class="notes" data-markdown>
       The most fundamental question for machine learning (or indeed most projects) is what problem are you trying to solve? Can machine learning help you with this, and what class of learning is required?  How will you judge your model's performance?
@@ -288,7 +294,7 @@ $ pip install theano scikit-neuralnetwork
   <section id="data-models">
     <h2>Data and models</h2>
 
-    <div class="tier relax">
+    <div class="tier">
       <div>
         <img class="noborder" src="../img/titanic.png" height="250px" width="auto">
       </div>
@@ -312,7 +318,7 @@ $ pip install theano scikit-neuralnetwork
 <section>
   <section id="data">
     <h1 class="text-left">2. Prepare your data</h1>
-    <div class="tier">
+    <div class="tier vc">
       <div>
         <img class="noborder" src="../img/data.jpg">
       </div>
@@ -371,7 +377,7 @@ $ pip install theano scikit-neuralnetwork
       </div>
     </div>
     <aside class="notes" data-markdown>
-      Data wrangling (or munging or preparation) is the process of preparing your data for analysis.  That doesn't sound like much, but in fact it is the most tedious and time consuming part of the entire process.  You will spend 90% of a machine learning job just whipping your data into shape, and what you need to do will be different every time.  But at minimum, you will need to: get the data; convert it into a format you can work with; figure out what to do with blanks or placeholder values; convert categorical features to a numeric form; remove unhelpful features; and add helpful ones from other sources.
+      Data wrangling (or munging or preparation) is the process of preparing your data for analysis.  That doesn't sound like much, but in fact it is the most tedious and time consuming part of the entire process.  You will spend 90% of a machine learning job just whipping your data into shape, and what you need to do will be different every time.  I'm not even going to describe it in detail.  But at minimum, you will need to: get the data; convert it into a format you can work with; figure out what to do with blanks or placeholder values; convert categorical features to a numeric form; remove unhelpful features; and add helpful ones from other sources.
 
       The good news is, you work for Tessella, which means you should be very accustomed to this sort of thing already.  Have fun with that!
     </aside>
@@ -404,21 +410,17 @@ predict_df.to_csv("output/predict.csv")
 
   <section id="dimensionality">
     <h2>The curse of dimensionality</h2>
-    <p><i>The more dimensions you have, the closer two random points in a bounded space are. </i></p>
-    <img src="../img/dimensionality.png">
-    <p><i>Consider reducing your features</i></p>
+    <blockquote>The more dimensions you have, the more volume you have to cover</blockquote>
+    <img class="noborder" width="auto" height="250px" src="../img/dimensionality.png">
+    <blockquote>Consider reducing your features</blockquote>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.decomposition import PCA
 from sklearn.ensemble import RandomForestClassifier
 </code></pre>
     <aside class="notes" data-markdown>
-      Irrelevant features are for all intents and purposes noise in your data.  This increases the risk of spurious correlations and makes most algorithms less efficient.  It also leads to higher memory consumption.
+      Irrelevant features are for all intents and purposes noise in your data.  They increase the risk of spurious correlations, make most algorithms less efficient, and lead to higher memory consumption.  But there are deeper issues as well.  What happens is that every dimension you add increases the volume of the bounded space exponentially.  That means you will also need exponentially more training data in order to describe that space sufficiently for your model to learn.  The moral of the story is, you should consider reducing your features, particularly if your data has a large number of them.
 
-      There are deeper issues as well.  Without going into details, bounded high-dimensional spaces are spiky with most of the volume concentrated in the center.  In other words, the distance between random points [tends to be the same](http://yaroslavvb.com/papers/koppen-curse.pdf), and it becomes impossible to learn in many circumstances.  So the curse of dimensionality is really the curse of the central limit theorem.
-
-      However, useful data is not random and generally has [lower true dimensionality](DimensionalityReduction.md) than the ones it is expressed in.  So real data does not necessarily suffer from this problem.  The moral of the story is, you should consider your features, particularly if your data has a large number of them.
-
-      There are many ways to select smaller feature sets or perform dimensionality reduction.  If the identities of your features are not important than you may want to project into a lower dimensional space with PCA.  Otherwise, you probably want to estimate feature importances with a RandomForest and keep the important ones.
+      There are many ways reduce dimensions but two in particular stand out.  If the identities of your features are not important than you may want to project into a lower dimensional space with PCA.  Otherwise, you probably want to estimate feature importances with a RandomForest and keep the important ones.
     </aside>
   </section>
 
@@ -426,17 +428,22 @@ from sklearn.ensemble import RandomForestClassifier
 
 <section>
   <section id="harness">
-    <h1 class="text-left">3. Set up your test harness</h1>
-    <img class="noborder" height="200" width="auto" src="../img/organize.jpg">
-    <ul>
-      <li>Set up your project directory</li>
-      <li>Clean up your data into a form suitable for analysis</li>
-      <li>Verify the scoring algorithm to use</li>
-      <li>Set up your analysis routines</li>
-    </ul>
+    <h1 class="text-left">3. Set up your harness</h1>
+    <div class="tier vc">
+      <ul>
+        <li>Set up your project directory</li>
+        <li>Clean up your data into a form suitable for analysis</li>
+        <li>Verify the scoring measure to use</li>
+        <li>Set up your analysis routines</li>
+      </ul>
+      <div>
+        <img class="noborder" src="../img/organize.jpg">
+      </div>
+    </div>
+
 
     <aside class="notes" data-markdown>
-      Now that you understand the problem and your data, it's time to prepare to make predictions.  First set up your work directory, then get your data into a form suitable for loading.  That means cleaning it up, transforming features if necessary, and handling blanks.  Remove unhelpful features, as these will only slow you down.  Then verify your score
+      Now that you understand the problem and your data, it's time to prepare to make predictions.  You'll need to set up your test harness.  First set up your work directory, then get your data into a form suitable for loading as we described previously.  Select the scoring measure you wish to use, and then set up all the routines you need for analysis.  When you are done you should be ready to run.
     </aside>
   </section>
 
@@ -467,14 +474,6 @@ y_predict = clf.predict(X_predict)
   </section>
 
   <section id="splitting">
-    <h2>Validating models</h2>
-
-    <aside class="notes" data-markdown>
-      We don't jump straight from data to modelling.  We will need to evaluate many models.  And that means we need ways of validating those models and comparing them.
-    </aside>
-  </section>
-
-  <section id="splitting">
     <h2>Splitting data for validation</h2>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.cross_validation import train_test_split,
@@ -483,26 +482,29 @@ from sklearn.cross_validation import train_test_split,
 # Quickly split into 80% train and 20% test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
-# Or split into 5 folds
-folds = KFold(y.length, 5, shuffle=True)
+# Or generate 5 random splits preserving class percentages
+sss = StratifiedShuffleSplit(y, 5, test_size=0.2)
 for i_train, i_test in folds:
   X_train, X_test = X[i_train], X[i_test]
   y_train, y_test = y[i_train], y[i_test]
 
-# Or generate 5 random splits preserving class percentages
-sss = StratifiedShuffleSplit(y, 5, test_size=0.2)
+# Or split into 5 folds, etc.
+folds = KFold(y.length, 5, shuffle=True)
 </code></pre>
+<img class="noborder" src="../img/kfold.gif">
     <aside class="notes" data-markdown>
-      With machine learning models the accuracy you get on the data you train with is usually much higher than what you will get for other data.  Which is why every machine learning workflow will require you to save some of your data for testing.
+      We don't jump straight from data to modelling.  We will need to evaluate many models.  And that means we need ways of validating those models and comparing them.  We can test the accuracy of a model on the training data, but if that model is overfitting the data the score is going to be misleadingly high.  That's why we also need the score for data that we didn't train with, which means we will need to set aside some of our data.  Once we are satisfied with a model's performance, we can create a new model with the same recipe and all the data for maximum accuracy.
 
-      The simplest way to do this is with the train_test_split function, which will randomly split all input matrices the same way.
+      The simplest way to split your data in Python is with the train_test_split function, which will randomly split all input matrices the same way.  I personally favor an 80-20 split.
 
-      Of course one train-test split may by chance not produce representative results, so you usually want to split more than once.  There are many different strategies, but they all work the same: create a splitter and get back a series of tuples with the train and test indices,
+      Of course one train-test split may by chance not produce representative results, so you usually want to split more than once.  There are many different strategies, but they all work the same: create a splitter and get back a series of tuples with the train and test indices, test with each train/test split, and average the results.
     </aside>
   </section>
 
   <section id="preprocess-pipeline">
     <h2>Preprocessing and Pipelines</h2>
+    <div class="tier vc">
+      <div class="w2">
 <pre><code class="py" data-trim data-noescape>
 from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
@@ -516,14 +518,26 @@ clf = SVC(kernel="rbf", class_weight="auto");
 clf.fit(X_train_prep, y_train)
 
 # Or we could simplify with a pipeline
-clf = Pipeline([('ss', StandardScaler()), ("svc", SVC(kernel="rbf"))])
+clf = Pipeline([
+  ('ss', StandardScaler()),
+  ("svc", SVC(kernel="rbf"))])
 
 # You can even set parameters on it
 clf.set_params(svc__class_weight="auto")
 
 clf.fit(X_train, y_train)
 </code></pre>
-
+      </div>
+      <div>
+        <p>
+          $$\begin{align}
+          X' =& \frac{X - \mu}{\sigma}\\
+          \\
+          X' =& \frac{X - X_{min}}{X_{max} - X_{min}}\\
+          \end{align}$$
+        </p>
+      </div>
+    </div>
     <aside class="notes" data-markdown>
       If we are using a classifier which needs preprocessing (which is most of them) then there are a couple of ways to do that.
 
@@ -599,7 +613,7 @@ for clf in standard_clfs():
   </section>
 
   <section id="decision-tree">
-    <div class="tier">
+    <div class="tier vc">
       <div>
         <h2 class="text-left">Decision trees</h2>
         <ul class="boxed green stretch small">
@@ -630,7 +644,7 @@ from sklearn.tree import
   </section>
 
   <section id="random-forest">
-    <div class="tier">
+    <div class="tier vc">
       <svg width="450" height="500"></svg>
       <div>
         <h2 class="text-left">Random Forests</h2>
@@ -668,7 +682,7 @@ from sklearn.ensemble import
 
   <section id="linear-transformation">
     <h2>Linear Transformations</h2>
-    <div class="tier" style="align-items:center;">
+    <div class="tier vc" style="align-items:center;">
       <div style="padding:20px">
         <p>
           $$\begin{align}
@@ -690,7 +704,7 @@ from sklearn.ensemble import
   </section>
 
   <section id="neural-network">
-    <div class="tier">
+    <div class="tier vc">
       <svg width="450" height="500"></svg>
       <div>
         <h2 class="text-left">Neural Networks</h2>
@@ -734,7 +748,7 @@ clf = Classifier(layers=layers)
   </section>
 
   <section id="svm">
-    <div class="tier">
+    <div class="tier vc">
       <div>
         <h2 class="text-left">Support Vector Machines</h2>
         <ul class="boxed green stretch small">
@@ -989,6 +1003,20 @@ train_sizes, train_scores, test_scores = learning_curve(
 <script>
   //Animations
   (function () {
+    if (!window.print_pdf) {
+      var logo;
+      function showLogo(event) {
+        if (!logo) {
+           logo = d3.select(".reveal").append("img").classed("logo", true).attr("src", "../img/logo.png");
+        }
+        var v = event.currentSlide.id !== "title";
+        logo.classed("visible", v);
+      }
+
+      Reveal.addEventListener('ready', showLogo);
+      Reveal.addEventListener( 'slidechanged', showLogo);
+    }
+
     var bias_target = new Target(d3.select("#bias-target g.shots"));
     bias_target.shooter = new Shooter(50, Math.PI*1.3, 10);
 

@@ -2,6 +2,24 @@
   color: #103160;
 }
 
+.reveal .logo {
+  position: fixed;
+  width: 110px;
+  height: auto;
+  right: 10px;
+  top: 10px;
+  -webkit-user-select: none;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.reveal .logo.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
 .reveal .slides section .fragment.strike, .reveal .slides section .fragment.underline {
   opacity: 1;
   visibility: visible; }
@@ -80,14 +98,13 @@ svg path.link {
   flex: 1 0 0;
 }
 
-.reveal .tier.relax > * {
-  -webkit-flex: 0 0 auto;          /* Safari */
-  flex: 0 0 auto;
-}
-
 .reveal .tier > .w2 {
   -webkit-flex-grow: 2;
   flex-grow: 2;
+}
+
+.reveal .tier.vc {
+  align-items: center;
 }
 
 .reveal .tier .stretch {
