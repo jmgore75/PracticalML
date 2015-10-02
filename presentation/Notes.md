@@ -16,6 +16,8 @@ Clean up curse of dimensionality
 
 No free lunch - I'm going to talk about this
 
+Class balance what does it mean? 
+
 ##3
 
 <http://www.pyimagesearch.com/2014/09/22/getting-started-deep-learning-python/>
