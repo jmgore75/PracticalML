@@ -8,6 +8,7 @@ import os
 import logging
 import weakref
 import hashlib
+import numbers
 
 from sklearn.externals import joblib
 from sklearn import cross_validation, preprocessing
@@ -129,7 +130,7 @@ class RunTracker:
             splits = 1
 
         if isinstance(splits, numbers.Number):
-            splits = cross_validation.ShuffleSplit(num_points, splits, 0.2));
+            splits = cross_validation.ShuffleSplit(num_points, splits, 0.2)
 
         if hasattr(splits, '__call__'):
             splits = splits(num_points)
