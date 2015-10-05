@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 390 170" xml:space="preserve">
+    <defs>
+        <marker id="markerArrow" markerWidth="12" markerHeight="12" refX="12" refY="6"
+               orient="auto">
+            <path d="M 0 0 0 12 12 6 Z" style="fill: #000000;" />
+        </marker>
+    </defs>
+    <g transform="translate(10, 10)">
+        <g style="stroke:#000; stroke-width:1; fill:none">
+            <rect width="220" height="150" style="fill:none"/>
+            <rect x="270" y="10" width="100" height="50" style="fill:#fdcdac"/>
+            <rect x="230" y="90" width="130" height="50" style="fill:#b3e2cd"/>
+            <path d="M 240 90 C 240 30 240 30 270 30"/>
+            <path d="M 220 30 270 30" style="marker-end: url(#markerArrow);"/>
+        </g>
+        <g style="font-family:Arial;font-size:14pt">
+            <text x="5" y="20">Data</text>
+            <text x="275" y="30">Model</text>
+            <text x="280" y="50" style="font-size:10pt">(Parameters)</text>
+            <text x="235" y="110">Training</text>
+            <text x="240" y="130" style="font-size:10pt">(Hyperparameters)</text>
+        </g>
+    </g>
+    <g transform="translate(70 90)">
+        <g style="stroke:#000; stroke-width:1">
+            <rect width="60" height="60" style="fill:#cbd5e8;"/>
+            <rect x="80" width="40" height="60" style="fill:#fff2ae;"/>
+            <path d="m 77 30 -12 8 0 -16 z" style="fill:#f00"/>
+        </g>
+        <g style="font-family:Arial;font-size:10pt" text-anchor="end">
+            <text transform="translate(20) rotate(-60) translate(60 -2)">feature 1</text>
+            <text transform="translate(40) rotate(-60) translate(60 -2)">feature 2</text>
+            <text transform="translate(60) rotate(-60) translate(60 -2)">feature 3</text>
+            <text transform="translate(100) rotate(-60) translate(60 -2)">label 1</text>
+            <text transform="translate(120) rotate(-60) translate(60 -2)">label 2</text>
+        </g>
+         <g style="font-family:Arial;font-size:10pt" text-anchor="start" transform="translate(-50)">
+            <text y="18">item 1</text>
+            <text y="38">item 2</text>
+            <text y="58">item 3</text>
+             
+        </g>
+        <g style="fill:none;stroke:#000;stroke-width:0.5">
+            <path d="m 30 -51.96 -30 51.96 0 60"/>
+            <path d="m 50 -51.96 -30 51.96 0 60"/>
+            <path d="m 70 -51.96 -30 51.96 0 60"/>
+            <path d="m 90 -51.96 -30 51.96 0 60"/>
+            <path d="m 110 -51.96 -30 51.96 0 60"/>
+            <path d="m 130 -51.96 -30 51.96 0 60"/>
+            <path d="m 150 -51.96 -30 51.96 0 60"/>
+            <path d="m -50 0 110 0 m 20 0 40 0"/>
+            <path d="m -50 20 110 0 m 20 0 40 0"/>
+            <path d="m -50 40 110 0 m 20 0 40 0"/>
+            <path d="m -50 60 110 0 m 20 0 40 0"/>
+        </g>
+    </g>
+</svg>
