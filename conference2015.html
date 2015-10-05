@@ -354,23 +354,26 @@ $ pip install theano scikit-neuralnetwork
 <pre><code class="py" data-trim data-noescape>
 import pandas as pd
 
-# Load the data from a csv file
+# Reading the data from a csv file
 df = pd.read_csv("input/data.csv");
-
-# Clean up data
-
-# Get features matrix 'X' for feature names (don't include ID!)
-X = df[features].values
-
-# Get labels vector 'y'
-y = df[label_name].values
 
 # Write out data later...
 predict_df = pd.DataFrame({'Id': ids, 'Label': predictions })
 predict_df.to_csv("output/predict.csv")
+
+# Convert categorical column to one-hot dummy columns
+df = pd.concat([df, pd.get_dummies(
+  df[cat_colname], prefix=cat_colname)], axis=1)
+
+# Get features matrix 'X' for feature names (don't include ID!)
+X = df[feature_colnames].values
+
+# Get labels vector 'y'
+y = df[label_colname].values
+
 </code></pre>
     <aside class="notes" data-markdown>
-      Somewhere in the data wrangling process you will need to load your data for analysis (and maybe wrangle it some more).  And at the end of the job you will need to output it.  With tabular data, the pandas library is a great help.  This is essentially the dataframes object that is popular in R.  The full scope of its functionality is beyond what we have time to discuss, but know that it exists and that it makes working with tabular data easier.
+      Somewhere in the data wrangling process you will need to load your data for analysis (and maybe wrangle it some more).  And at the end of the job you will need to output it.  With tabular data, the pandas library is a great help.  This is essentially the dataframes object that is popular in R.  It has many functions including file i/o, conversion of categorical columns to one-hot dummy forms, and extraction of subtables.  For the full functionality I suggest checking out a tutorial.
     </aside>
   </section>
 
@@ -720,7 +723,7 @@ from sklearn.ensemble import
   ExtraTreesClassifier, ExtraTreesRegressor
 </code></pre>
     <aside class="notes" data-markdown>
-      A random forest is simply an ensemble of specially constructed decision trees.  Each tree is different because at any given branch it can only choose from a random set of features - or a random set of feature splits in the case of the extra trees variant.
+      A random forest is just an ensemble of specially constructed decision trees.  Each tree is different because at any given branch it can only choose from a random set of features - or a random set of feature splits in the case of the extra trees variant.
 
       Random forests have several really nice practical aspects:
 
@@ -729,7 +732,7 @@ from sklearn.ensemble import
       - Training and evaluation is typically quite fast.  You can add trees for accuracy or remove trees for performance at will.
       - Most importantly random forests work [very well on a very large number of problems](http://jmlr.csail.mit.edu/papers/volume15/delgado14a/delgado14a.pdf).
 
-      In fact if I was really in a pinch and could use only one algorithm, it would be ExtraTrees.  It will almost certainly give me an accurate result with no fuss whatsoever.
+      In fact if I was really in a pinch and could use only one algorithm, it would be ExtraTrees.  It will almost certainly give me an accurate result with little to no fuss whatsoever.
 
       Forests work well because [bagging is most effective on unstable algorithms that overfit easily](http://statistics.berkeley.edu/sites/default/files/tech-reports/421.pdf)... and decision trees overfit more easily than just about anything.
     </aside>
