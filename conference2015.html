@@ -14,12 +14,12 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 
-  <link rel="stylesheet" href="../reveal.js/css/reveal.css">
-  <link rel="stylesheet" href="../css/tessella.css" id="theme">
-  <link rel="stylesheet" href="../css/presentation.css">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css">
+  <link rel="stylesheet" href="css/tessella.css" id="theme">
+  <link rel="stylesheet" href="css/presentation.css">
 
   <!-- Code syntax highlighting -->
-  <link rel="stylesheet" href="../reveal.js/lib/css/zenburn.css">
+  <link rel="stylesheet" href="reveal.js/lib/css/zenburn.css">
 
   <!-- Printing and PDF exports -->
   <script>
@@ -27,7 +27,7 @@
     link.rel = 'stylesheet';
     link.type = 'text/css';
     window.printing_pdf = window.location.search.match(/print-pdf/gi);
-    link.href = window.printing_pdf ? '../reveal.js/css/print/pdf.css' : '../reveal.js/css/print/paper.css';
+    link.href = window.printing_pdf ? 'reveal.js/css/print/pdf.css' : 'reveal.js/css/print/paper.css';
     document.getElementsByTagName('head')[0].appendChild(link);
   </script>
 
@@ -45,7 +45,7 @@
     <div class="tier">
       <svg width="300" height="600"></svg>
       <div class="w2 text-right">
-        <img class="noborder" style="width:300px;height:auto; margin-bottom:1em; " src='../img/Tessella_Logo.png'>
+        <img class="noborder" style="width:300px;height:auto; margin-bottom:1em; " src='img/Tessella_Logo.png'>
         <h2 class="text-right">A Practical Guide to Applied Machine Learning</h2>
         <h2 class="text-right"><small>Jeremy Gore<br>Autumn Conference 2015-10-05</small></h2>
       </div>
@@ -103,7 +103,7 @@
 <section>
   <section id="what-is-ml">
     <h1>What is machine learning?</h1>
-    <img class="noborder" src="../img/ml.gif">
+    <img class="noborder" src="img/ml.gif">
 
     <aside class="notes" data-markdown>
       So then, what *is* machine learning? Fundamentally, it's a way of producing a model that explains your data.  But instead of a human generating that model based upon data and experiment, it is the machine which is learning the model, usually from the data alone, and without preconceived notions about how that model should be structured.
@@ -190,7 +190,7 @@
         <li>Theano</li>
       </ul>
       <div class="w2">
-        <img class="noborder" width="300" height="150" src="../img/logo-anaconda.svg">
+        <img class="noborder" width="300" height="150" src="img/logo-anaconda.svg">
         <p><a href="https://www.continuum.io/">https://www.continuum.io/</a></p>
         <blockquote>You must install a compiler (g++) and ideally CUDA</blockquote>
 <pre><code class="sh" data-trim>
@@ -245,7 +245,7 @@ $ pip install theano scikit-neuralnetwork
         </ul>
       </div>
       <div>
-        <img src="../img/thinking.png">
+        <img src="img/thinking.png">
       </div>
     </div>
 
@@ -256,7 +256,7 @@ $ pip install theano scikit-neuralnetwork
 
   <section id="when-ml">
     <h2>When to use machine learning</h1>
-    <img class="noborder" src="../img/celebs.jpg">
+    <img class="noborder" src="img/celebs.jpg">
     <blockquote>Machine learning is appropriate when the problem is too dynamic or complex to be handled by simple rules or models</blockquote>
 
     <aside class="notes" data-markdown>
@@ -301,15 +301,15 @@ $ pip install theano scikit-neuralnetwork
 
     <div class="tier">
       <div>
-        <img class="noborder" src="../img/titanic.png" height="250px" width="auto">
+        <img class="noborder" src="img/titanic.png" height="250px" width="auto">
       </div>
       <div>
-        <img class="noborder" src="../img/convolution.jpg" height="250px" width="auto">
+        <img class="noborder" src="img/convolution.jpg" height="250px" width="auto">
       </div>
     </div>
     <div class="row">
       <div>
-        <img class="noborder" src="../img/diags.jpeg" height="250px" width="auto">
+        <img class="noborder" src="img/diags.jpeg" height="250px" width="auto">
       </div>
     </div>
 
@@ -325,7 +325,7 @@ $ pip install theano scikit-neuralnetwork
     <h1 class="text-left">2. Prepare your data</h1>
     <div class="tier vc">
       <div>
-        <img class="noborder" src="../img/data.jpg">
+        <img class="noborder" src="img/data.jpg">
       </div>
       <ul class="w2">
         <li>Where is it, how can I get it, and am I allowed to use it?</li>
@@ -352,7 +352,7 @@ $ pip install theano scikit-neuralnetwork
         <li>Add helpful features</li>
       </ul>
       <div>
-        <img src="../img/wrangling.gif">
+        <img src="img/wrangling.gif">
         <blockquote>It's 90% of the job.</blockquote>
       </div>
     </div>
@@ -465,7 +465,7 @@ print df[label_name].value_counts()
             </tr>
           </tbody>
         </table>
-        <img class="noborder" src="../img/histograms.png">
+        <img class="noborder" src="img/histograms.png">
       </div>
     </div>
     <aside class="notes" data-markdown>
@@ -480,7 +480,7 @@ print df[label_name].value_counts()
   <section id="dimensionality">
     <h2>The curse of dimensionality</h2>
     <blockquote>The more dimensions you have, the more volume you have to cover</blockquote>
-    <img class="noborder" width="auto" height="250px" src="../img/dimensionality.png">
+    <img class="noborder" width="auto" height="250px" src="img/dimensionality.png">
     <blockquote>Consider reducing your features</blockquote>
 <pre><code class="py" data-trim data-noescape>
 from sklearn.decomposition import PCA
@@ -506,7 +506,7 @@ from sklearn.ensemble import RandomForestClassifier
         <li>Set up your analysis routines</li>
       </ul>
       <div>
-        <img class="noborder" src="../img/organize.jpg">
+        <img class="noborder" src="img/organize.jpg">
       </div>
     </div>
 
@@ -560,7 +560,7 @@ for i_train, i_test in folds:
 # Or split into 5 folds, etc.
 folds = KFold(y.length, 5, shuffle=True)
 </code></pre>
-<img class="noborder" src="../img/kfold.gif">
+<img class="noborder" src="img/kfold.gif">
     <aside class="notes" data-markdown>
       We don't jump straight from data to modelling.  We will need to evaluate many models.  And that means we need ways of validating those models and comparing them.  We can test the accuracy of a model on the training data, but if that model is overfitting the data the score is going to be misleadingly high.  That's why we also need the score for data that we didn't train with, which means we will need to set aside some of our data.  Once we are satisfied with a model's performance, we can create a new model with the same recipe and all the data for maximum accuracy.
 
@@ -621,7 +621,7 @@ clf.fit(X_train, y_train)
 <section>
   <section id="spot-check">
     <h1 class="text-left">4. Spot check a variety of algorithms</h1>
-    <img class="noborder" src="../img/algorithms.png">
+    <img class="noborder" src="img/algorithms.png">
     <aside class="notes" data-markdown>
       Once you have everything set up, it's time to move to the next phase - building a model.  To do that, you are actually going to need to test a variety of algorithms to find one that is going to work well for your problem and data.  And that begins by spot checking a range of algorithms.
     </aside>
@@ -761,7 +761,7 @@ from sklearn.ensemble import
         </p>
       </div>
       <div>
-        <img class="noborder" src="../img/gradient-descent.gif">
+        <img class="noborder" src="img/gradient-descent.gif">
       </div>
     </div>
 
@@ -806,8 +806,8 @@ clf = Classifier(layers=layers)
 
   <section id="deep-neural-network">
     <h2>Deep Neural Networks</h2>
-    <img class="noborder" height="250px" width="auto" src="../img/googlenet.png">
-    <img class="noborder" height="250px" width="auto" class="fragment" src="../img/datacenter.jpg">
+    <img class="noborder" height="250px" width="auto" src="img/googlenet.png">
+    <img class="noborder" height="250px" width="auto" class="fragment" src="img/datacenter.jpg">
 
     <aside class="notes" data-markdown>
       This has led to the renaissance of deep neural networks, which are setting records for processing of structured data like audio and video.  And what has been found is that every layer in a deep network is learning more abstract concepts than the layer before.  This was demonstrated most startlingly in Google's Deep Dream example, which showed that a single node could code for something as abstract as "dog".
@@ -832,8 +832,8 @@ clf = Classifier(layers=layers)
         </ul>
       </div>
       <div>
-        <img src="../img/svc.gif" style="width:320px;height:auto">
-        <img src="../img/svc-projection.gif" style="width:320px;height:auto;clip:rect(0px,140px,140px,0px);">
+        <img src="img/svc.gif" style="width:320px;height:auto">
+        <img src="img/svc-projection.gif" style="width:320px;height:auto;clip:rect(0px,140px,140px,0px);">
       </div>
     </div>
 <pre><code class="py" data-trim data-noescape>
@@ -863,7 +863,7 @@ from sklearn.svm import SVC, SVR
 <section>
   <section id="fine-tune">
     <h1 class="text-left">5. Fine tune your best models</h1>
-    <img class="noborder" height="200" width="auto" src="../img/goesto11.jpg">
+    <img class="noborder" height="200" width="auto" src="img/goesto11.jpg">
     <ul>
       <li>Try adding or removing features</li>
       <li>Use grid searches to fine-tune hyperparameters</li>
@@ -938,7 +938,7 @@ from sklearn.svm import SVC, SVR
 
   <section id="hyperparameter-tuning">
     <h2>Tuning Hyperparameters</h2>
-    <img class="noborder" src="../img/validation.png">
+    <img class="noborder" src="img/validation.png">
 
 <pre><code class="py" data-trim data-noescape>
 from sklearn.grid_search import GridSearchCV,
@@ -963,7 +963,7 @@ print grid.best_params_, grid.best_score_
 
   <section id="performance-data">
     <h2>Model performance with data</h2>
-    <img class="noborder" src="../img/learning.png">
+    <img class="noborder" src="img/learning.png">
 
 <pre><code class="py" data-trim data-noescape>
 from sklearn.cross_validation import ShuffleSplit
@@ -984,7 +984,7 @@ train_sizes, train_scores, test_scores = learning_curve(
 </section>
 
 <section id="ambitions">
-  <img class="noborder" src="../img/train.jpg">
+  <img class="noborder" src="img/train.jpg">
 </section>
 
 
@@ -1002,7 +1002,7 @@ train_sizes, train_scores, test_scores = learning_curve(
         </ul>
       </div>
       <div>
-        <img src="../img/dream_logo.jpg">
+        <img src="img/dream_logo.jpg">
       </div>
     </div>
   </section>
@@ -1035,8 +1035,8 @@ train_sizes, train_scores, test_scores = learning_curve(
 
 <!-- Setup -->
 
-<script src="../reveal.js/lib/js/head.min.js"></script>
-<script src="../reveal.js/js/reveal.js"></script>
+<script src="reveal.js/lib/js/head.min.js"></script>
+<script src="reveal.js/js/reveal.js"></script>
 
 <script>
   // Full list of configuration options available at:
@@ -1051,24 +1051,24 @@ train_sizes, train_scores, test_scores = learning_curve(
 
     // Optional reveal.js plugins
     dependencies: [
-      { src: '../reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
-      { src: '../reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: '../reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-      { src: '../reveal.js/plugin/math/math.js'},
-      { src: '../reveal.js/plugin/highlight/highlight.js', async: true, condition: function() {
+      { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'reveal.js/plugin/math/math.js'},
+      { src: 'reveal.js/plugin/highlight/highlight.js', async: true, condition: function() {
           return !!document.querySelector( 'code' );
         }, callback: function() {
           hljs.initHighlightingOnLoad();
         }
       },
-      { src: '../reveal.js/plugin/zoom-js/zoom.js', async: true },
-      { src: '../reveal.js/plugin/notes/notes.js', async: true }
+      { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true },
+      { src: 'reveal.js/plugin/notes/notes.js', async: true }
     ]
   });
 </script>
 
-<script src="../js/d3.min.js"></script>
-<script src="../js/dt.js"></script>
+<script src="js/d3.min.js"></script>
+<script src="js/dt.js"></script>
 <script>
   //Animations
   (function () {
@@ -1076,7 +1076,7 @@ train_sizes, train_scores, test_scores = learning_curve(
       var logo;
       function showLogo(event) {
         if (!logo) {
-           logo = d3.select(".reveal").append("img").classed("logo", true).attr("src", "../img/logo.png");
+           logo = d3.select(".reveal").append("img").classed("logo", true).attr("src", "img/logo.png");
         }
         var v = event.currentSlide.id !== "title";
         logo.classed("visible", v);
