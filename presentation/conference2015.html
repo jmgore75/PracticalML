@@ -54,12 +54,10 @@
     <aside class="notes" data-markdown>
       To say machine learning is a big subject is a big understatement, but it may be easier than you think.
 
-      So today we are going to walk through the machine learning process from start to finish.  Using python and scikit-learn,  we will discuss what machine learning is, when to apply it, and what you need to do to guarantee good results.  Along the way we'll cover some of the most successful algorithms, best practices, and even a little philosophy.
-
-      Let's get started.
     </aside>
   </section>
 
+  <!--
   <section id="instructions" data-background="#996699" data-background-transition="zoom">
     <h3>Presentation instructions</h3>
     <ul>
@@ -71,6 +69,7 @@
       <li><kbd>Swipe</kbd> to move on mobile devices</li>
     </ul>
   </section>
+-->
 
 </section>
 
@@ -88,14 +87,16 @@
       <h4 class="heading">Won't Cover</h4>
       <li>Other algorithms</li>
       <li>Other Platforms</li>
-      <li>Structured and sequential models</li>
+      <li>Structured and sequential data models</li>
     </ul>
   </div>
 
   <aside class="notes" data-markdown>
-    Here's a brief overview of what we'll be covering today.  We'll review what machine learning is and what it's all about, before reviewing the job process with Python and scikit-learn.  Along the way we'll discuss some major supervised algorithms.
+    So today we are going to walk through the machine learning process from start to finish.  We will discuss what machine learning is, when to apply it, and what you need to do to guarantee good results.  We will be doing so in the context of one of the most popular machine learning platforms, Python with scikit-learn.  Along the way we'll cover some of the most successful supervised learning algorithms.
 
     We *won't* be covering other algorithms, other ml platforms, or more complex data models, but rest assured much of what we will discuss today can be applied directly in these other contexts.
+
+    So, let's get started.
   </aside>
 </section>
 
@@ -103,6 +104,12 @@
   <section id="what-is-ml">
     <h1>What is machine learning?</h1>
     <img class="noborder" src="../img/ml.gif">
+
+    <aside class="notes" data-markdown>
+      So then, what *is* machine learning? Fundamentally, it's a way of producing a model that explains your data.  But instead of a human generating that model based upon data and experiment, it is the machine which is learning the model, usually from the data alone, and without preconceived notions about how that model should be structured.
+
+      Well that sounds great!  The machine is doing all the work!  Well, not quite.  There is still a lot for you to do, as you shall soon see.
+    </aside>
   </section>
 
   <section id="concepts">
@@ -125,7 +132,7 @@
     </div>
 
     <aside class="notes" data-markdown>
-      Like any discipline machine learning has some key concepts which you need to be familiar with.  We will explain these terms in more detail in the rest of the presentation.  Here's the basics:
+      Let's start with the basics.  Like any discipline machine learning has some key concepts which you need to be familiar with.  We will explain these terms in more detail in the rest of the presentation, but I want you to keep them in mind as we do:
 
       Machine learning works with **Data**, which is made up of individual **Items** or equivalently **Records**, **Points**, or **Samples**. **Features** are the various numerical and categorical traits which describe the item, and **Labels** are what you are attempting to predict based on the features.  **Classes** are the discrete possible values which labels may take in classification problems.
 
@@ -201,9 +208,7 @@ $ pip install theano scikit-neuralnetwork
       - scikit-learn for most machine learning algorithms
       - and scikit-neuralnetwork for neural networks, using Theano
 
-      You could install those individually, but I would recommend that you use the Anaconda distribution for scientific python, and then install theano and scikit-neuralnetwork using pip.
-
-      But, theano is actually a python library for just-in-time compilation of numerical algorithms.  It requires a compiler.  Ideally, if you have a compatible NVIDIA GPU you can install their CUDA tools for even faster execution.  It is well worth it but installation can be a bit of a pain.
+      You could install those individually, but I would recommend that you use the Anaconda distribution for scientific python, and then install theano and scikit-neuralnetwork using the pip package manager. Also, theano is actually a python library for just-in-time compilation of numerical algorithms, which means it requires a compiler.  And ideally, if you have a compatible NVIDIA GPU you can install their CUDA tools for even faster execution.  It is well worth it but installation can be a bit of a pain.
     </aside>
   </section>
 
@@ -331,7 +336,7 @@ $ pip install theano scikit-neuralnetwork
     </div>
 
     <aside class="notes" data-markdown>
-      The next major step is to prepare your data.  You have to obtain it, you have to understand it, and you need to prepare to work with it.  Let's look at those major steps.  
+      The next major step is to prepare your data.  You have to obtain it, you have to understand it, and you need to prepare to work with it.  Let's look at those major steps.
     </aside>
   </section>
 
