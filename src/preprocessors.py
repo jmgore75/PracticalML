@@ -9,7 +9,7 @@ unit = ('unit', preprocessing.MinMaxScaler())
 pca = ('pca', decomposition.PCA(n_components="mle"))
 lda = ('lda', lda.LDA(solver='eigen', shrinkage='auto'))
 whiten = ('whiten', decomposition.PCA(n_components="mle", whiten=True))
-kmeans = ('kmeans', cluster.KMeans(n_clusters=500))
+kmeans = ('kmeans', cluster.KMeans(n_clusters=50))
 
 preprocessors = dict([best, scale, normalize, unit, pca, lda, whiten, kmeans])
 

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import time
 import datetime
 import sys
@@ -11,8 +12,19 @@ import hashlib
 import numbers
 
 from sklearn.externals import joblib
-from sklearn import cross_validation, preprocessing
+from sklearn import cross_validation
 from preprocessors import preprocessors, no_params
+
+
+class DataAndHash:
+    __slots__ = ["hash", "data", "__weakref__"]
+
+    def __init__(self, hash, data):
+        self.hash = hash
+        self.data = data
+
+    def astuple(self):
+        return (self.hash, self.data)
 
 
 class RunTracker:
@@ -31,28 +43,22 @@ class RunTracker:
             os.makedirs(self.path)
         if os.path.isfile(self.runs_file):
             self.runs = joblib.load(self.runs_file)
-            self.max_score = self.runs["test_score"].max()
+            maxidx = self.runs["cv_score"].idxmax()
+            self.max_score = self.runs["cv_score"][maxidx]
+            self.best_model = self.runs["model"][maxidx]
         else:
-            self.runs = pd.DataFrame(columns=self.score_columns)
+            self.runs = pd.DataFrame(columns=self.run_columns)
             self.max_score = 0
 
-        self.input_cache = {}
+        self.input_cache = weakref.WeakValueDictionary()
         self.logger = logging.getLogger(self.path)
 
     def setData(self, X, y, classifier=True):
-        self.num_points = len(X)
-        self.feature_names = X.columns
-        self.splits = cross_validation.ShuffleSplit(self.num_points, 3, 0.2)
         X_data = self.hashAndStoreData("X", X)
 
         y_data = None
-        if y:
-            if classifier:
-                labels = preprocessing.LabelBinarizer()
-                labels.fit(y)
-                self.labels = labels.classes_
+        if y is not None:
             y_data = self.hashAndStoreData("y", y)
-            # TODO weights
         return X_data, y_data
 
     def getData(self, name):
@@ -69,8 +75,8 @@ class RunTracker:
         if step_name not in preprocessors:
             raise NameError("Bad step" + step_name)
         prep = preprocessors[step_name]
-        X_hash, X = self.getData(parent_name)
-        y_hash, y = self.getData("y")
+        X_hash, X = self.getData(parent_name).astuple()
+        y_hash, y = self.getData("y").astuple()
         self.logger.debug("Generating " + name)
         proc_data = prep.fit_transform(X, y)
 
@@ -83,7 +89,7 @@ class RunTracker:
 
     def loadData(self, name):
         if name in self.input_cache:
-            data = self.input_cache[name]()
+            data = self.input_cache[name]
             if data:
                 return data
 
@@ -92,36 +98,40 @@ class RunTracker:
             data = joblib.load(path)
 
         if data:
+            data = DataAndHash(*data)
             self.cacheData(name, data)
             return data
 
     def cacheData(self, name, data):
-        self.input_cache[name] = weakref.ref(data)
+        self.input_cache[name] = data
 
     def hashAndStoreData(self, name, proc_data):
-        data_hash = hashlib.md5(proc_data).hexdigest()
-        data = (data_hash, proc_data)
+        if (isinstance(proc_data, np.ndarray) and proc_data.flags.writeable):
+            proc_data.flags.writeable = False
+        data_hash = hashlib.md5(proc_data.data).hexdigest()
+        data = DataAndHash(data_hash, proc_data)
         if not os.path.isdir(self.inputPath):
             os.path.makedirs(self.inputPath)
         path = os.path.join(self.inputPath, name + ".pkl")
-        joblib.dump(data, path)
+        joblib.dump(data.astuple(), path)
         self.cacheData(name, data)
         return data
 
     def log_run(self, model, run):
-        test_score = run["test_score"]
+        cv_score = run["cv_score"]
         train_time = run["train_time"]
-        self.logger.info(run["repr"])
-        if test_score >= self.max_score:
+        self.logger.info(run["model"])
+        if cv_score >= self.max_score:
             self.logger.warning(
                 "Better model %.3f >= %.3f : %.1f s",
-                test_score, self.max_score, train_time)
-            self.max_score = test_score
+                cv_score, self.max_score, train_time)
+            self.max_score = cv_score
+            self.best_model = run["model"]
             joblib.dump(model, self.best_file)
         else:
             self.logger.warning(
                 "Lesser model %.3f <  %.3f : %.1f s",
-                test_score, self.max_score, train_time)
+                cv_score, self.max_score, train_time)
         self.runs = self.runs.append(run, ignore_index=True)
         joblib.dump(self.runs, self.runs_file)
 
@@ -146,25 +156,25 @@ class RunTracker:
         X_data = self.getData("X")
         y_data = self.getData("y")
 
-        splits = self.make_splits(len(X_data[1]), splits)
+        splits = self.make_splits(len(X_data.data), splits)
 
         if not test_params or not len(test_params):
             test_params = no_params
 
         for params in test_params:
-            model.set_params(params)
+            model.set_params(**params)
             for i_train, i_cv in splits:
                 try:
                     yield self.run_one(model, X_data, y_data, i_train, i_cv)
                 except KeyboardInterrupt:
-                    self.logger("Run interrupted: \n" + str(model))
+                    self.logger.warning("Run interrupted: \n" + str(model))
                     raise
-                except:
-                    self.logger("Run failed: \n" + str(model))
+                except Exception:
+                    self.logger.exception("Run failed: \n" + str(model))
 
     def run_one(self, model, X_data, y_data, i_train, i_cv):
-        X_hash, X = X_data
-        y_hash, y = y_data
+        X_hash, X = X_data.astuple()
+        y_hash, y = y_data.astuple()
 
         X_train = X[i_train]
         y_train = y[i_train]
@@ -172,7 +182,7 @@ class RunTracker:
         y_cv = y[i_cv]
 
         run = {}
-        run["timestamp"] = datetime.now().isoformat()
+        run["timestamp"] = datetime.datetime.now().isoformat()
         run["samples"] = len(X)
         run["train_samples"] = len(i_train)
         run["cv_samples"] = len(i_cv)

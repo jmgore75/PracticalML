@@ -7,20 +7,20 @@ from preprocessors import whiten, lda, scale, no_params, kmeans
 
 
 def basic_models(n_iter=50):
-    clf = ('linear', linear_model.LinearRegression())
-    yield Pipeline([whiten, clf]), no_params
-    yield Pipeline([lda, clf]), no_params
-    yield Pipeline([scale, kmeans, clf]), no_params
+    reg = ('linear', linear_model.LinearRegression())
+    yield Pipeline([whiten, reg]), no_params
+    yield Pipeline([lda, reg]), no_params
+    yield Pipeline([scale, kmeans, reg]), no_params
 
-    clf = ('ridge', linear_model.Ridge(alpha=0.1, tol=1e-2, solver="lsqr"))
-    yield Pipeline([whiten, clf]), no_params
-    yield Pipeline([lda, clf]), no_params
-    yield Pipeline([scale, kmeans, clf]), no_params
+    reg = ('ridge', linear_model.Ridge(alpha=0.1, tol=1e-2, solver="lsqr"))
+    yield Pipeline([whiten, reg]), no_params
+    yield Pipeline([lda, reg]), no_params
+    yield Pipeline([scale, kmeans, reg]), no_params
 
-    clf = ('lasso', linear_model.Lasso(alpha=0.1))
-    yield Pipeline([whiten, clf]), no_params
-    yield Pipeline([lda, clf]), no_params
-    yield Pipeline([scale, kmeans, clf]), no_params
+    reg = ('lasso', linear_model.Lasso(alpha=0.1))
+    yield Pipeline([whiten, reg]), no_params
+    yield Pipeline([lda, reg]), no_params
+    yield Pipeline([scale, kmeans, reg]), no_params
 
 
 def tree_models():
