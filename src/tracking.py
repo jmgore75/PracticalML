@@ -46,6 +46,7 @@ class RunTracker:
             maxidx = self.runs["cv_score"].idxmax()
             self.max_score = self.runs["cv_score"][maxidx]
             self.best_model = self.runs["model"][maxidx]
+            self.best_model_type = self.runs["model_type"][maxidx]
         else:
             self.runs = pd.DataFrame(columns=self.run_columns)
             self.max_score = 0
@@ -113,7 +114,7 @@ class RunTracker:
         if not os.path.isdir(self.inputPath):
             os.path.makedirs(self.inputPath)
         path = os.path.join(self.inputPath, name + ".pkl")
-        joblib.dump(data.astuple(), path)
+        joblib.dump(data.astuple(), path, 1)
         self.cacheData(name, data)
         return data
 
@@ -127,13 +128,14 @@ class RunTracker:
                 cv_score, self.max_score, train_time)
             self.max_score = cv_score
             self.best_model = run["model"]
-            joblib.dump(model, self.best_file)
+            self.best_model_type = run["model_type"]
+            #joblib.dump(model, self.best_file, 1)
         else:
             self.logger.warning(
                 "Lesser model %.3f <  %.3f : %.1f s",
                 cv_score, self.max_score, train_time)
         self.runs = self.runs.append(run, ignore_index=True)
-        joblib.dump(self.runs, self.runs_file)
+        joblib.dump(self.runs, self.runs_file, 1)
 
     def make_splits(self, num_points, splits):
         if not splits:
@@ -148,11 +150,11 @@ class RunTracker:
         return list(splits)
 
     def run_models(self, model_gen, splits):
-        for model, param_set in model_gen:
-            for run in self.run_model(model, param_set, splits):
+        for model, param_set, mtype in model_gen:
+            for run in self.run_model(model, mtype, param_set, splits):
                 yield run
 
-    def run_model(self, model, test_params, splits):
+    def run_model(self, model, mtype, test_params, splits):
         X_data = self.getData("X")
         y_data = self.getData("y")
 
@@ -165,14 +167,14 @@ class RunTracker:
             model.set_params(**params)
             for i_train, i_cv in splits:
                 try:
-                    yield self.run_one(model, X_data, y_data, i_train, i_cv)
+                    yield self.run_one(model, mtype, X_data, y_data, i_train, i_cv)
                 except KeyboardInterrupt:
                     self.logger.warning("Run interrupted: \n" + str(model))
                     raise
                 except Exception:
                     self.logger.exception("Run failed: \n" + str(model))
 
-    def run_one(self, model, X_data, y_data, i_train, i_cv):
+    def run_one(self, model, mtype, X_data, y_data, i_train, i_cv):
         X_hash, X = X_data.astuple()
         y_hash, y = y_data.astuple()
 
@@ -186,8 +188,9 @@ class RunTracker:
         run["samples"] = len(X)
         run["train_samples"] = len(i_train)
         run["cv_samples"] = len(i_cv)
-        model_desc = repr(model)
+        model_desc = repr(model.get_params())
         run["model"] = model_desc
+        run["model_type"] = mtype
 
         t0 = time.time()
         model.fit(X_train, y_train)

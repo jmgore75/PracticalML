@@ -16,26 +16,33 @@ def labelRow(row):
 
 
 def plot_runs(fig, ax1, ax2, tracker, run=None):
-    groups = tracker.runs.groupby(['run_hash'])
-    for run_hash, grp in groups:
-        ax1.plot(
-            grp['train_time'], grp['cv_score'],
-            'o')
-
-    if run:
-        ax1.plot(
-            run["train_time"], run["cv_score"],
-            '*', color="y", label="Latest")
+    ax1.clear()
     ax1.set_xlabel("Train time")
-    ax1.set_ylabel("Test score")
+    ax1.set_xscale('log')
+    ax1.set_ylabel("Test error")
+    ax1.set_yscale('symlog')
+    ax2.clear()
+    ax2.set_xlabel("Train error")
+    ax2.set_xscale('symlog')
+    ax2.set_ylabel("Test error")
+    ax2.set_yscale('symlog')
 
-    for run_hash, grp in groups:
+    groups = tracker.runs.groupby(['model_type'])
+    for mtype, grp in groups:
+        ax1.plot(
+            grp['train_time'], 1-grp['cv_score'],
+            'o', label=mtype)
         ax2.plot(
-            grp['train_score'], grp['cv_score'],
-            'o')
+            1-grp['train_score'], 1-grp['cv_score'],
+            'o', label=mtype)
+
+    ax1.legend(loc="auto")
+    ax2.legend(loc="auto")
+
     if run:
+        ax1.plot(
+            run["train_time"], 1-run["cv_score"],
+            '*', color="y", label="Latest", markersize=14)
         ax2.plot(
-            run["train_score"], run["cv_score"],
-            '*', color="y", label="Latest")
-    ax2.set_xlabel("Train score")
-    ax2.set_ylabel("Test score")
+            1-run["train_score"], 1-run["cv_score"],
+            '*', color="y", label="Latest", markersize=14)

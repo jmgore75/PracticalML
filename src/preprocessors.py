@@ -1,8 +1,7 @@
 from sklearn import ensemble, lda, preprocessing, decomposition, cluster
 
-best = (
-    'best',
-    ensemble.ExtraTreesClassifier(n_estimators=250, random_state=0))
+best = ('best', ensemble.RandomForestClassifier(
+    n_estimators=100, max_depth=8, random_state=0))
 scale = ('scale', preprocessing.StandardScaler())
 normalize = ('normalize', preprocessing.Normalizer())
 unit = ('unit', preprocessing.MinMaxScaler())
