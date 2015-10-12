@@ -29,13 +29,19 @@ It has been mathematically demonstrated that one hidden layer, if sufficiently w
 
 Historically deep neural networks could not be easily trained due to the disappearing gradient issue, where the error could not be backpropagated more than a few of layers without dissipating.  Recently however there have been a series of innovations that have largely solved that issue, particularly the use of rectification as an activation function and the dropout technique.  State-of-the-art neural networks for tasks like image recognition are now massive in size. The chief obstacle to deep learning now is mainly computational power, as the most powerful networks are massive in size.  
 
+![GoogLeNet](img/googlenet.png)
+
 ### Convolutional Layers
 
 Many features sets have an intrinsic structure or relationships.  Consider a black-and-white image.  It is fundamentally a collection of pixels.  The pixels are all similar to each other - they can take a value in the same range.  Pixels also have a defined neighborhood of other pixels.  Convolutional layers exploit this regularity by using one set of weights to process all of the neighborhoods in the input.  Furthermore, the output of a convolutional layer retains the dimensional structure of the input, which allows the convolutions to be layered effectively.  Each feature learned by a convolution often has an interpretable meaning: shallow layers will learn basic image features like edges, while the deeper layers will learn progressively more sophisticated patterns.  
 
 By taking locality into account, convolutional networks can easily focus in on the content of the input in a way that other algorithms cannot.  They have proven themselves to be extremely powerful where applicable, and currently dominate the image processing space.  
 
+![Convolutional layer](img/convolution.jpg)
+
 Recently, research has found ways of deconstructing deep convolutional neural networks, allowing them to be enhanced and guided in interesting ways.  Google's [DeepDream](https://en.wikipedia.org/wiki/DeepDream) is one such famous example.  Using nodes in the network associated with a particular pattern, an input image can be modified to force that pattern to appear in the image.  The results are fascinating (if occasionally disturbing).  More recently, similar research has found ways to [separate content and style](http://arxiv.org/pdf/1508.06576v1.pdf) in the networks, allowing images to be reinterpreted in the style of famous artworks.  
+
+![Deep Dream of Tessella Logo](img/dream_logo.jpg)
 
 ## Recurrent neural networks
 

@@ -16,9 +16,6 @@ The most fundamental question for machine learning (or indeed most projects) is 
   - Is this a supervised or unsupervised question?
 - Should you use an existing simple model instead?
 
-<!-- TODO understanding your problem -->
-
-
 ### Key data concepts
 
 **Items** are the individual things which you will be learning from or processing.  **Records**, **Points**, or **Samples** are equivalent terms with slightly different connotations.  
@@ -29,7 +26,7 @@ The most fundamental question for machine learning (or indeed most projects) is 
 
 **Bias** is the tendency of an model to favor specific representations of the data.  Models with high bias will tend to **underfit** the data during training, because the algorithm is incapable of either finding the correct internal representation or representing the data distribution at all.   All algorithms have bias of one form or another, and thus some algorithms will be better suited to some data sets.
 
-**Variance** is the tendency of an algorithm to find very different representations for small variations in the data.  It is the counterpart to bias.  A model with high variance may fail to **generalize** the data and **overfit** it instead, by simply memorizing the samples.  Unlike bias, variance can generally be compensated for with more data.  
+**Variance** is the tendency of an algorithm to find very different representations for small variations in the data.  It is the counterpart to bias.  A model with high variance may fail to **generalize** the data and **overfit** it instead, by simply memorizing the samples.  
 
 ### Bias-variance tradeoff
 
@@ -37,11 +34,15 @@ Underfitting and overfitting are a common problem.  In underfitting you fail to 
 
 The tradeoff may be thought of as between bias and variance.  Bias is a measure of accuracy – whether your model match reality or consistently deviates from it.  Variance is a measure of precision – whether your model produces consistent results.  If you were shooting at a target, your bias would be whether your shots were centered on the bullseye, and your variance would be whether your shots were tightly clustered or not.  Underfitting suffers from high bias, because you have lost/averaged away important data.  Overfitting suffers from high variance, because you are too dependent on the example data.  
 
-It is important not to favor bias over variance or vice versa.  Both are relevant.  
+It is important not to favor bias over variance or vice versa.  Both are relevant.  Unlike bias, variance can generally be compensated for with more data.  
+
+![Learning curve](img/learning.png)
 
 A general technique to reduce variance is bagging (bootstrap aggregating) and resampling.  Numerous replicates of the original data set are made using random selection and replacement.  Each set is used to construct a model and the models are gathered into an ensemble and their results averaged.  [Random Forests](RandomForests.md) are one such approach.  
 
 Variance increases and bias decreases with model complexity.  The goal is to minimize total error.  The sweet spot is where the increase in bias equals decrease in variance.  Unfortunately there is no analytical way to find this point, and you must instead explore the data and choose the level that minimizes the error.  You must have an accurate error measure for this.  Generally resampling based measures are the best way to go about this.  
+
+![Balance bias and variance](img/validation.png)
 
 The inclusion of unrelated features when building a model will basically always hurt your model.  Even relevant features can increase error if the noise is too high.  In practice it is therefore easier to prevent underfitting than overfitting, and thus minimizing true error.  
 
@@ -71,6 +72,8 @@ The most common form of machine learning problem is to make a prediction for ind
 - [Sequential or process models](NeuralNetworks.md#recurrent-neural-networks): When the input and/or output is a sequence of arbitrary length
 - [Structured data](NeuralNetworks.md#convolutional-layers): When there is a structural relationship between the features (such as pixels in an image)
 
+![Structured data](img/diags.jpeg)
+
 ## Know your data
 
 You must also understand your data and how to use it.
@@ -95,6 +98,8 @@ You must also understand your data and how to use it.
   - Are your labels balanced?
   - Are any of your features exponential in nature? You may want to log transform them.  
   - Are any of the features in your data identifiers? You may want to discard these: they can be used to overfit, and should not be interpreted as numbers.  
+
+![Data features](img/histograms.png)
 
 ## Set up your test harness
 
@@ -192,6 +197,8 @@ I would strongly recommend that you always spot check the following models with 
 - Neural Networks
   - Extreme Learning Machines (hidden layer with three times as many nodes as features)
   - Basic 1 and 2-layer perceptrons (hidden layers with half as many nodes as features)
+
+![Algorithms](img/algorithms.png)
 
 ## Evaluating your models
 

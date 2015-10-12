@@ -1,27 +1,25 @@
 A practical guide to applied machine learning
 ================
 
-This project is the foundation of a presentation of the same name.  
+This project is built to support the Tessella Autumn Conference presentation "A practical guide to applied machine learning".  You may view this presentation directly:
+
+[here](http://rawgit.com/jmgore75/PracticalML/master/conference2015.html#/title)
 
 # Presentation Files
 
-The main presentation is at [conference2015.html](conference2015.html)
+The main presentation file is in [conference2015.html](conference2015.html).  The presentation is based on [reveal.js](https://github.com/hakimel/reveal.js/) and includes that code in the [reveal.js](reveal.js) directory.  The presentation makes use of [d3.js](http://d3js.org/).  I do not recommend using this repository to create your own presentation.  Instead I recommend forking reveal.js directly.  
 
+Notes about the presentation are here:
 - [Requirements](presentation/Requirements.md)
 - [Abstract](presentation/Abstract.md)
-- [Outline](presentation/Outline.md)
-- Background
-  - [Topics](Ideas.md) considered for the presentation
-  - [Presentation design](Presentation.md) ideas
-  - [General Notes](Notes.md)
 
 # Code
 
-All python code used to generate figures is in [src](src).  
+All python code used to generate figures is in [src](src) or in [presentation](presentation).  You may find the modules in src to be useful.  
 
 # Foundational discussions of ML
 
-The following are standalone analysis of machine learning, and will be mined for content in the actual presentation.
+The following are standalone analysis of machine learning, and were notes for content in the actual presentation.  As these are basically notes I make no guarantees as to the readability of the content.  
 
 - [Setting up your ML environment](Environment.md)
 - [The process of applying machine learning](Process.md)

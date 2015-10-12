@@ -7,7 +7,7 @@ A linear equation is one in the form:
 
 where `x` is your input vector, `w` is your weight vector, `b` is your bias, and `y` is the output.  This can be expanded to matrix representations allowing you to process multiple samples with multiple features and outputs.  This can allow you to simplifiy your code and efficiently process your data using matrix algebra packages.  If you are not familiar with the basics of linear algebra it is probably a good idea to brush up on that, as most of your data will be delivered in and processed as 2D-matrices or their higher-dimensional cousins, tensors.  
 
-Linear representations and techniques form the basis of many algorithms, including [Neural Networks](NeuralNetworks.md) and [Support Vector Machines](SupportVectorMachines.md).  They can be applied to both supervised and unsupervised problems. 
+Linear representations and techniques form the basis of many algorithms, including [Neural Networks](NeuralNetworks.md) and [Support Vector Machines](SupportVectorMachines.md).  They can be applied to both supervised and unsupervised problems.
 
 ## Linear models of data
 
@@ -40,6 +40,8 @@ If you can calculate a gradient at each point then you can take a step in the di
 When descending a gradient the step size must be chosen to behave appropriately.  There are methods for this.  
 
 Convergence should be detected when the objective function stops changing, the parameters changing, or stopping when test data performance has plateaued.  
+
+![Gradient Descent](img/gradient-descent.gif)
 
 ## Solving linear equations analytically
 

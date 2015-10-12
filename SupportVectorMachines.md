@@ -9,9 +9,13 @@ SVMs find these solutions not in absolute terms but on the basis of some subset 
 
 SVMs can also exploit kernels, and popularized the notion of kernelization.  A kernel is just a generalized dot product. If an algorithm can be written so that they only ever depend on kernel products between data points and not on the data points themselves, then it can be kernelized. `K` is a valid kernel if it corresponds to the inner product between two vectors.  The kernel is essentially a measure of similarity between two data points.  
 
-Kernels transform a linear representation of data into a more useful representation, which usually has more or even infinite dimensions.  The features in this transformation can make finding a solution much easier, such as by including combinatorial features or projecting into an orthogonal space.  The trick is that kernels do not have to actually *make* the transformation in order to solve the optimization problem: a simple corresponding kernel function can be applied within the optimization.  There are many kernel options, but the radial basis function is particularly significant, as it defines smooth, round boundaries around the support vectors.  
+Kernels transform a linear representation of data into a more useful representation, which usually has more or even infinite dimensions.  The features in this transformation can make finding a solution much easier, such as by including combinatorial features or projecting into an orthogonal space.  
 
-On the other hand, by transforming to such a high-dimensional space, we run up against the
+![Radial Basis Function](img/svc-projection.gif)
+
+The trick is that kernels do not have to actually *make* the transformation in order to solve the optimization problem: a simple corresponding kernel function can be applied within the optimization.  There are many kernel options, but the radial basis function is particularly significant, as it defines smooth, round boundaries around the support vectors.  
+
+![Radial Basis Function](img/svc.gif)
 
 Important kernels include:
 
