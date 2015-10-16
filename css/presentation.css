@@ -1,7 +1,3 @@
-.reveal a {
-  color: #103160;
-}
-
 .reveal .logo {
   position: fixed;
   width: 110px;
@@ -217,4 +213,4 @@ svg path.link {
 
 .reveal table.dataframe th, .reveal table.dataframe td {
   border: 1px solid black;
-} 
+}
