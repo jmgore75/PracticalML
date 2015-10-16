@@ -3,7 +3,7 @@ A practical guide to applied machine learning
 
 This project is built to support the Tessella Autumn Conference presentation "A practical guide to applied machine learning".  You may view this presentation directly:
 
-[here](http://rawgit.com/jmgore75/PracticalML/master/conference2015.html#/title)
+[http://rawgit.com/jmgore75/PracticalML/master/conference2015.html](http://rawgit.com/jmgore75/PracticalML/master/conference2015.html#/title)
 
 # Presentation Files
 
