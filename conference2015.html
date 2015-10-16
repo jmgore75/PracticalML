@@ -1173,10 +1173,9 @@ train_sizes, train_scores, test_scores = learning_curve(
       var svg = d3.select(slide).select("svg");
 
       if (svg[0][0] && graphs.length) {
-        var t = svg.interrupt().transition();
-        svg.selectAll("*").remove();
-
-        function loop(t) {
+        function loop() {
+          var t = svg.interrupt().transition();
+          t.selectAll("*").remove();
           graphs.forEach(function (graph) {
             //Update each on a timer
             graph.steps.forEach(function (step) {
@@ -1194,11 +1193,11 @@ train_sizes, train_scores, test_scores = learning_curve(
           })
 
           t = t.each("end", function () {
-            loop(t);
+            loop();
           });
         }
 
-        loop(t);
+        loop();
       }
     }
 
